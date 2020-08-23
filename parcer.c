@@ -5,6 +5,7 @@
 // err_3 - invalid_ident
 // err_4 - invalid_map
 
+// сделать отправку структуры со всеми данными по мапе
 static  void     invalid_map(int err)
 {
     ft_putendl("Error", 1);
@@ -18,7 +19,7 @@ static  void     invalid_map(int err)
         ft_putstr("Invalid map", 1);
 }
 
-void    parcer(char **map)
+void    parcer(char **map, t_ident *ident)
 {
     int i = 0;
     int err;
@@ -27,7 +28,7 @@ void    parcer(char **map)
     while (map[i] && map[i][0] != ' ')
     {
         if (!(err = valid_identifier(map[i])))
-            identifier(map[i]);
+            identifier(map[i], ident);
         else if (!map[i][0])
             continue;
         i++;
@@ -41,7 +42,7 @@ void    parcer(char **map)
         print_map(map[i++]);
 }
 
-void    map_parcer(t_list **map_lst, int size)
+void    map_parcer(t_list **map_lst, int size, t_ident *ident)
 {
     char    **map;
     int     i = -1;
@@ -55,12 +56,13 @@ void    map_parcer(t_list **map_lst, int size)
             map[++i] = tmp->content;
             tmp = tmp->next;
         }
-        parcer(map);
+        parcer(map, ident);
     }
 }
 
 int     map(int argc, char **argv)
 {
+    t_ident *ident;
     int     fd;
     t_list  *map_lst;
     char    *line;
@@ -70,10 +72,10 @@ int     map(int argc, char **argv)
     if (!err)
     {
         fd = open(argv[1], O_RDONLY);
-        while (get_next_line(fd, line))
+        while (get_next_line(fd, &line))
             ft_lstadd_back(&map_lst, ft_lstnew(line));
         ft_lstadd_back(&map_lst, ft_lstnew(line));
-        map_parcer(&map_lst, ft_lstsize(map_lst));
+        map_parcer(&map_lst, ft_lstsize(map_lst), ident);
     }
     else
         invalid_map(err);

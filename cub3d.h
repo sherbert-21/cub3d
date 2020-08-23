@@ -10,6 +10,8 @@ typedef struct	s_ident
     char        *we_text;
     char        *ea_text;
     char        *s_text;
-    char        *f_color;
-    char        *c_color;
+    char        *f_color[11];
+    char        *c_color[11];
 }				t_ident;
+
+int     valid_identifier(char *ident);
