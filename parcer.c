@@ -48,11 +48,12 @@ void    map_parcer(t_list **map_lst, int size, t_ident *ident)
     int     i = -1;
     t_list  *tmp = *map_lst;
 
-    map = ft_calloc(size, sizeof(char *));
+    map = ft_calloc(size + 1, sizeof(char *));
     if (map)
     {
         while (tmp)
         {
+            map[i] = ft_calloc(ft_strsize(tmp->content), sizeof(char));
             map[++i] = tmp->content;
             tmp = tmp->next;
         }

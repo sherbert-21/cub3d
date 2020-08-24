@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static int     texture(char *ident)
+static int     texture(char *ident, t_ident *parse)
 {
     
 }
@@ -24,7 +24,7 @@ static int     resolution(char *ident, t_ident *parse)
     return(0);
 }
 
-static int     color(char *ident, t_ident parse)
+static int     color(char *ident, t_ident *parse)
 {
     char clr[11];
     int  i = 0;
@@ -57,9 +57,9 @@ static int     identifier(char *ident, t_ident *parse)
     if (ident[0] == 'R')
         return(resolution(++ident), parse);
     else if (ident[0] == 'F' || ident[0] == 'C')
-        return(color(ident), parse);
+        return(color(ident, parse));
     else
-        return(texture(ident), parse);
+        return(texture(ident, parse));
 }
 
 int     valid_identifier(char *ident, t_ident *parse)
