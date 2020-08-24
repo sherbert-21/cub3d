@@ -19,7 +19,7 @@ static  void     invalid_map(int err)
         ft_putstr("Invalid map", 1);
 }
 
-void    parcer(char **map, t_ident *ident)
+void    parcer(char **map, t_ident *ident, int size)
 {
     int i = 0;
     int err;
@@ -35,7 +35,7 @@ void    parcer(char **map, t_ident *ident)
         if (err)
             invalid_map(3);
     }
-    err = check_map(map, i);
+    err = check_map(map, i, size);
     if (err)
         invalid_map(4);
     while (map[i])
@@ -56,13 +56,13 @@ void    map_parcer(t_list **map_lst, int size, t_ident *ident)
             map[++i] = tmp->content;
             tmp = tmp->next;
         }
-        parcer(map, ident);
+        parcer(map, ident, size);
     }
 }
 
 int     map(int argc, char **argv)
 {
-    t_ident *ident;
+    t_ident ident;
     int     fd;
     t_list  *map_lst;
     char    *line;
@@ -75,7 +75,7 @@ int     map(int argc, char **argv)
         while (get_next_line(fd, &line))
             ft_lstadd_back(&map_lst, ft_lstnew(line));
         ft_lstadd_back(&map_lst, ft_lstnew(line));
-        map_parcer(&map_lst, ft_lstsize(map_lst), ident);
+        map_parcer(&map_lst, ft_lstsize(map_lst), &ident);
     }
     else
         invalid_map(err);

@@ -2,7 +2,7 @@
 
 static int     texture(char *ident)
 {
-
+    
 }
 
 static int     resolution(char *ident, t_ident *parse)

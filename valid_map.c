@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int     check_map(char **map, int i)
+int     check_map(char **map, int i, int size)
 {
 // чек на пробелы 
 // счетчик, для определения положения пробелов по единицам
