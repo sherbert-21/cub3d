@@ -1,11 +1,6 @@
 #include "cub3d.h"
 
-// отослать в тмп мапу i - 1 для сокращения счетчика;
-// функция для чека крайних сторон
-// функция для чека 1 вокруг пробелов
-// рядом с пробелом может стоять пробел, единица или \0
-
-char    **tmp_map(char **map, int i, int size)
+static char     **tmp_map(char **map, int i, int size)
 {
     int     len = 0;
     char    **tmp;
@@ -31,42 +26,57 @@ char    **tmp_map(char **map, int i, int size)
     return (tmp);
 }
 
-int     check_square(char **tmp)
+static int      check_square(char **tmp)
 {
     int     j = -1;
     int     k = -1;
-    int     er;
+    int     e = 0;
 
     while (tmp[++j])
-        er = (*tmp[j] != 32 || *tmp[j] != 49 || *tmp[j] != '\n') ? 1 : 0;
+        e = (*tmp[j] != 32 || *tmp[j] != 49 || *tmp[j] != '\n') ? 1 : e;
     j--;
     while (tmp[j][++k])
-        er = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : 0;
+        e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
     k--;
     while (j >= 0)
     {
-        er = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : 0;
+        e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
         j--;
     }
     j++;
     while (tmp[j][k])
     {
-        er = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : 0;
+        e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
         k--;
     }
-    return (er);
+    return (e);
 }
 
-int     check_map(char **map, int i, int size)
+int             check_map(char **map, int i, int size)
 {
     char    **tmp = tmp_map(map, i - 1, size);
-    int     er;
+    int     err = 0;
 
-    if (check_square(tmp))
-        return (1);
+    err = (check_square(tmp)) ? 1 : er;
+    while (tmp[++j])
+    {
+        k = 0;
+        while (++k < ft_strlen(tmp[j]) - 1)
+        {
+            if (tmp[j][k] == 32)
+            {
+                if (!ft_strcr(" 1", tmp[j + 1][k]) ||
+                    !ft_strcr(" 1", tmp[j - 1][k]) ||
+                    !ft_strcr(" 1", tmp[j][k + 1]) ||
+                    !ft_strcr(" 1", tmp[j][k - 1]))
+                    err = 1;
+            }
+        }
+    }
+    return (err);
 }
 
-int     valid_input(int argc, char **argv)
+int             valid_input(int argc, char **argv)
 {
     if (argc > 3 || argc == 1)
         return (1);

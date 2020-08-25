@@ -6,7 +6,7 @@
 // err_4 - invalid_map
 
 // сделать отправку структуры со всеми данными по мапе
-static  void     invalid_map(int err)
+static void     invalid_map(int err)
 {
     ft_putendl("Error", 1);
     if (err == 1)
@@ -17,9 +17,11 @@ static  void     invalid_map(int err)
         ft_putstr("Invalid identifier or information for object", 1);
     else if (err == 4)
         ft_putstr("Invalid map", 1);
+    else if (err == 5)
+        ft_putstr("Could't allocate mmry", 1);
 }
 
-void    parcer(char **map, t_ident *ident, int size)
+static int      parcer(char **map, t_ident *ident, int size)
 {
     int i = 0;
     int err;
@@ -38,30 +40,33 @@ void    parcer(char **map, t_ident *ident, int size)
     err = check_map(map, i, size);
     if (err)
         invalid_map(4);
-    while (map[i])
-        print_map(map[i++]);
+    return (err);
 }
 
-void    map_parcer(t_list **map_lst, int size, t_ident *ident)
+static int      map_parcer(t_list **map_lst, int size, t_ident *ident)
 {
     char    **map;
     int     i = -1;
     t_list  *tmp = *map_lst;
+    int     err;
 
-    map = ft_calloc(size + 1, sizeof(char *));
-    if (map)
+    err = (!map = ft_calloc(size + 1, sizeof(char *))) ? 1 : 0;
+    if (map && !err)
     {
         while (tmp)
         {
-            map[i] = ft_calloc(ft_strsize(tmp->content), sizeof(char));
+            if (!map[i] = ft_calloc(ft_strsize(tmp->content), sizeof(char)))
+                err = 1;
             map[++i] = tmp->content;
             tmp = tmp->next;
         }
-        parcer(map, ident, size);
+        if (err)
+            return (1);
+        return (parcer(map, ident, size));
     }
 }
 
-int     map(int argc, char **argv)
+int             map(int argc, char **argv)
 {
     t_ident ident;
     int     fd;
@@ -70,14 +75,11 @@ int     map(int argc, char **argv)
     int     err;
 
     err = valid_input(argc, argv);
-    if (!err)
-    {
-        fd = open(argv[1], O_RDONLY);
-        while (get_next_line(fd, &line))
-            ft_lstadd_back(&map_lst, ft_lstnew(line));
-        ft_lstadd_back(&map_lst, ft_lstnew(line));
-        map_parcer(&map_lst, ft_lstsize(map_lst), &ident);
-    }
-    else
+    if (err)
         invalid_map(err);
+    fd = open(argv[1], O_RDONLY);
+    while (get_next_line(fd, &line))
+        ft_lstadd_back(&map_lst, ft_lstnew(line));
+    ft_lstadd_back(&map_lst, ft_lstnew(line));
+    return (map_parcer(&map_lst, ft_lstsize(map_lst), &ident));
 }
