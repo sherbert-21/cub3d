@@ -44,7 +44,7 @@ static int      check_square(char **tmp)
         j--;
     }
     j++;
-    while (tmp[j][k])
+    while (k >= 0)
     {
         e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
         k--;
@@ -56,9 +56,11 @@ int             check_map(char **map, int i, int size)
 {
     char    **tmp = tmp_map(map, i - 1, size);
     int     err = 0;
+    int     j = i;
+    int     k;
 
     err = (check_square(tmp)) ? 1 : er;
-    while (tmp[++j])
+    while (++j < size - 1)
     {
         k = 0;
         while (++k < ft_strlen(tmp[j]) - 1)
@@ -91,7 +93,7 @@ int             valid_input(int argc, char **argv)
         }
         if (argc == 2)
         {
-            if (ft_strnstr(argv[1], "--save", 10))
+            if (ft_strnstr(argv[1], "--save", ft_strlen("--save")))
                 return (1);
             else if (!ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])))
                 return (1);
