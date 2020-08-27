@@ -32,23 +32,23 @@ static int     color(char *ident, t_ident *parse)
 
     while (*ident == ' ' && *ident)
         ident++;
-    err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : 0;
+    err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : err;
     while (*ident != ' ' && *ident != ',')
-        clr[i++] = *ident++;
+        clr[i++] = (*ident)++;
     while ((*ident == ' ' || *ident == ',') && *ident)
-        ident++;
-    err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : 0;
+        clr[i++] = (*ident)++;
+    err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : err;
     while (*ident != ' ' && *ident != ',')
-        clr[i++] = *ident++;
+        clr[i++] = (*ident)++;
     while ((*ident == ' ' || *ident == ',') && *ident)
-        ident++;
-    err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : 0;
+        clr[i++] = (*ident)++;
+    err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : err;
     while (*ident != ' ' && *ident != ',')
-        clr[i++] = *ident++;
+        clr[i++] = (*ident)++;
     while ((*ident == ' ' && *ident)
         ident++;
-    err = (*ident) ? 1 : 0;
-    (ident(0) == 'C' && err == 0) ?  parse.c_color = clr : parse.f_color = clr;
+    err = (*ident) ? 1 : err;
+    (ident[0] == 'C' && err == 0) ?  parse.c_color = clr : parse.f_color = clr;
     return(err);
 }
 

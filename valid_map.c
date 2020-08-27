@@ -30,23 +30,23 @@ static int      check_square(char **tmp)
 {
     int     j = -1;
     int     k = -1;
-    int     e = 0;
+    int     err = 0;
 
     while (tmp[++j])
-        e = (*tmp[j] != 32 || *tmp[j] != 49 || *tmp[j] != '\n') ? 1 : e;
+        err = (*tmp[j] != 32 || *tmp[j] != 49) ? 1 : err;
     j--;
     while (tmp[j][++k])
-        e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
+        err = (tmp[j][k] != 32 || tmp[j][k] != 49) ? 1 : err;
     k--;
     while (j >= 0)
     {
-        e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
+        err = (tmp[j][k] != 32 || tmp[j][k] != 49) ? 1 : err;
         j--;
     }
     j++;
     while (k >= 0)
     {
-        e = (tmp[j][k] != 32 || tmp[j][k] != 49 || tmp[j][k] != '\n') ? 1 : e;
+        err = (tmp[j][k] != 32 || tmp[j][k] != 49) ? 1 : err;
         k--;
     }
     return (e);
@@ -55,12 +55,11 @@ static int      check_square(char **tmp)
 int             check_map(char **map, int i, int size)
 {
     char    **tmp = tmp_map(map, i - 1, size);
-    int     err = 0;
+    int     err = check_square(tmp);
     int     j = i;
     int     k;
     int     player = 0;
 
-    err = (check_square(tmp)) ? 1 : er;
     while (++j < size - 1)
     {
         k = 0;
@@ -78,6 +77,7 @@ int             check_map(char **map, int i, int size)
         }
     }
     err = (player != 1) ? 1 : err;
+    save_free_map(&tmp);
     return (err);
 }
 

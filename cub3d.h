@@ -14,6 +14,8 @@ typedef struct	s_ident
     char        *c_color[11];
 }				t_ident;
 
+// parse
 int             valid_identifier(char *ident);
 int             valid_input(int argc, char **argv);
 int             check_map(char **map, int i, int size);
+void		    save_free_map(char ***str);

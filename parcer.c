@@ -4,10 +4,11 @@
 // err_2 - no_map
 // err_3 - invalid_ident
 // err_4 - invalid_map
+// err_5 - couldn't allocate
 
 // сделать отправку структуры со всеми данными по мапе
 
-static void		save_free_map(char ***str)
+void		save_free_map(char ***str)
 {
     while (*str)
     {
@@ -96,5 +97,7 @@ int             map(int argc, char **argv)
     while (get_next_line(fd, &line))
         ft_lstadd_back(&map_lst, ft_lstnew(line));
     ft_lstadd_back(&map_lst, ft_lstnew(line));
-    return (map_parcer(&map_lst, ft_lstsize(map_lst), &ident));
+    err = ((map_parcer(&map_lst, ft_lstsize(map_lst), &ident))) ? 1 : err;
+    ft_lstfree(&map_lst);
+    return(err);
 }
