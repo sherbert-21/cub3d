@@ -6,6 +6,22 @@
 // err_4 - invalid_map
 
 // сделать отправку структуры со всеми данными по мапе
+
+static void		save_free_map(char ***str)
+{
+    while (*str)
+    {
+	    if (*str && **str)
+	    {
+		    free(**str);
+		    **str = NULL;
+	    }
+        *str++;
+    }
+    free(*str);
+    *str = NULL;
+}
+
 static void     invalid_map(int err)
 {
     ft_putendl("Error", 1);
@@ -53,17 +69,16 @@ static int      map_parcer(t_list **map_lst, int size, t_ident *ident)
     err = (!map = ft_calloc(size + 1, sizeof(char *))) ? 1 : 0;
     if (map && !err)
     {
-        while (tmp)
+        while (tmp && !err)
         {
             if (!map[i] = ft_calloc(ft_strsize(tmp->content), sizeof(char)))
                 err = 1;
             map[++i] = tmp->content;
             tmp = tmp->next;
         }
-        if (err)
-            return (1);
-        return (parcer(map, ident, size));
-    }
+        err = ((parcer(map, ident, size))) ? 1 : err;
+    save_free_map(&map);
+    return (err);
 }
 
 int             map(int argc, char **argv)

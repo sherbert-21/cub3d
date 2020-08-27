@@ -58,6 +58,7 @@ int             check_map(char **map, int i, int size)
     int     err = 0;
     int     j = i;
     int     k;
+    int     player = 0;
 
     err = (check_square(tmp)) ? 1 : er;
     while (++j < size - 1)
@@ -67,14 +68,16 @@ int             check_map(char **map, int i, int size)
         {
             if (tmp[j][k] == 32)
             {
-                if (!ft_strcr(" 1", tmp[j + 1][k]) ||
-                    !ft_strcr(" 1", tmp[j - 1][k]) ||
-                    !ft_strcr(" 1", tmp[j][k + 1]) ||
-                    !ft_strcr(" 1", tmp[j][k - 1]))
+                if (!ft_strchr(" 1", tmp[j + 1][k]) ||
+                    !ft_strchr(" 1", tmp[j - 1][k]) ||
+                    !ft_strchr(" 1", tmp[j][k + 1]) ||
+                    !ft_strchr(" 1", tmp[j][k - 1]))
                     err = 1;
             }
+            player = (ft_strchr("NSWE", tmp[j][k])) ? player + 1 : player;
         }
     }
+    err = (player != 1) ? 1 : err;
     return (err);
 }
 
@@ -86,7 +89,7 @@ int             valid_input(int argc, char **argv)
     {
         if (argc == 1)
         {
-            if (ft_strnstr(argv[1], "--save", 10))
+            if (ft_strnstr(argv[1], "--save", ft_strlen("--save")))
                 return (2);
             else if (!ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])))
                 return (1);
