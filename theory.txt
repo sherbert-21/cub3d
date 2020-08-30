@@ -3,3 +3,4 @@ https://qst0.github.io/ft_libgfx/man_mlx.html
 https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-introduction/videos/introduction-to-minilibx
 https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-events/videos/minilibx-events
 https://lodev.org/cgtutor/index.html
+https://stackoverflow.com/c/42network/questions/164/180#180
