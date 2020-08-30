@@ -1,0 +1,5 @@
+https://github.com/dolovnyak/landscape-render/blob/master/src/fdf.c
+https://qst0.github.io/ft_libgfx/man_mlx.html
+https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-introduction/videos/introduction-to-minilibx
+https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-events/videos/minilibx-events
+https://lodev.org/cgtutor/index.html

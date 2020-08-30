@@ -6,22 +6,8 @@
 // err_4 - invalid_map
 // err_5 - couldn't allocate
 
-// сделать отправку структуры со всеми данными по мапе
-
-void		save_free_map(char ***str)
-{
-    while (*str)
-    {
-	    if (*str && **str)
-	    {
-		    free(**str);
-		    **str = NULL;
-	    }
-        *str++;
-    }
-    free(*str);
-    *str = NULL;
-}
+// сделать отправку структуры со всеми данными
+ по мапе
 
 static void     invalid_map(int err)
 {
@@ -36,6 +22,21 @@ static void     invalid_map(int err)
         ft_putstr("Invalid map", 1);
     else if (err == 5)
         ft_putstr("Could't allocate mmry", 1);
+}
+
+void		save_free_map(char ***str)
+{
+    while (*str)
+    {
+	    if (*str && **str)
+	    {
+		    free(**str);
+		    **str = NULL;
+	    }
+        *str++;
+    }
+    free(*str);
+    *str = NULL;
 }
 
 static int      parcer(char **map, t_ident *ident, int size)
