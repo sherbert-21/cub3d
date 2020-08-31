@@ -2,8 +2,24 @@
 
 // static int     texture(char *ident, t_ident *parse)
 // {
-//     return 1;
 // }
+// проверить можно ли запихнуть все цвета в 1 инт с помощью умножения на 1к
+
+static void		parce_color(char ident, int r, int g, int b, t_ident *parse)
+{
+	if (ident == 'C')
+	{
+		parse.c_color_r = r;
+		parse.c_color_g = g;
+		parse.c_color_b = b;
+	}
+	else
+	{
+		parse.f_color_r = r;
+		parse.f_color_g = g;
+		parse.f_color_b = b;
+	}
+}
 
 static int		resolution(char *ident, t_ident *parse)
 {
@@ -24,33 +40,32 @@ static int		resolution(char *ident, t_ident *parse)
 	return (0);
 }
 
-// static int     color(char *ident, t_ident *parse)
-// {
-//     char clr[11];
-//     int  i = 0;
-//     int  err = 0;
+static int		color(char *ident, t_ident *parse)
+{
+	int r;
+	int	g;
+	int	b;
 
-//     while (*ident == ' ' && *ident)
-//         ident++;
-//     err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : 0;
-//     while (*ident != ' ' && *ident != ',')
-//         clr[i++] = (*ident)++;
-//     while ((*ident == ' ' || *ident == ',') && *ident)
-//         clr[i++] = (*ident)++;
-//     err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : err;
-//     while (*ident != ' ' && *ident != ',')
-//         clr[i++] = (*ident)++;
-//     while ((*ident == ' ' || *ident == ',') && *ident)
-//         clr[i++] = (*ident)++;
-//     err = ((ft_atoi(ident) > 255 || ft_atoi(ident) < 0) || !*ident) ? 1 : err;
-//     while (*ident != ' ' && *ident != ',')
-//         clr[i++] = (*ident)++;
-//     while ((*ident == ' ' && *ident)
-//         ident++;
-//     err = (*ident) ? 1 : err;
-//     (ident[0] == 'C' && err == 0) ?  parse.c_color = clr : parse.f_color = clr;
-//     return(err);
-// }
+	r = -1;
+	g = -1;
+	b = -1;
+	while (!(*ident >= '0' && *ident <= '9') && *ident)
+		*ident++;
+	r = ft_atoi(*ident);
+	while (!(*ident >= '0' && *ident <= '9') && *ident)
+		*ident++;
+	g = ft_atoi(*ident);
+	while (!(*ident >= '0' && *ident <= '9') && *ident)
+		*ident++;
+	b = ft_atoi(*ident);
+	while (!(*ident >= '0' && *ident <= '9') && *ident)
+		*ident++;
+	if (*ident || r > 255 || g > 255 ||  b > 255 || r < 0 || g < 0 || g < 0)
+		return (1);
+	else
+		parce_color(ident[0], r, g, b, parse);
+	return (0);
+}
 
 static int		identifier(char *ident, t_ident *parse)
 {
