@@ -10,8 +10,12 @@ typedef struct	s_ident
     char        *we_text;
     char        *ea_text;
     char        *s_text;
-    char        *f_color[11];
-    char        *c_color[11];
+    int         f_color_r;
+    int         f_color_g;
+    int         f_color_b;
+    int         c_color_r;
+    int         c_color_g;
+    int         c_color_b;
 }				t_ident;
 
 // parse
