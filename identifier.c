@@ -3,10 +3,18 @@
 // static int     texture(char *ident, t_ident *parse)
 // {
 // }
-// проверить можно ли запихнуть все цвета в 1 инт с помощью умножения на 1к
 
-static void		parce_color(char ident, int r, int g, int b, t_ident *parse)
+static void		parce_color(char ident, int clr, int nill, t_ident *parse)
 {
+	int r;
+	int g;
+	int b;
+
+	b = (nill == 4 || nill == 5 || nill == 6 || nill == 7) ? 0 : clr % 1000;
+	clr /= 1000;
+	g = (nill == 2 || nill == 3 || nill == 6 || nill == 7) ? 0 : clr % 1000;
+	clr /= 1000;
+	r = (nill == 1 || nill == 3 || nill == 5 || nill == 7) ? 0 : clr % 1000;
 	if (ident == 'C')
 	{
 		parse.c_color_r = r;
@@ -42,28 +50,29 @@ static int		resolution(char *ident, t_ident *parse)
 
 static int		color(char *ident, t_ident *parse)
 {
-	int r;
-	int	g;
-	int	b;
+	int clr;
+	int nill;
 
-	r = -1;
-	g = -1;
-	b = -1;
+	clr = 0;
+	nill = 0;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
 		*ident++;
-	r = ft_atoi(*ident);
+	clr = ft_atoi(*ident);
+	nill = (ft_atoi(*ident) == 0) ? 1 : 0;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
 		*ident++;
-	g = ft_atoi(*ident);
+	clr = clr * 1000 + ft_atoi(*ident);
+	nill = (ft_atoi(*ident) == 0) ? nill + 2 : nill;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
 		*ident++;
-	b = ft_atoi(*ident);
+	clr = clr * 1000 + ft_atoi(*ident);
+	nill = (ft_atoi(*ident) == 0) ? nill + 4 : nill;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
 		*ident++;
-	if (*ident || r > 255 || g > 255 ||  b > 255 || r < 0 || g < 0 || g < 0)
+	if (*ident || clr > 255255255 || clr < 0)
 		return (1);
 	else
-		parce_color(ident[0], r, g, b, parse);
+		parce_color(ident[0], clr, nill parse);
 	return (0);
 }
 
