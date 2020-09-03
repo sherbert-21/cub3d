@@ -1,14 +1,24 @@
 #include "cub3d.h"
 
-// static int     texture(char *ident, t_ident *parse)
-// {
-// }
+static void		parse_texture(char *ident, char *texture, t_ident *parse)
+{
+	if (ident[0] == 'N')
+		parse.no_text = texture;
+	else if (ident[0] == 'E')
+		parse.ea_text = texture;
+	else if (ident[0] == 'W')
+		parse.we_text = texture;
+	else if (ident[0] == 'S' && ident[1] == 'A')
+		parse.so_text = texture;
+	else
+		parse.s_text = texture;
+}
 
 static void		parce_color(char ident, int clr, int nill, t_ident *parse)
 {
-	int r;
-	int g;
-	int b;
+	int		r;
+	int		g;
+	int		b;
 
 	b = (nill == 4 || nill == 5 || nill == 6 || nill == 7) ? 0 : clr % 1000;
 	clr /= 1000;
@@ -29,7 +39,7 @@ static void		parce_color(char ident, int clr, int nill, t_ident *parse)
 	}
 }
 
-static int		resolution(char *ident, t_ident *parse)
+int				resolution(char *ident, t_ident *parse)
 {
 	while (*ident == ' ' && *ident)
 		ident++;
@@ -48,10 +58,10 @@ static int		resolution(char *ident, t_ident *parse)
 	return (0);
 }
 
-static int		color(char *ident, t_ident *parse)
+int				color(char *ident, t_ident *parse)
 {
-	int clr;
-	int nill;
+	int		clr;
+	int		nill;
 
 	clr = 0;
 	nill = 0;
@@ -72,30 +82,33 @@ static int		color(char *ident, t_ident *parse)
 	if (*ident || clr > 255255255 || clr < 0)
 		return (1);
 	else
-		parce_color(ident[0], clr, nill parse);
+		parce_color(ident[0], clr, nill, parse);
 	return (0);
 }
 
-static int		identifier(char *ident, t_ident *parse)
+int				texture(char *ident, t_ident *parse)
 {
-	if (ident[0] == 'R')
-		return (resolution(++ident, parse));
-	else if (ident[0] == 'F' || ident[0] == 'C')
-		return (color(ident, parse));
-	else
-		return (texture(ident, parse));
-}
+	char	*text;
+	int		i;
+	int		err;
+	int		j;
 
-int		valid_identifier(char *ident, t_ident *parse)
-{
-	if (ft_strchr("RSF", ident[0]) && ident[1] == ' ')
-		return (identifier(ident, parse));
-	else if (ft_strchr("SN", ident[0]) && ident[1] == 'O')
-		return (identifier(ident, parse));
-	else if (ident[0] == 'W' && ident[1] == 'E')
-		return (identifier(ident, parse));
-	else if (ident[0] == 'E' && ident[1] == 'A')
-		return (identifier(ident, parse));
-	else
-		return (1);
+	i = 0;
+	j = 2;
+	while (ident[j] == ' ' && ident[j])
+		j++;
+	while (ident[j + i] != ' ' && ident[j + i])
+		i++;
+	err = (!ident[j]) ? 1 : 0;
+	text = (!err) ? ft_calloc(i + 1, sizeof(char)) : NULL;
+	err = (!text) ? 1 : err;
+	i = 0;
+	while (ident[j] != ' ' && ident[j] && !err)
+		text[i++] = ident[j++];
+	while (ident[j] && ident[j] == ' ' && !err)
+		j++;
+	err = (ident[j]) ? 1 : err;
+	if (!err)
+		parse_texture(ident, text, parse);
+	return (err);
 }

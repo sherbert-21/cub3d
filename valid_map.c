@@ -46,7 +46,7 @@ static int		check_square(char **tmp)
 	return (err);
 }
 
- static int		check_symbol(char **tmp, int j, int k)
+static int		check_symbol(char **tmp, int j, int k)
 {
 	if (!ft_strchr(" 012NSWE", tmp[j + 1][k]))
 		return (1);

@@ -8,7 +8,7 @@
 
 // сделать отправку структуры со всеми данными по мапе
 
-void		save_free_map(char ***str)
+void			save_free_map(char ***str)
 {
 	while (*str)
 	{
