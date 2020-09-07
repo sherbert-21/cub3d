@@ -90,7 +90,7 @@ static int		map_parcer(t_list **map_lst, int size, t_ident *ident)
 	return (err);
 }
 
-int				map(int argc, char **argv)
+int				map(int argc, char **argv, t_ident *ident)
 {
 	t_ident ident;
 	int		fd;
@@ -105,7 +105,7 @@ int				map(int argc, char **argv)
 	while (get_next_line(fd, &line))
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
 	ft_lstadd_back(&map_lst, ft_lstnew(line));
-	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), &ident))) ? 1 : err;
+	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
 	ft_lstfree(&map_lst);
 	return (err);
 }
