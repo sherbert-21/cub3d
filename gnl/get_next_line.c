@@ -19,7 +19,7 @@ static void		error_case(char **s_buf, char **line, int *ret)
 		save_free(line);
 }
 
-char			*ft_strchr(const char *str, int c)
+char			*ft_strchr_err(const char *str, int c)
 {
 	while (*str)
 	{
@@ -40,13 +40,13 @@ static char		*save_buf(char **s_buf, char **line, int *ret)
 	n = NULL;
 	if (*s_buf)
 	{
-		if ((n = ft_strchr(*s_buf, '\n')))
+		if ((n = ft_strchr_err(*s_buf, '\n')))
 			*n++ = '\0';
-		*line = ft_strdup(*s_buf, ret);
-		(n) ? ft_strcpy(*s_buf, n) : save_free(s_buf);
+		*line = ft_strdup_err(*s_buf, ret);
+		(n) ? ft_strcpy_err(*s_buf, n) : save_free(s_buf);
 	}
 	else
-		*line = ft_strdup("\0", ret);
+		*line = ft_strdup_err("\0", ret);
 	return (n);
 }
 
@@ -63,14 +63,14 @@ int				get_next_line(int fd, char **line)
 	while (!n && ret != -1 && (ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
-		if ((n = ft_strchr(buf, '\n')))
+		if ((n = ft_strchr_err(buf, '\n')))
 		{
 			n++;
 			save_free(&s_buf);
-			s_buf = ft_strdup(n, &ret);
+			s_buf = ft_strdup_err(n, &ret);
 		}
 		tmp = *line;
-		*line = ft_strjoin(*line, buf, &ret);
+		*line = ft_strjoin_err(*line, buf, &ret);
 		save_free(&tmp);
 	}
 	if (ret == 0 || ret == -1)

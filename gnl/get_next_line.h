@@ -14,13 +14,14 @@
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
+# include "../libft/libft.h"
 
 void	save_free(char **str);
-int		ft_strlen(char *str);
-char	*ft_strdup(char *s1, int *err);
-char	*ft_strjoin(char *s1, char *s2, int *err);
-char	*ft_strcpy(char *dest, char *src);
-char	*ft_strchr(const char *s, int c);
+int		ft_strlen_err(char *str);
+char	*ft_strdup_err(char *s1, int *err);
+char	*ft_strjoin_err(char *s1, char *s2, int *err);
+char	*ft_strcpy_err(char *dest, char *src);
+char	*ft_strchr_err(const char *s, int c);
 int		get_next_line(int fd, char **line);
 
 # ifndef BUFFER_SIZE
