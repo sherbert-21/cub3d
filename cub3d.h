@@ -24,9 +24,9 @@ typedef struct	s_ident
 int				map(int argc, char **argv, t_ident *ident);
 int             valid_identifier(char *ident);
 int             valid_input(int argc, char **argv);
-int             check_map(char **map, int i, int size);
 void		    save_free_map(char ***str);
 int		        color(char *ident, t_ident *parse);
 int		        resolution(char *ident, t_ident *parse);
 void		    parce_color(char ident, int clr, int nill, t_ident *parse);
 int             texture(char *ident, t_ident *parse);
+int				check_map(char **map, int i, int size, t_ident *ident);

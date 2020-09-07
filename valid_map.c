@@ -61,7 +61,33 @@ static int		check_symbol(char **tmp, int j, int k)
 	return (0);
 }
 
-int				check_map(char **map, int i, int size)
+static void		map_int(char **map, int i, int size, t_ident *ident)
+{
+	int j;
+	int k;
+
+	j = 0;
+	k = 0;
+	ident.map = ft_calloc(size - i + 1, sizeof(char *));
+	while (map[++i])
+	{
+		j = -1;
+		ident.map[k] = ft_calloc(ft_strlen(map[i]) + 1, sizeof(char));
+		while (map[i][++j])
+		{
+			if (map[i][j] >= 48 && map[i][j] <= 50)
+			ident.map[k][j] = map[i][j] - '0';
+			if (map[i][j] == ' ')
+				ident.map[k][j] = 1;
+			if (ft_strchr("NSWE", map[i][j]) == 1)
+				ident.map[k][j] = (int)map[i][j];
+			
+		}
+		k++;
+	}
+}
+
+int				check_map(char **map, int i, int size, t_ident *ident)
 {
 	char	**tmp;
 	int		err;
@@ -83,30 +109,8 @@ int				check_map(char **map, int i, int size)
 		}
 	}
 	err = (player != 1) ? 1 : err;
+	if (!err)
+		map_int(tmp, i - 1, ident);
 	save_free_map(&tmp);
 	return (err);
-}
-
-int				valid_input(int argc, char **argv)
-{
-	if (argc > 3 || argc == 1)
-		return (1);
-	else
-	{
-		if (argc == 1)
-		{
-			if (ft_strnstr(argv[1], "--save", ft_strlen("--save")))
-				return (2);
-			else if (!ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])))
-				return (1);
-		}
-		if (argc == 2)
-		{
-			if (ft_strnstr(argv[1], "--save", ft_strlen("--save")))
-				return (1);
-			else if (!ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])))
-				return (1);
-		}
-	}
-	return (0);
 }
