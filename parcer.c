@@ -6,8 +6,6 @@
 // err_4 - invalid_map
 // err_5 - couldn't allocate
 
-// сделать отправку структуры со всеми данными по мапе
-
 void			save_free_map(char ***str)
 {
 	while (*str)
@@ -25,17 +23,17 @@ void			save_free_map(char ***str)
 
 static void		invalid_map(int err)
 {
-	ft_putendl("Error", 1);
+	ft_putendl_fd("Error", 1);
 	if (err == 1)
-		ft_putstr("Invalid input", 1);
+		ft_putstr_fd("Invalid input", 1);
 	else if (err == 2)
-		ft_putstr("No map", 1);
+		ft_putstr_fd("No map", 1);
 	else if (err == 3)
-		ft_putstr("Invalid identifier or information for object", 1);
+		ft_putstr_fd("Invalid identifier or information for object", 1);
 	else if (err == 4)
-		ft_putstr("Invalid map", 1);
+		ft_putstr_fd("Invalid map", 1);
 	else if (err == 5)
-		ft_putstr("Could't allocate mmry", 1);
+		ft_putstr_fd("Could't allocate mmry", 1);
 }
 
 static int		parcer(char **map, t_ident *ident, int size)
@@ -90,13 +88,13 @@ static int		map_parcer(t_list **map_lst, int size, t_ident *ident)
 	return (err);
 }
 
-int				map(int argc, char **argv, t_ident *ident)
+int				main(int argc, char **argv)
 {
-	t_ident ident;
 	int		fd;
 	t_list	*map_lst;
 	char	*line;
 	int		err;
+	t_ident	ident;
 
 	err = valid_input(argc, argv);
 	if (err)
@@ -105,7 +103,7 @@ int				map(int argc, char **argv, t_ident *ident)
 	while (get_next_line(fd, &line))
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
 	ft_lstadd_back(&map_lst, ft_lstnew(line));
-	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
+	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), &ident))) ? 1 : err;
 	ft_lstfree(&map_lst);
 	return (err);
 }

@@ -1,23 +1,24 @@
-#include "./mlx/mlx.h"
+#include "cub3d.h"
 
 int main(int argc, char **argv)
 {
     void    *mlx;
     void    *win;
-    int     x;
     int     y;
+    int     x;
+    t_ident parce;
 
-    x = 100;
-    y = 100;
-
-    mlx = mlx_init();
-    win = mlx_new_window(mlx, 600, 600, "cub3d");
-    while (y++ < 150)
+    if (!map(argc, argv, &parce))
     {
-        x = 100;
-        while (x++ < 200)
-            mlx_pixel_put(mlx, win, x, y, 0xFF00EF);
+        mlx = mlx_init();
+        win = mlx_new_window(mlx, parce.x, parce.y, "cub3d");
+        while (y++ < 150)
+        {
+            x = 100;
+            while (x++ < 200)
+                mlx_pixel_put(mlx, win, x, y, 0xFF00EF);
+        }
+        mlx_loop(mlx);
     }
-    mlx_loop(mlx);
     return (0);
 }

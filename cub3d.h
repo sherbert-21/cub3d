@@ -1,6 +1,11 @@
-#include "./libft/libft.h"
-#include "./gnl/get_next_line.h"
-#include "./mlx/mlx.h"
+#ifndef CUB3D_H
+# define CUB3D_H
+# include "./libft/libft.h"
+# include "./gnl/get_next_line.h"
+# include "./mlx/mlx.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 typedef struct	s_ident
 {
@@ -22,11 +27,12 @@ typedef struct	s_ident
 
 // parse
 int				map(int argc, char **argv, t_ident *ident);
-int             valid_identifier(char *ident);
-int             valid_input(int argc, char **argv);
-void		    save_free_map(char ***str);
-int		        color(char *ident, t_ident *parse);
-int		        resolution(char *ident, t_ident *parse);
-void		    parce_color(char ident, int clr, int nill, t_ident *parse);
-int             texture(char *ident, t_ident *parse);
+void			save_free_map(char ***str);
 int				check_map(char **map, int i, int size, t_ident *ident);
+int				valid_input(int argc, char **argv);
+int				valid_identifier(char *ident, t_ident *parse);
+int				resolution(char *ident, t_ident *parse);
+int				color(char *ident, t_ident *parse);
+int				texture(char *ident, t_ident *parse);
+
+#endif
