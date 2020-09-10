@@ -3,15 +3,15 @@
 static void		parse_texture(char *ident, char *texture, t_ident *parse)
 {
 	if (ident[0] == 'N')
-		parse.no_text = texture;
+		parse->no_text = texture;
 	else if (ident[0] == 'E')
-		parse.ea_text = texture;
+		parse->ea_text = texture;
 	else if (ident[0] == 'W')
-		parse.we_text = texture;
+		parse->we_text = texture;
 	else if (ident[0] == 'S' && ident[1] == 'A')
-		parse.so_text = texture;
+		parse->so_text = texture;
 	else
-		parse.s_text = texture;
+		parse->s_text = texture;
 }
 
 static void		parce_color(char ident, int clr, int nill, t_ident *parse)
@@ -27,15 +27,15 @@ static void		parce_color(char ident, int clr, int nill, t_ident *parse)
 	r = (nill == 1 || nill == 3 || nill == 5 || nill == 7) ? 0 : clr % 1000;
 	if (ident == 'C')
 	{
-		parse.c_color_r = r;
-		parse.c_color_g = g;
-		parse.c_color_b = b;
+		parse->c_color_r = r;
+		parse->c_color_g = g;
+		parse->c_color_b = b;
 	}
 	else
 	{
-		parse.f_color_r = r;
-		parse.f_color_g = g;
-		parse.f_color_b = b;
+		parse->f_color_r = r;
+		parse->f_color_g = g;
+		parse->f_color_b = b;
 	}
 }
 
@@ -45,12 +45,12 @@ int				resolution(char *ident, t_ident *parse)
 		ident++;
 	if (*ident == '0' || !*ident)
 		return (1);
-	parse.x = ft_atoi(ident);
+	parse->x = ft_atoi(ident);
 	while (*ident == ' ' && *ident)
 		ident++;
 	if (*ident == '0' || !*ident)
 		return (1);
-	parse.y = ft_atoi(ident);
+	parse->y = ft_atoi(ident);
 	while (*ident == ' ' && *ident)
 		ident++;
 	if (*ident)
@@ -66,19 +66,19 @@ int				color(char *ident, t_ident *parse)
 	clr = 0;
 	nill = 0;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
-		*ident++;
-	clr = ft_atoi(*ident);
-	nill = (ft_atoi(*ident) == 0) ? 1 : 0;
+		ident++;
+	clr = ft_atoi(ident);
+	nill = (ft_atoi(ident) == 0) ? 1 : 0;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
-		*ident++;
-	clr = clr * 1000 + ft_atoi(*ident);
-	nill = (ft_atoi(*ident) == 0) ? nill + 2 : nill;
+		ident++;
+	clr = clr * 1000 + ft_atoi(ident);
+	nill = (ft_atoi(ident) == 0) ? nill + 2 : nill;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
-		*ident++;
-	clr = clr * 1000 + ft_atoi(*ident);
-	nill = (ft_atoi(*ident) == 0) ? nill + 4 : nill;
+		ident++;
+	clr = clr * 1000 + ft_atoi(ident);
+	nill = (ft_atoi(ident) == 0) ? nill + 4 : nill;
 	while (!(*ident >= '0' && *ident <= '9') && *ident)
-		*ident++;
+		ident++;
 	if (*ident || clr > 255255255 || clr < 0)
 		return (1);
 	else

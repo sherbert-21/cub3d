@@ -8,17 +8,24 @@
 
 void			save_free_map(char ***str)
 {
-	while (*str)
+	int i;
+	int j;
+
+	i = -1;
+	j = -1;
+	while (str[i++])
 	{
-		if (*str && **str)
+		if (str[i][j] && str[i])
 		{
-			free(**str);
-			**str = NULL;
+			free(str[i]);
+			str[i] = NULL;
 		}
-		*str++;
 	}
-	free(*str);
-	*str = NULL;
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
 }
 
 static void		invalid_map(int err)
@@ -50,14 +57,14 @@ static int		parcer(char **map, t_ident *ident, int size)
 			i++;
 			continue;
 		}
-		if (!(err = valid_identifier(map[i])))
+		if (!(err = valid_identifier(map[i], ident)))
 			identifier(map[i], ident);
 		i++;
 		if (err)
 			invalid_map(3);
 	}
-	err = ((check_map(map, i, size))) ? 1 : err;
-	if ((check_map(map, i, size)))
+	err = ((check_map(map, i, size, ident))) ? 1 : err;
+	if ((check_map(map, i, size, ident)))
 		invalid_map(4);
 	return (err);
 }
@@ -70,14 +77,14 @@ static int		map_parcer(t_list **map_lst, int size, t_ident *ident)
 	int		err;
 
 	i = -1;
-	*tmp = *map_lst;
+	tmp = *map_lst;
 	map = ft_calloc(size + 1, sizeof(char *));
 	err = (!map) ? 1 : 0;
 	if (map && !err)
 	{
 		while (tmp && !err)
 		{
-			if (!(map[i] = ft_calloc(ft_strsize(tmp->content), sizeof(char))))
+			if (!(map[i] = ft_calloc(ft_strlen(tmp->content), sizeof(char))))
 				err = 1;
 			map[++i] = tmp->content;
 			tmp = tmp->next;
@@ -104,6 +111,6 @@ int				main(int argc, char **argv)
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
 	ft_lstadd_back(&map_lst, ft_lstnew(line));
 	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), &ident))) ? 1 : err;
-	ft_lstfree(&map_lst);
+	ft_lstclear(&map_lst, free);
 	return (err);
 }

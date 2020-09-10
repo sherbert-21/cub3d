@@ -68,19 +68,19 @@ static void		map_int(char **map, int i, int size, t_ident *ident)
 
 	j = 0;
 	k = 0;
-	ident.map = ft_calloc(size - i + 1, sizeof(char *));
+	ident->map = ft_calloc(size - i + 1, sizeof(char *));
 	while (map[++i])
 	{
 		j = -1;
-		ident.map[k] = ft_calloc(ft_strlen(map[i]) + 1, sizeof(char));
+		ident->map[k] = ft_calloc(ft_strlen(map[i]) + 1, sizeof(char));
 		while (map[i][++j])
 		{
 			if (map[i][j] >= 48 && map[i][j] <= 50)
-			ident.map[k][j] = map[i][j] - '0';
+			ident->map[k][j] = map[i][j] - '0';
 			if (map[i][j] == ' ')
-				ident.map[k][j] = 1;
-			if (ft_strchr("NSWE", map[i][j]) == 1)
-				ident.map[k][j] = (int)map[i][j];
+				ident->map[k][j] = 1;
+			if (ft_strchr("NSWE", map[i][j]))
+				ident->map[k][j] = (int)map[i][j];
 			
 		}
 		k++;
@@ -104,13 +104,13 @@ int				check_map(char **map, int i, int size, t_ident *ident)
 		k = 0;
 		while (++k < ft_strlen(tmp[j]) - 1 && !err)
 		{
-			err = (check_symbol == 1) ? 1 : err;
+			err = (check_symbol(tmp, j, k) == 1) ? 1 : err;
 			player = (ft_strchr("NSWE", tmp[j][k])) ? player + 1 : player;
 		}
 	}
 	err = (player != 1) ? 1 : err;
 	if (!err)
-		map_int(tmp, i - 1, ident);
+		map_int(tmp, i - 1, size, ident);
 	save_free_map(&tmp);
 	return (err);
 }

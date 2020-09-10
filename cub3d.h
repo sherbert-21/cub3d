@@ -31,6 +31,7 @@ void			save_free_map(char ***str);
 int				check_map(char **map, int i, int size, t_ident *ident);
 int				valid_input(int argc, char **argv);
 int				valid_identifier(char *ident, t_ident *parse);
+int		        identifier(char *ident, t_ident *parse);
 int				resolution(char *ident, t_ident *parse);
 int				color(char *ident, t_ident *parse);
 int				texture(char *ident, t_ident *parse);
