@@ -2,10 +2,10 @@
 
 static char		**tmp_map(char **map, int i, int size)
 {
-	int		len;
+	size_t	len;
 	char	**tmp;
-	int		k;
-	int		j;
+	size_t		k;
+	size_t		j;
 
 	len = 0;
 	k = 0;
@@ -92,7 +92,7 @@ int				check_map(char **map, int i, int size, t_ident *ident)
 	char	**tmp;
 	int		err;
 	int		j;
-	int		k;
+	size_t	k;
 	int		player;
 
 	tmp = tmp_map(map, i - 1, size);

@@ -12,11 +12,11 @@
 
 NAME = libft.a
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS	= -Wall -Werror -Wextra
 
-HEAD = libft.h
+INC = libft.h
 
-SRCS = \
+SRC = \
 ft_atoi.c \
 ft_isascii.c \
 ft_isalnum.c \
@@ -52,7 +52,7 @@ ft_putchar_fd.c \
 ft_putendl_fd.c \
 ft_putnbr_fd.c \
 
-SRCS_BONUS = \
+SRC_BONUS = \
 ft_lstadd_front.c \
 ft_lstnew.c \
 ft_lstsize.c \
@@ -63,21 +63,27 @@ ft_lstclear.c \
 ft_lstiter.c \
 ft_lstmap.c
 
-OBJS = ./*.o
+SRC_DIR	= ./src/
+
+OBJ		= $(SRC_BONUS)*.o
+
+OBJ_DIR	= ./obj
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(SRCS)
-	gcc $(FLAGS) -c $(SRCS)
-	ar rc $(NAME) $(OBJS)
+$(NAME): $(OBJ)
+
+$(OBJ) : $(SRC_DIR)$(SRC)
+	gcc $(FLAGS) -c $(SRC_DIR)$(SRC)
+	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
-bonus: $(SRCS_BONUS)
-	gcc $(FLAGS) -c $(SRCS_BONUS) $(SRCS)
-	ar rc $(NAME) $(OBJS)
+bonus: $(SRC_BONUS)
+	gcc $(FLAGS) -c $(SRC_DIR)$(SRC_BONUS) $(SRC_DIR)$(SRC)
+	ar rc $(NAME) $(OBJ)
 
 clean:
-	/bin/rm -f $(OBJS)
+	/bin/rm -f $(OBJ)
 	/bin/rm -f *so
 	/bin/rm -rf *gch
 
@@ -85,9 +91,5 @@ fclean: clean
 	/bin/rm -f $(NAME)
 
 re: fclean all
-
-so:
-	gcc -fPIC $(FLAGS) -c $(SRCS) $(HEAD)
-	gcc -shared -o libft.so *.o
 
 .PHONY: clean fclean all re $(NAME)

@@ -4,8 +4,8 @@ int main(int argc, char **argv)
 {
     void    *mlx;
     void    *win;
-    int     y;
-    int     x;
+    int     y = 0;
+    int     x = 0;
     t_ident parce;
 
     if (!map(argc, argv, &parce))

@@ -47,7 +47,6 @@ static int		parcer(char **map, t_ident *ident, int size)
 {
 	int i;
 	int err;
-	int j;
 
 	i = 0;
 	while (map[i] && map[i][0] != ' ' && !err)
@@ -57,7 +56,7 @@ static int		parcer(char **map, t_ident *ident, int size)
 			i++;
 			continue;
 		}
-		if (!(err = valid_identifier(map[i], ident)))
+		if (!(err = valid_identifier(map[i])))
 			identifier(map[i], ident);
 		i++;
 		if (err)
@@ -95,13 +94,12 @@ static int		map_parcer(t_list **map_lst, int size, t_ident *ident)
 	return (err);
 }
 
-int				main(int argc, char **argv)
+int				map(int argc, char **argv, t_ident *ident)
 {
 	int		fd;
 	t_list	*map_lst;
 	char	*line;
 	int		err;
-	t_ident	ident;
 
 	err = valid_input(argc, argv);
 	if (err)
@@ -110,7 +108,7 @@ int				main(int argc, char **argv)
 	while (get_next_line(fd, &line))
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
 	ft_lstadd_back(&map_lst, ft_lstnew(line));
-	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), &ident))) ? 1 : err;
+	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
 	ft_lstclear(&map_lst, free);
 	return (err);
 }

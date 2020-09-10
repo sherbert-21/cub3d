@@ -10,7 +10,7 @@ int		identifier(char *ident, t_ident *parse)
 		return (texture(ident, parse));
 }
 
-int				valid_identifier(char *ident, t_ident *parse)
+int				valid_identifier(char *ident)
 {
 	if (ft_strchr("RSF", ident[0]) && ident[1] == ' ')
 		return (0);

@@ -1,34 +1,49 @@
-NAME = cub
+NAME	= cub
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS	= -Wall -Werror -Wextra
 
-HEAD = cub3d.h
+SRC		= valid_map.c \
+			valid_input.c \
+			parcer.c \
+			ident_parce.c \
+			ident.c \
+			cub_window.c
 
-SRCS = ./*.c
+SRC_DIR	= ./src
 
-OBJS = ./*.o
+OBJ		= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+
+OBJ_DIR	= ./obj
+
+INC		= -I ./include -I ./libft -I ./gnl -I ./mlx
+
+LIBFT		=		-L ./libft -lft
+
+MLX			=		-L ./mlx -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): 
-	gcc -c $(SRCS) -L ./libft/libft.a libmlx.a -framework OpenGL -framework Appkit
+all: make_libs $(NAME)
 
-bonus: $(SRCS_BONUS)
-	gcc $(FLAGS) -c $(SRCS_BONUS) $(SRCS)
-	ar rc $(NAME) $(OBJS)
+$(NAME): $(OBJ)
+	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(OBJ_DIR)
+	gcc $(FLAGS) $(INC) -o $@ -c $<
+
+make_libs:
+	make bonus -C ./libft
+	make -C ./mlx
 
 clean:
-	/bin/rm -f $(OBJS)
-	/bin/rm -f *so
-	/bin/rm -rf *gch
+	/bin/rm -rf ./obj
+	make -C ./libft/ clean
+	make -C ./mlx/ clean
 
 fclean: clean
 	/bin/rm -f $(NAME)
+	make -C ./libft/ fclean
+	make -C ./mlx/ clean
 
 re: fclean all
-
-so:
-	gcc -fPIC $(FLAGS) -c $(SRCS) $(HEAD)
-	gcc -shared -o libft.so *.o
-
-.PHONY: clean fclean all re $(NAME)
