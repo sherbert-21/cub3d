@@ -6,41 +6,28 @@
 // err_4 - invalid_map
 // err_5 - couldn't allocate
 
-void			save_free_map(char ***str)
-{
-	int i;
-	int j;
+// void			save_free_map(char ***str)
+// {
+// 	int i;
 
-	i = -1;
-	j = -1;
-	while (str[i++])
-	{
-		if (str[i][j] && str[i])
-		{
-			free(str[i]);
-			str[i] = NULL;
-		}
-	}
-	if (str)
-	{
-		free(str);
-		str = NULL;
-	}
-}
+// 	i = -1;
+// 	while (str[++i])
+// 		save_free(str[i]);
+// }
 
 static void		invalid_map(int err)
 {
 	ft_putendl_fd("Error", 1);
 	if (err == 1)
-		ft_putstr_fd("Invalid input", 1);
+		ft_putendl_fd("Invalid input", 1);
 	else if (err == 2)
-		ft_putstr_fd("No map", 1);
+		ft_putendl_fd("No map", 1);
 	else if (err == 3)
-		ft_putstr_fd("Invalid identifier or information for object", 1);
+		ft_putendl_fd("Invalid identifier or information for object", 1);
 	else if (err == 4)
-		ft_putstr_fd("Invalid map", 1);
+		ft_putendl_fd("Invalid map", 1);
 	else if (err == 5)
-		ft_putstr_fd("Could't allocate mmry", 1);
+		ft_putendl_fd("Could't allocate mmry", 1);
 }
 
 static int		parcer(char **map, t_ident *ident, int size)
@@ -90,7 +77,6 @@ static int		map_parcer(t_list **map_lst, int size, t_ident *ident)
 		}
 		err = ((parcer(map, ident, size))) ? 1 : err;
 	}
-	save_free_map(&map);
 	return (err);
 }
 
@@ -104,11 +90,13 @@ int				map(int argc, char **argv, t_ident *ident)
 	err = valid_input(argc, argv);
 	if (err)
 		invalid_map(err);
-	fd = open(argv[1], O_RDONLY);
-	while (get_next_line(fd, &line))
+	if (!err)
+	{
+		fd = open(argv[1], O_RDONLY);
+		while (get_next_line(fd, &line))
+			ft_lstadd_back(&map_lst, ft_lstnew(line));
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
-	ft_lstadd_back(&map_lst, ft_lstnew(line));
-	err = ((map_parcer(&map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
-	ft_lstclear(&map_lst, free);
+		err = ((map_parcer(&map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
+	}
 	return (err);
 }

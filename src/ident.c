@@ -110,5 +110,6 @@ int				texture(char *ident, t_ident *parse)
 	err = (ident[j]) ? 1 : err;
 	if (!err)
 		parse_texture(ident, text, parse);
+	save_free(&text);
 	return (err);
 }

@@ -68,11 +68,11 @@ static void		map_int(char **map, int i, int size, t_ident *ident)
 
 	j = 0;
 	k = 0;
-	ident->map = ft_calloc(size - i + 1, sizeof(char *));
+	ident->map = ft_calloc(size - i + 1, sizeof(int *));
 	while (map[++i])
 	{
 		j = -1;
-		ident->map[k] = ft_calloc(ft_strlen(map[i]) + 1, sizeof(char));
+		ident->map[k] = ft_calloc(ft_strlen(map[i]) + 1, sizeof(int));
 		while (map[i][++j])
 		{
 			if (map[i][j] >= 48 && map[i][j] <= 50)
@@ -111,6 +111,5 @@ int				check_map(char **map, int i, int size, t_ident *ident)
 	err = (player != 1) ? 1 : err;
 	if (!err)
 		map_int(tmp, i - 1, size, ident);
-	save_free_map(&tmp);
 	return (err);
 }

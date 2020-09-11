@@ -31,6 +31,10 @@ $(NAME): $(OBJ)
 	make -C ./gnl
 	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) $(GNL) -o $(NAME)
 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(WFLAGS) $(INC) -o $@ -c $<
+
 clean:
 	/bin/rm -rf ./obj
 	make -C ./libft/ clean
