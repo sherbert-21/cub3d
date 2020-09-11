@@ -15,35 +15,31 @@ OBJ		= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
 OBJ_DIR	= ./obj
 
-INC		= -I ./include -I ./libft -I ./gnl -I ./mlx
+INC			= 		-I ./include -I ./libft -I ./gnl -I ./mlx
 
 LIBFT		=		-L ./libft -lft
 
 MLX			=		-L ./mlx -lmlx -framework OpenGL -framework AppKit
 
+GNL			=		-L ./gnl -lgnl
+
 all: $(NAME)
 
-all: make_libs $(NAME)
-
 $(NAME): $(OBJ)
-	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	gcc $(FLAGS) $(INC) -o $@ -c $<
-
-make_libs:
-	make bonus -C ./libft
+	make -C ./libft
 	make -C ./mlx
+	make -C ./gnl
+	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) $(GNL) -o $(NAME)
 
 clean:
 	/bin/rm -rf ./obj
 	make -C ./libft/ clean
 	make -C ./mlx/ clean
+	make -C ./gnl/ clean
 
 fclean: clean
 	/bin/rm -f $(NAME)
 	make -C ./libft/ fclean
-	make -C ./mlx/ clean
+	make -C ./gnl/ fclean
 
 re: fclean all
