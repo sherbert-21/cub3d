@@ -21,5 +21,5 @@ int				valid_identifier(char *ident)
 	else if (ident[0] == 'E' && ident[1] == 'A')
 		return (0);
 	else
-		return (1);
+		return (0);
 }

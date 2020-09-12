@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include <stdio.h>
 
 // err_1 - invalid_input
 // err_2 - no_map
@@ -36,47 +37,40 @@ static int		parcer(char **map, t_ident *ident, int size)
 	int err;
 
 	i = 0;
-	while (map[i] && map[i][0] != ' ' && !err)
+	err = 0;
+	while (map[i] && map[i][0] != ' ' && !err && map[i][0] != '1')
 	{
-		if (map[i][0] == '\n')
-		{
+		while (map[i][0] == '\n')
 			i++;
-			continue;
-		}
 		if (!(err = valid_identifier(map[i])))
 			identifier(map[i], ident);
 		i++;
 		if (err)
 			invalid_map(3);
 	}
-	err = ((check_map(map, i, size, ident))) ? 1 : err;
-	if ((check_map(map, i, size, ident)))
+	if (check_map(map, i, size, ident))
 		invalid_map(4);
 	return (err);
 }
 
-static int		map_parcer(t_list **map_lst, int size, t_ident *ident)
+static int		map_parcer(t_list *map_lst, int size, t_ident *ident)
 {
 	char	**map;
 	int		i;
-	t_list	*tmp;
+	int k;
 	int		err;
 
-	i = -1;
-	tmp = *map_lst;
+	i = 0;
 	map = ft_calloc(size + 1, sizeof(char *));
 	err = (!map) ? 1 : 0;
-	if (map && !err)
+	while (!err && map_lst)
 	{
-		while (tmp && !err)
-		{
-			if (!(map[i] = ft_calloc(ft_strlen(tmp->content), sizeof(char))))
-				err = 1;
-			map[++i] = tmp->content;
-			tmp = tmp->next;
-		}
-		err = ((parcer(map, ident, size))) ? 1 : err;
+		if (!(map[i] = ft_calloc(ft_strlen(map_lst->content), sizeof(char))))
+			err = 1;
+		map[i++] = map_lst->content;
+		map_lst = map_lst->next;
 	}
+	err = (parcer(map, ident, size)) ? 1 : err;
 	return (err);
 }
 
@@ -96,7 +90,7 @@ int				map(int argc, char **argv, t_ident *ident)
 		while (get_next_line(fd, &line))
 			ft_lstadd_back(&map_lst, ft_lstnew(line));
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
-		err = ((map_parcer(&map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
+		err = ((map_parcer(map_lst, ft_lstsize(map_lst), ident))) ? 1 : err;
 	}
 	return (err);
 }
