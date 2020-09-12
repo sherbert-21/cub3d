@@ -43,8 +43,7 @@ static int		parcer(char **map, t_ident *ident, int size)
 		while (map[i][0] == '\n')
 			i++;
 		if (!(err = valid_identifier(map[i])))
-			identifier(map[i], ident);
-		i++;
+			identifier(map[i++], ident);
 		if (err)
 			invalid_map(3);
 	}

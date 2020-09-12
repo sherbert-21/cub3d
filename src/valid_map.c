@@ -11,7 +11,11 @@ static char		**tmp_map(char **map, int i, int size)
 	k = 0;
 	j = i;
 	while (map[++j])
-		len = (len < ft_strlen(map[j])) ? ft_strlen(map[j]) : len;
+	{
+		ft_putnbr_fd(len, 0);
+		write(1, "\n", 1);
+		len = (len <= ft_strlen(map[j])) ? ft_strlen(map[j]) : len;
+	}
 	tmp = ft_calloc(size - i + 1, sizeof(char *));
 	while (map[++i])
 	{
