@@ -47,9 +47,9 @@ static int		parcer(char **map, t_ident *ident, int size)
 		if (err)
 			invalid_map(3);
 	}
-	if (check_map(map, i, size, ident))
+	if (!err && check_map(map, i, size, ident))
 		invalid_map(4);
-	return (err);
+	return (err || check_map(map, i, size, ident));
 }
 
 static int		map_parcer(t_list *map_lst, int size, t_ident *ident)

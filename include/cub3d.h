@@ -23,6 +23,8 @@ typedef struct	s_ident
     int         c_color_g;
     int         c_color_b;
     int         **map;
+    int         len;
+    int         size;
 }				t_ident;
 
 // parse
