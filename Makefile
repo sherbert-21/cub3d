@@ -1,6 +1,6 @@
 NAME	= cub
 
-FLAGS	= -Wall -Werror -Wextra
+FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 SRC		= valid_map.c \
 			valid_input.c \

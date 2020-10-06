@@ -80,6 +80,7 @@ int				map(int argc, char **argv, t_ident *ident)
 	char	*line;
 	int		err;
 
+	map_lst = NULL;
 	err = valid_input(argc, argv);
 	if (err)
 		invalid_map(err);

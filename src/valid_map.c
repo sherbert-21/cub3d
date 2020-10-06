@@ -74,7 +74,7 @@ static int		map_int(char **map, int i, int size, t_ident *ident)
 	while (map[++k] && !err)
 	{
 		j = -1;
-		if (!(ident->map[k] = ft_calloc(ft_strlen(map[i]) + 1, sizeof(int))))
+		if (!(ident->map[k] = ft_calloc(ident->len, sizeof(int))))
 			err = 1;
 		while (map[k][++j] && !err)
 		{
