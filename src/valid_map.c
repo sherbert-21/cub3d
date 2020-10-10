@@ -107,10 +107,10 @@ int				check_map(char **map, int i, int size, t_ident *ident)
 		while (++k < ft_strlen(tmp[j]) - 1 && !err)
 		{
 			err = (check_symbol(tmp, j, k) == 1) ? 1 : err;
-			player = (ft_strchr("NSWE", tmp[j][k])) ? player + 1 : player;
+			player = (player_check(tmp, j, k, ident)) ? player + 1 : player;
 		}
 	}
 	err = (player != 1) ? 1 : err;
-	err = (map_int(tmp, i - 1, size, ident) && !err) ? 1 : err;
+	err = (!err && map_int(tmp, i - 1, size, ident)) ? 1 : err;
 	return (err);
 }

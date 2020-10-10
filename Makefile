@@ -2,12 +2,12 @@ NAME	= cub
 
 FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
-SRC		= valid_map.c \
-			valid_input.c \
-			parcer.c \
-			ident_parce.c \
+SRC		= cub_window.c \
 			ident.c \
-			cub_window.c
+			parcer.c \
+			struct_parce.c \
+			valid_input.c \
+			valid_map.c
 
 SRC_DIR	= ./src
 

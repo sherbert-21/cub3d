@@ -3,15 +3,15 @@
 static void		parse_texture(char *ident, char *texture, t_ident *parse)
 {
 	if (ident[0] == 'N')
-		parse->no_text = texture;
+		parse->text.no = texture;
 	else if (ident[0] == 'E')
-		parse->ea_text = texture;
+		parse->text.ea = texture;
 	else if (ident[0] == 'W')
-		parse->we_text = texture;
+		parse->text.we = texture;
 	else if (ident[0] == 'S' && ident[1] == 'A')
-		parse->so_text = texture;
+		parse->text.so = texture;
 	else
-		parse->s_text = texture;
+		parse->text.s = texture;
 }
 
 static void		parce_color(char ident, int clr, int nill, t_ident *parse)
@@ -27,15 +27,15 @@ static void		parce_color(char ident, int clr, int nill, t_ident *parse)
 	r = (nill == 1 || nill == 3 || nill == 5 || nill == 7) ? 0 : clr % 1000;
 	if (ident == 'C')
 	{
-		parse->c_color_r = r;
-		parse->c_color_g = g;
-		parse->c_color_b = b;
+		parse->color.c_r = r;
+		parse->color.c_g = g;
+		parse->color.c_b = b;
 	}
 	else
 	{
-		parse->f_color_r = r;
-		parse->f_color_g = g;
-		parse->f_color_b = b;
+		parse->color.f_r = r;
+		parse->color.f_g = g;
+		parse->color.f_b = b;
 	}
 }
 

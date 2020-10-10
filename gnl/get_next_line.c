@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sherbert <sherbert@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: sherbert <sherbert@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 23:25:51 by sherbert          #+#    #+#             */
-/*   Updated: 2020/07/26 23:25:54 by sherbert         ###   ########.fr       */
+/*   Updated: 2020/10/07 14:58:06 by sherbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void		error_case(char **s_buf, char **line, int *ret)
+void			error_case(char **s_buf, char **line, int *ret)
 {
 	save_free(s_buf);
 	if (*ret == -1)

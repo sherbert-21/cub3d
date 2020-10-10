@@ -7,24 +7,43 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+struct          s_player
+{
+    double      posX;
+    double      posY;
+    double      dirX;
+    double      dirY;
+};
+
+struct  s_color
+{
+    int         f_r;
+    int         f_g;
+    int         f_b;
+    int         c_r;
+    int         c_g;
+    int         c_b;
+};
+
+struct  s_text
+{
+    char        *no;
+    char        *so;
+    char        *we;
+    char        *ea;
+    char        *s;
+};
+
 typedef struct	s_ident
 {
 	int			x;
 	int			y;
-    char        *no_text;
-    char        *so_text;
-    char        *we_text;
-    char        *ea_text;
-    char        *s_text;
-    int         f_color_r;
-    int         f_color_g;
-    int         f_color_b;
-    int         c_color_r;
-    int         c_color_g;
-    int         c_color_b;
     int         **map;
     size_t      len;
     size_t      size;
+    struct      s_player player;
+    struct      s_color color;
+    struct      s_text text;
 }				t_ident;
 
 // parse
@@ -37,5 +56,6 @@ int		        identifier(char *ident, t_ident *parse);
 int				resolution(char *ident, t_ident *parse);
 int				color(char *ident, t_ident *parse);
 int				texture(char *ident, t_ident *parse);
+int				player_check(char **map, int i, int k, t_ident *ident);
 
 #endif
