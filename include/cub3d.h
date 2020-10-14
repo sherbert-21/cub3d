@@ -6,6 +6,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <cmath.h>
 
 struct          s_player
 {
@@ -44,7 +45,15 @@ typedef struct	s_ident
     struct      s_player player;
     struct      s_color color;
     struct      s_text text;
-}				t_ident;
+}               t_ident;
+
+typedef struct s_img
+{
+    void        *mlx;
+    void        *win;
+    void        *img_ptr;
+    void        *img_data;
+}               t_img;
 
 // parse
 int				map(int argc, char **argv, t_ident *ident);
