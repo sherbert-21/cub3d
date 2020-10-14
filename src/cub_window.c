@@ -6,8 +6,8 @@
 //     int j;
 //     int x_m;
 //     int y_m;
-//     int x = ident.x / 2 - ident.size * 5;
-//     int y = ident.y / 2 - ident.len * 5;
+//     int x = ident.x / 2 - ident.size / 2;
+//     int y = ident.y / 2 - ident.len / 2;
 
 //     i = -1;
 //     while (++i < ident.size)
