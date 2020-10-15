@@ -6,7 +6,16 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include <cmath.h>
+# include <math.h>
+
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_W 13
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
 
 struct          s_player
 {
@@ -16,7 +25,7 @@ struct          s_player
     double      dirY;
 };
 
-struct  s_color
+struct          s_color
 {
     int         f_r;
     int         f_g;
@@ -26,7 +35,7 @@ struct  s_color
     int         c_b;
 };
 
-struct  s_text
+struct          s_text
 {
     char        *no;
     char        *so;
@@ -47,15 +56,27 @@ typedef struct	s_ident
     struct      s_text text;
 }               t_ident;
 
-typedef struct s_img
+typedef struct  s_img
 {
     void        *mlx;
     void        *win;
     void        *img_ptr;
     void        *img_data;
+
+    int			endian;
+	int			size_line;
+    int         bpp;
+
+    int			mouse_x;
+	int			mouse_y;
+    float		angle_x;
+	float		angle_z;
+    int			spin_z;
+	int			spin_x;
+    int			center_x;
+    int			center_z;
 }               t_img;
 
-// parse
 int				map(int argc, char **argv, t_ident *ident);
 void			save_free_map(char ***str);
 int				check_map(char **map, int i, int size, t_ident *ident);
@@ -66,5 +87,9 @@ int				resolution(char *ident, t_ident *parse);
 int				color(char *ident, t_ident *parse);
 int				texture(char *ident, t_ident *parse);
 int				player_check(char **map, int i, int k, t_ident *ident);
+
+int		        mouse_move(int x, int y, t_img *img);
+int 	        move_events(int keycode, t_img *img);
+int		        exit_event(void *param);
 
 #endif

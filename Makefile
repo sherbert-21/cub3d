@@ -7,7 +7,8 @@ SRC		= cub_window.c \
 			parcer.c \
 			struct_parce.c \
 			valid_input.c \
-			valid_map.c
+			valid_map.c \
+			events.c
 
 SRC_DIR	= ./src
 
