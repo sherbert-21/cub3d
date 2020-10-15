@@ -17,15 +17,15 @@
 # define KEY_DOWN 125
 # define KEY_UP 126
 
-struct          s_player
+typedef struct  s_player
 {
     double      posX;
     double      posY;
     double      dirX;
     double      dirY;
-};
+}               t_player;
 
-struct          s_color
+typedef struct  s_color
 {
     int         f_r;
     int         f_g;
@@ -33,16 +33,16 @@ struct          s_color
     int         c_r;
     int         c_g;
     int         c_b;
-};
+}               t_color;
 
-struct          s_text
+typedef struct  s_text
 {
     char        *no;
     char        *so;
     char        *we;
     char        *ea;
     char        *s;
-};
+}               s_text;
 
 typedef struct	s_ident
 {
@@ -51,9 +51,9 @@ typedef struct	s_ident
     int         **map;
     size_t      len;
     size_t      size;
-    struct      s_player player;
-    struct      s_color color;
-    struct      s_text text;
+    t_player    *player;
+    t_color     *color;
+    t_text      *text;
 }               t_ident;
 
 typedef struct  s_img
@@ -73,8 +73,6 @@ typedef struct  s_img
 	float		angle_z;
     int			spin_z;
 	int			spin_x;
-    int			center_x;
-    int			center_z;
 }               t_img;
 
 int				map(int argc, char **argv, t_ident *ident);

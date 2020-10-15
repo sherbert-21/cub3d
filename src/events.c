@@ -1,40 +1,40 @@
 #include "cub3d.h"
 
-int		mouse_move(int x, int y, t_img *img)
+int		mouse_move(int x, int y, t_ident *ident)
 {
-	if (x < img->mouse_x)
+	if (x < ident->player.[])
 	{
-		img->angle_z += 0.05;
-		img->mouse_x = x;
+		ident->player.[] += 0.05;
+		ident->player.[] = x;
 	}
-	else if (x > img->mouse_x)
+	else if (x > ident->player.[])
 	{
-		img->angle_z -= 0.05;
-		img->mouse_x = x;
+		ident->player.[] -= 0.05;
+		ident->player.[] = x;
 	}
-	if (y < img->mouse_y && img->angle_x >= 0)
+	if (y < ident->player.[] && ident->player.[] >= 0)
 	{
-		img->angle_x -= 0.02;
-		img->mouse_y = y;
+		ident->player.[] -= 0.02;
+		ident->player.[] = y;
 	}
-	else if (y > img->mouse_y && img->angle_x <= 3.14159)
+	else if (y > ident->player.[] && ident->player.[] <= 3.14159)
 	{
-		img->angle_x += 0.02;
-		img->mouse_y = y;
+		ident->player.[] += 0.02;
+		ident->player.[] = y;
 	}
 	return (0);
 }
 
-int		move_events(int keycode, t_img *img)
+int		move_events(int keycode, t_ident *ident)
 {
 	if (keycode == KEY_A || keycode == KEY_LEFT)
-		img->center_x += 20;
+		ident->player.posX += 20;
 	if (keycode == KEY_D || keycode == KEY_RIGHT)
-		img->center_x -= 20;
+		ident->player.posX -= 20;
 	if (keycode == KEY_S || keycode == KEY_DOWN)
-		img->center_z -= 20;
+		ident->player.posY -= 20;
 	if (keycode == KEY_W || keycode == KEY_UP)
-		img->center_z += 20;
+		ident->player.posY += 20;
 	return (0);
 }
 

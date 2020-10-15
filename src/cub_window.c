@@ -49,7 +49,7 @@ int main(int argc, char **argv)
         win_1 = mlx_new_window(img.mlx, parce.x, parce.y, "cub2d");
         print_map(parce, img.mlx, win_1);
         img.img_ptr = mlx_new_image(img.mlx, parce.x, parce.y);
-        mlx_hook(img.win, 2, 0, &move_events, &img);
+        mlx_hook(img.win, 2, 0, &move_events, &parce);
 	    mlx_hook(img.win, 6, 0, &mouse_move, &img);
 	    mlx_hook(img.win, 17, 0, &exit_event, (void*)0);
         mlx_loop(img.mlx);
