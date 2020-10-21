@@ -7,12 +7,12 @@ int			init_plr(t_win *win)
 	ft_bzero(win->plr, sizeof(t_player));
 	win->plr->posX = -20.0;
 	win->plr->posY = -20.0;
-	win->plr->speed = 0.10;
+	win->plr->speed = 0.13;
 	win->plr->dirX = 1.0;
 	win->plr->dirY = 0.0;
 	win->plr->planeX = -20.0;
 	win->plr->planeY = -20.0;
-	win->plr->rotate = 0.10;
+	win->plr->rotate = 0.13;
 	return (0);
 }
 

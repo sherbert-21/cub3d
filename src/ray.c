@@ -1,153 +1,132 @@
 #include "cub3d.h"
 
-static void		next_step(
-	t_ray *ray,
-	t_player *player
-)
+static void		init_ray(t_ray *ray, t_plr *plr, t_win *win)
 {
-	if (ray->ray_dir_x < 0)
-	{
-		ray->step_x = -1;
-		ray->side_dist_x = (player->posx - ray->mapx) * ray->delta_dist_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->side_dist_x = (ray->mapx + 1.0 - player->posx) * ray->delta_dist_x;
-	}
-	if (ray->ray_dir_y < 0)
-	{
-		ray->step_y = -1;
-		ray->side_dist_y = (player->posy - ray->mapy) * ray->delta_dist_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->side_dist_y = (ray->mapy + 1.0 - player->posy) * ray->delta_dist_y;
-	}
-}
-
-static void		init_values(
-	t_ray *ray,
-	t_player *player,
-	t_window *win_infos
-)
-{
-	ray->camera_x = (2 * ray->pix) / (double)win_infos->width - 1;
-	ray->ray_dir_x = player->dir_x + player->plane_x * ray->camera_x;
-	ray->ray_dir_y = player->dir_y + player->plane_y * ray->camera_x;
-	ray->mapx = (int)player->posx;
-	ray->mapy = (int)player->posy;
-	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
-	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
+	ray->cameraX = (2 * ray->pix) / (double)win->x - 1;
+	ray->rayDirX = plr->DirX + plr->planeX * ray->cameraX;
+	ray->rayDirY = plr->dirY + plr->planeY * ray->cameraX;
+	ray->mapX = (int)plr->posX;
+	ray->mapY = (int)plr->posY;
+	ray->deltaDistX = fabs(1 / ray->rayDirX);
+	ray->deltaDistY = fabs(1 / ray->rayDirY);
 	ray->hit = 0;
 }
 
-static void		do_raycasting(
-	t_window *win_infos,
-	t_ray *ray
-)
+static void		next_step(t_ray *ray, t_plr *plr)
 {
-	t_player	*player;
+	if (ray->ray_DirX < 0)
+	{
+		ray->stepX = -1;
+		ray->sideDistX = (plr->posX - ray->mapX) * ray->deltaDistX;
+	}
+	else
+	{
+		ray->stepX = 1;
+		ray->sideDistX = (ray->mapX + 1.0 - plr->posX) * ray->deltaDistX;
+	}
+	if (ray->rayDirY < 0)
+	{
+		ray->stepY = -1;
+		ray->sideDistY = (plr->posY - ray->mapY) * ray->deltaDistY;
+	}
+	else
+	{
+		ray->stepY = 1;
+		ray->sideDistY = (ray->mapY + 1.0 - plr->posY) * ray->deltaDistY;
+	}
+}
 
-	player = win_infos->player;
-	init_values(ray, player, win_infos);
-	next_step(ray, player);
-	hit(ray, win_infos);
-	perp_and_height(ray, player, win_infos);
-	ray->z_buffer[ray->pix] = ray->perp_wall_dist;
-	texturisation(ray, win_infos);
+static void		raycasting(t_win *win, t_ray *ray)
+{
+	t_plr	*plr;
+
+	plr = win->plr;
+	init_values(ray, plr, win);
+	next_step(ray, plr);
+	hit(ray, win);
+	perp_and_height(ray, plr, win);
+	ray->z_buffer[ray->pix] = ray->perpWallDist;
+	texturisation(ray, win);
 	ray->pix++;
 }
 
-int				raycasting(
-	t_window *win_infos
-)
+int				ray(t_win *win)
 {
 	t_ray		*ray;
 
 	if (!(ray = malloc(sizeof(t_ray))))
-		return (ERROR);
+		return (1);
 	ft_bzero(ray, sizeof(t_ray));
-	if (!(ray->z_buffer = malloc(sizeof(double) * win_infos->width)))
-		return (ERROR);
-	ft_bzero(ray->z_buffer, sizeof(double) * win_infos->width);
-	while (ray->pix < win_infos->width)
-		do_raycasting(win_infos, ray);
-	if (!draw_sprite(ray, win_infos))
-		return (ERROR);
-	if (win_infos->save == 1)
+	if (!(ray->z_buffer = malloc(sizeof(double) * win->x)))
+		return (1);
+	ft_bzero(ray->z_buffer, sizeof(double) * win->x);
+	while (ray->pix < win->x)
+		do_raycasting(win, ray);
+	if (!draw_sprite(ray, win))
+		return (1);
+	if (win->save == 1)
 	{
-		win_infos->save = 0;
-		create_bitmap(win_infos->img, "cub3D");
-		leave(0, win_infos, "");
+		win->save = 0;
+		create_bitmap(win->img, "cub3D");
+		leave(0, win, "");
 	}
-	mlx_put_image_to_window(win_infos->mlx_ptr, win_infos->win_ptr,
-		win_infos->img->img_ptr, 0, 0);
+	mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+		win->img->img_ptr, 0, 0);
 	free(ray->z_buffer);
 	free(ray);
-	return (SUCCES);
+	return (0);
 }
 
-void		perp_and_height(
-	t_ray *ray,
-	t_player *player,
-	t_window *win_infos
-)
+void		perp_and_height(t_ray *ray, t_plr *plr, t_win *win)
 {
 	if (ray->side == 0 || ray->side == 1)
-		ray->perp_wall_dist = (ray->mapx - player->posx + (1 - ray->step_x) / 2)
-		/ ray->ray_dir_x;
+		ray->perpWallDist = (ray->mapX - plr->posX + (1 - ray->stepX) / 2)
+		/ ray->ray_DirX;
 	else
-		ray->perp_wall_dist = (ray->mapy - player->posy + (1 - ray->step_y) / 2)
-		/ ray->ray_dir_y;
-	ray->line_height = (int)(win_infos->height / ray->perp_wall_dist);
-	ray->draw_start = (-ray->line_height / 2 + ((win_infos->height / 2)
-		* win_infos->player->cam_height));
+		ray->perpWallDist = (ray->mapY - plr->posY + (1 - ray->stepY) / 2)
+		/ ray->rayDirY;
+	ray->line_height = (int)(win->y / ray->perpWallDist);
+	ray->draw_start = (-ray->line_height / 2 + ((win->y / 2)
+		* win->plr->cam_height));
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	ray->draw_end = (ray->line_height / 2 + ((win_infos->height / 2)
-		* win_infos->player->cam_height));
-	if (ray->draw_end >= win_infos->height)
-		ray->draw_end = win_infos->height - 1;
+	ray->draw_end = (ray->line_height / 2 + ((win->y / 2)
+		* win->plr->cam_height));
+	if (ray->draw_end >= win->y)
+		ray->draw_end = win->y - 1;
 }
 
-static void	predict_wall_face(
-	t_ray *ray
-)
+static void	predict_wall_face(t_ray *ray)
 {
-	if (ray->side_dist_x < ray->side_dist_y)
+	if (ray->sideDistX < ray->sideDistY)
 	{
-		ray->side_dist_x += ray->delta_dist_x;
-		ray->mapx += ray->step_x;
-		if (ray->step_x == 1)
+		ray->sideDistX += ray->deltaDistX;
+		ray->mapX += ray->stepX;
+		if (ray->stepX == 1)
 			ray->side = 0;
-		else if (ray->step_x == -1)
+		else if (ray->stepX == -1)
 			ray->side = 1;
 	}
 	else
 	{
-		ray->side_dist_y += ray->delta_dist_y;
-		ray->mapy += ray->step_y;
-		if (ray->step_y == 1)
+		ray->sideDistY += ray->deltaDistY;
+		ray->mapY += ray->stepY;
+		if (ray->stepY == 1)
 			ray->side = 2;
-		else if (ray->step_y == -1)
+		else if (ray->stepY == -1)
 			ray->side = 3;
 	}
 }
 
-void		hit(
-	t_ray *ray,
-	t_window *win_infos
-)
+void		hit(t_ray *ray, t_win *win)
 {
 	while (ray->hit == 0)
 	{
 		predict_wall_face(ray);
-		if (win_infos->map->map[ray->mapy][ray->mapx] > '0'
-			&& win_infos->map->map[ray->mapy][ray->mapx] != '2')
+		if (win->map[ray->mapY][ray->mapX] > '0'
+			&& win-->map[ray->mapY][ray->mapX] != '2')
 			ray->hit = 1;
-		else if (win_infos->map->map[ray->mapy][ray->mapx] == '2')
-			is_sprite(ray, win_infos);
+		else if (win->map[ray->mapY][ray->mapX] == '2')
+			is_sprite(ray, win);
 	}
 }
