@@ -1,7 +1,8 @@
 #include "cub3d.h"
 
-int				valid_input(int argc, char **argv)
+int				valid_input(int argc, char **argv, t_win *i)
 {
+	i.save = 0;
 	if (argc > 3 || argc == 1)
 		return (1);
 	else
@@ -21,5 +22,7 @@ int				valid_input(int argc, char **argv)
 				return (1);
 		}
 	}
+	if (ft_strnstr(argv[2], "--save", 10))
+		i.save = 1;
 	return (0);
 }

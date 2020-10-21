@@ -3,12 +3,15 @@ NAME	= cub
 FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 SRC		= cub_window.c \
-			ident.c \
-			parcer.c \
-			struct_parce.c \
-			valid_input.c \
-			valid_map.c \
-			events.c
+			parce/file_parce.c \
+			parce/error.c \
+			parce/color.c \
+			parce/texture.c \
+			parce/map.c \
+			parce/resolution.c \
+			parce/player.c \
+			init.c \
+			move.c \
 
 SRC_DIR	= ./src
 
@@ -32,7 +35,7 @@ $(NAME): $(OBJ)
 	make -C ./gnl
 	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) $(GNL) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/*.c
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(WFLAGS) $(INC) -o $@ -c $<
 

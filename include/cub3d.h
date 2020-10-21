@@ -8,14 +8,14 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_W 13
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_DOWN 125
-# define KEY_UP 126
+# define A 0
+# define S 1
+# define D 2
+# define W 13
+# define _LEFT 123
+# define _RIGHT 124
+# define _DOWN 125
+# define _UP 126
 
 typedef struct  s_player
 {
@@ -23,71 +23,89 @@ typedef struct  s_player
     double      posY;
     double      dirX;
     double      dirY;
+    int         mapX;
+    int         mapY;
+    double      planeX;
+    double      planeY;
+
+    double      cameraX;
+
+    double      rayDirX;
+    double      rayDirY;
+
+    double      perpWallDist;
+
+    double      delDistX;
+    double      delDistY;
+
+    double      speed;
+    double      rotation;
 }               t_player;
 
-typedef struct  s_color
+typedef struct	s_pic
 {
-    int         f_r;
-    int         f_g;
-    int         f_b;
-    int         c_r;
-    int         c_g;
-    int         c_b;
-}               t_color;
+	int			width;
+	int			height;
+	int			size;
+	int			bpp;
+	int			endian;
+	void		*img;
+	char		*data;
+}				t_pic;
 
-typedef struct  s_text
-{
-    char        *no;
-    char        *so;
-    char        *we;
-    char        *ea;
-    char        *s;
-}               s_text;
+// typedef struct	s_sprite
+// {
+// 	int			i;
+// 	double		sprite_x;
+// 	double		sprite_y;
+// 	double		inv_det;
+// 	double		transform_x;
+// 	double		transform_y;
+// 	int			sprite_screen_x;
+// 	int			sprite_height;
+// 	int			draw_start_y;
+// 	int			draw_end_y;
+// 	int			sprite_width;
+// 	int			draw_start_x;
+// 	int			draw_end_x;
+// 	int			stripe;
+// 	int			y;
+// 	int			d;
+// 	int			tex_x;
+// 	int			tex_y;
+// 	int			color;
+// 	int			totcolor;
+// }				t_sprite;
 
-typedef struct	s_ident
-{
-	int			x;
-	int			y;
-    int         **map;
-    size_t      len;
-    size_t      size;
-    t_player    *player;
-    t_color     *color;
-    t_text      *text;
-}               t_ident;
-
-typedef struct  s_img
+typedef struct	s_win
 {
     void        *mlx;
     void        *win;
-    void        *img_ptr;
     void        *img_data;
 
-    int			endian;
-	int			size_line;
-    int         bpp;
+	int			x;
+	int			y;
+    int         clr_c;
+    int         clr_f;
+    int         **map;
+    int         save;
+    size_t      len;
+    size_t      size;
+    t_player    *plr;
+    t_pic       **text;
+    t_pic       *sprite;
+    // t_sprite    *sprite_screen;
+}               t_win;
 
-    int			mouse_x;
-	int			mouse_y;
-    float		angle_x;
-	float		angle_z;
-    int			spin_z;
-	int			spin_x;
-}               t_img;
-
-int				map(int argc, char **argv, t_ident *ident);
-void			save_free_map(char ***str);
-int				check_map(char **map, int i, int size, t_ident *ident);
+int				file(int argc, char **argv, t_ident *ident);
+void		    invalid_file(int err);
 int				valid_input(int argc, char **argv);
-int				valid_identifier(char *ident);
-int		        identifier(char *ident, t_ident *parse);
 int				resolution(char *ident, t_ident *parse);
-int				color(char *ident, t_ident *parse);
 int				texture(char *ident, t_ident *parse);
-int				player_check(char **map, int i, int k, t_ident *ident);
+int				color(char *str, int c, int first_c, t_ident *i);
+int				map(char **map, int i, int size, t_ident *ident);
+int 	        set_pos(t_win *win, char dir, int cursor, int u)
 
-int		        mouse_move(int x, int y, t_img *img);
-int 	        move_events(int keycode, t_img *img);
-int		        exit_event(void *param);
+int 	        move_events(int key, t_win *win);
 
 #endif

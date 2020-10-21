@@ -1,27 +1,27 @@
 #include "cub3d.h"
 
-static char		**tmp_map(char **map, int i, int size, t_ident *ident)
+static char		**tmp_map(char **map, int i, int size, t_win *win)
 {
 	char		**tmp;
 	size_t		k;
 	size_t		j;
 
-	ident->len = 0;
+	win->len = 0;
 	k = 0;
 	j = i;
 	while (map[++j])
 	{
-		if (ident->len <= ft_strlen(map[j]))
-			ident->len = ft_strlen(map[j]);
+		if (win->len <= ft_strlen(map[j]))
+			win->len = ft_strlen(map[j]);
 	}
 	tmp = ft_calloc(size - i + 1, sizeof(char *));
 	while (map[++i])
 	{
 		j = -1;
-		tmp[k] = ft_calloc(ident->len + 1, sizeof(char));
+		tmp[k] = ft_calloc(win->len + 1, sizeof(char));
 		while (map[i][++j])
 			tmp[k][j] = map[i][j];
-		while (j < ident->len)
+		while (j < win->len)
 			tmp[k][j++] = ' ';
 		k++;
 	}
@@ -63,33 +63,33 @@ static int		check_symbol(char **tmp, int j, int k)
 	return (0);
 }
 
-static int		map_int(char **map, int i, int size, t_ident *ident)
+static int		map_int(char **map, int i, int size, t_win *win)
 {
 	int j;
 	int k;
 	int err;
 
 	k = -1;
-	err = (!(ident->map = ft_calloc(size - i + 1, sizeof(int *)))) ? 1 : 0;
+	err = (!(win->map = ft_calloc(size - i + 1, sizeof(int *)))) ? 1 : 0;
 	while (map[++k] && !err)
 	{
 		j = -1;
-		if (!(ident->map[k] = ft_calloc(ident->len, sizeof(int))))
+		if (!(win->map[k] = ft_calloc(win->len, sizeof(int))))
 			err = 1;
 		while (map[k][++j] && !err)
 		{
 			if (map[k][j] >= '0' && map[k][j] <= '2')
-				ident->map[k][j] = map[k][j] - '0';
+				win->map[k][j] = map[k][j] - '0';
 			if (map[k][j] == ' ')
-				ident->map[k][j] = 1;
+				win->map[k][j] = 1;
 			if (ft_strchr("NSWE", map[k][j]))
-				ident->map[k][j] = (int)map[k][j];
+				win->map[k][j] = (int)map[k][j];
 		}
 	}
 	return (err);
 }
 
-int				check_map(char **map, int i, int size, t_ident *ident)
+int				check_map(char **map, int i, int size, t_win *win)
 {
 	char	**tmp;
 	int		err;
@@ -97,20 +97,20 @@ int				check_map(char **map, int i, int size, t_ident *ident)
 	size_t	k;
 	int		player;
 
-	tmp = tmp_map(map, i - 1, size, ident);
+	tmp = tmp_map(map, i - 1, size, win);
 	err = check_square(tmp, i, size);
 	j = 0;
 	player = 0;
-	while (++j < (ident->size = size - i) - 1 && !err)
+	while (++j < (win->size = size - i) - 1 && !err)
 	{
 		k = 0;
 		while (++k < ft_strlen(tmp[j]) - 1 && !err)
 		{
 			err = (check_symbol(tmp, j, k) == 1) ? 1 : err;
-			player = (player_check(tmp, j, k, ident)) ? player + 1 : player;
+			player = (set_pos(win, tmp[j][k], j, k)) ? player + 1 : player;
 		}
 	}
 	err = (player != 1) ? 1 : err;
-	err = (!err && map_int(tmp, i - 1, size, ident)) ? 1 : err;
+	err = (!err && map_int(tmp, i - 1, size, win)) ? 1 : err;
 	return (err);
 }

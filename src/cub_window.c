@@ -36,13 +36,12 @@ static void    print_map(t_ident ident, void *mlx, void *win)
 
 int main(int argc, char **argv)
 {
-    t_img   img;
     void    *win_1;
     int     y = -1;
     int     x = -1;
-    t_ident parce;
+    t_win   img;
 
-    if (!(map(argc, argv, &parce)))
+    if (!(file(argc, argv, &img)))
     {
         img.mlx = mlx_init();
         img.win = mlx_new_window(img.mlx, parce.x, parce.y, "cub3d");
@@ -50,7 +49,7 @@ int main(int argc, char **argv)
         print_map(parce, img.mlx, win_1);
         img.img_ptr = mlx_new_image(img.mlx, parce.x, parce.y);
         mlx_hook(img.win, 2, 0, &move_events, &parce);
-	    mlx_hook(img.win, 6, 0, &mouse_move, &img);
+	    mlx_hook(img.win, 6, 0, &mouse_move, &parce);
 	    mlx_hook(img.win, 17, 0, &exit_event, (void*)0);
         mlx_loop(img.mlx);
     }
