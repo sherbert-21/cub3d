@@ -21,22 +21,12 @@ typedef struct  s_player
 {
     double      posX;
     double      posY;
+
     double      dirX;
     double      dirY;
-    int         mapX;
-    int         mapY;
+
     double      planeX;
     double      planeY;
-
-    double      cameraX;
-
-    double      rayDirX;
-    double      rayDirY;
-
-    double      perpWallDist;
-
-    double      delDistX;
-    double      delDistY;
 
     double      speed;
     double      rotation;
@@ -47,35 +37,54 @@ typedef struct	s_pic
 	int			width;
 	int			height;
 	int			size;
+
 	int			bpp;
 	int			endian;
+
 	void		*img;
 	char		*data;
 }				t_pic;
 
-// typedef struct	s_sprite
+typedef struct	s_ray
+{
+	int			pix;
+
+	int			mapX;
+	int			mapY;
+
+	double		cameraX;
+
+	double		rayDirX;
+	double		rayDirY;
+
+	double		sideDistX;
+	double		sideDistY;
+
+	double		deltaDistX;
+	double		deltaDistY;
+
+	double		perpWallDist;
+
+	int			stepX;
+	int			stepY;
+
+	int			hit;
+	int			side;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	double		*z_buffer;
+}				t_ray;
+
+// typedef struct			s_keybuffer
 // {
-// 	int			i;
-// 	double		sprite_x;
-// 	double		sprite_y;
-// 	double		inv_det;
-// 	double		transform_x;
-// 	double		transform_y;
-// 	int			sprite_screen_x;
-// 	int			sprite_height;
-// 	int			draw_start_y;
-// 	int			draw_end_y;
-// 	int			sprite_width;
-// 	int			draw_start_x;
-// 	int			draw_end_x;
-// 	int			stripe;
-// 	int			y;
-// 	int			d;
-// 	int			tex_x;
-// 	int			tex_y;
-// 	int			color;
-// 	int			totcolor;
-// }				t_sprite;
+// 	int					toward;
+// 	int					backward;
+// 	int					left;
+// 	int					right;
+// 	int					turn_left;
+// 	int					turn_right;
+// }						t_keybuffer;
 
 typedef struct	s_win
 {
@@ -85,8 +94,10 @@ typedef struct	s_win
 
 	int			x;
 	int			y;
+
     int         clr_c;
     int         clr_f;
+
     int         **map;
     int         save;
     size_t      len;
@@ -94,7 +105,7 @@ typedef struct	s_win
     t_player    *plr;
     t_pic       **text;
     t_pic       *sprite;
-    // t_sprite    *sprite_screen;
+    t_ray       *ray;
 }               t_win;
 
 int				file(int argc, char **argv, t_ident *ident);
