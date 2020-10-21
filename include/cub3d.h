@@ -86,6 +86,16 @@ typedef struct	s_ray
 // 	int					turn_right;
 // }						t_keybuffer;
 
+typedef struct			s_line
+{
+	int					x;
+	int					y;
+	int					y0;
+	int					y1;
+	int					tex_x;
+	int					tex_y;
+}						t_line;
+
 typedef struct	s_win
 {
     void        *mlx;
