@@ -67,11 +67,11 @@ int				ray(t_win *win)
 	if (win->save == 1)
 	{
 		win->save = 0;
-		create_bitmap(win->img, "cub3D");
+		create_bitmap(win->save, "cub3D");
 		leave(0, win, "");
 	}
 	mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-		win->img->img_ptr, 0, 0);
+		win->save->img_ptr, 0, 0);
 	free(ray->z_buffer);
 	free(ray);
 	return (0);

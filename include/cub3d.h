@@ -105,6 +105,7 @@ typedef struct	s_win
     t_player    *plr;
     t_pic       **text;
     t_pic       *sprite;
+	t_pic		*save
     t_ray       *ray;
 }               t_win;
 
