@@ -1,8 +1,8 @@
-NAME	= cub
+NAME	= 	cub
 
-FLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
 
-SRC		= cub_window.c \
+SRC		= 	cub3d.c \
 			parce/file_parce.c \
 			parce/error.c \
 			parce/color.c \
@@ -13,19 +13,17 @@ SRC		= cub_window.c \
 			init.c \
 			move.c \
 
-SRC_DIR	= ./src
+SRC_DIR	= 	./src
 
-OBJ		= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+OBJ		= 	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
-OBJ_DIR	= ./obj
+OBJ_DIR	= 	./obj
 
-INC			= 		-I ./include -I ./libft -I ./gnl -I ./mlx
+INC		= 	-I ./include -I ./libft -I ./gnl -I ./mlx
 
-LIBFT		=		-L ./libft -lft
+LIBFT	=	-L ./libft -lft
 
-MLX			=		-L ./mlx -lmlx -framework OpenGL -framework AppKit
-
-GNL			=		-L ./gnl -lgnl
+MLX		=	-L ./mlx -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
@@ -33,9 +31,9 @@ $(NAME): $(OBJ)
 	make -C ./libft
 	make -C ./mlx
 	make -C ./gnl
-	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) $(GNL) -o $(NAME)
+	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/*.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(WFLAGS) $(INC) -o $@ -c $<
 

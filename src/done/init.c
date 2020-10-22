@@ -16,17 +16,17 @@ int			init_plr(t_win *win)
 	return (0);
 }
 
-// int			init_game_keybuffer(t_win *win)
-// {
-// 	if (!(win->keybuffer = malloc(sizeof(t_keybuffer))))
-// 		return (1);
-// 	ft_bzero(win->keybuffer, sizeof(t_keybuffer));
-// 	win->keybuffer->forward = 0;
-// 	win->keybuffer->backward = 0;
-// 	win->keybuffer->turn_left = 0;
-// 	win->keybuffer->turn_right = 0;
-// 	return (0);
-// }
+int			init_game_keybuff(t_win *win)
+{
+	if (!(win->keybuff = malloc(sizeof(t_keybuff))))
+		return (1);
+	ft_bzero(win->keybuff, sizeof(t_keybuff));
+	win->keybuff->forward = 0;
+	win->keybuff->backward = 0;
+	win->keybuff->left = 0;
+	win->keybuff->right = 0;
+	return (0);
+}
 
 int			init_text(t_win *win,int nbr)
 {

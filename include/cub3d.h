@@ -76,15 +76,13 @@ typedef struct	s_ray
 	double		*z_buffer;
 }				t_ray;
 
-// typedef struct			s_keybuffer
-// {
-// 	int					toward;
-// 	int					backward;
-// 	int					left;
-// 	int					right;
-// 	int					turn_left;
-// 	int					turn_right;
-// }						t_keybuffer;
+typedef struct	s_keybuff
+{
+	int			toward;
+	int			backward;
+	int			left;
+	int			right;
+}				t_keybuff;
 
 typedef struct	s_line
 {
@@ -113,6 +111,7 @@ typedef struct	s_win
     int         save;
     size_t      len;
     size_t      size;
+	t_keybuff	*keybuff
     t_player    *plr;
     t_pic       **text;
     t_pic       *sprite;
@@ -130,5 +129,17 @@ int				map(char **map, int i, int size, t_ident *ident);
 int 	        set_pos(t_win *win, char dir, int cursor, int u)
 
 int 	        move_events(int key, t_win *win);
+
+void			save_free(char **str);
+int				ft_strlen_err(char *str);
+char			*ft_strdup_err(char *s1, int *err);
+char			*ft_strjoin_err(char *s1, char *s2, int *err);
+char			*ft_strcpy_err(char *dest, char *src);
+char			*ft_strchr_err(const char *s, int c);
+int				get_next_line(int fd, char **line);
+void			error_case(char **s_buf, char **line, int *ret);
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
 
 #endif

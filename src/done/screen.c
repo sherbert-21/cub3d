@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void		pixel_put_to_image(int clr, int x, int y, t_pic *screen)
+void		pixel_put(int clr, int x, int y, t_pic *screen)
 {
 	unsigned char *src;
 	unsigned char r;
@@ -35,7 +35,7 @@ void		ver_line_clr_image(t_line *line, t_win *win, int clr)
 	{
 		while (y < y_max)
 		{
-			pixel_put_to_image(clr, line->x, y, win->screen);
+			pixel_put(clr, line->x, y, win->screen);
 			y++;
 		}
 	}
