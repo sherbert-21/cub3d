@@ -86,15 +86,16 @@ typedef struct	s_ray
 // 	int					turn_right;
 // }						t_keybuffer;
 
-typedef struct			s_line
+typedef struct	s_line
 {
-	int					x;
-	int					y;
-	int					y0;
-	int					y1;
-	int					tex_x;
-	int					tex_y;
-}						t_line;
+	int			x;
+	int			y;
+	int			y0;
+	int			y1;
+
+	int			texX;
+	int			texY;
+}				t_line;
 
 typedef struct	s_win
 {
@@ -115,7 +116,7 @@ typedef struct	s_win
     t_player    *plr;
     t_pic       **text;
     t_pic       *sprite;
-	t_pic		*save
+	t_pic		*screen;
     t_ray       *ray;
 }               t_win;
 

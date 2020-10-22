@@ -1,4 +1,7 @@
-static void	determine_side_draw(t_ray *ray, t_win *win, t_str *str, double wall_x)
+#include "cub3d.h"
+
+static void	side_draw(t_ray *ray, t_win *win, 
+								t_line *line, double wall_x)
 {
 	t_pic	*text;
 	int		texX;
@@ -15,33 +18,33 @@ static void	determine_side_draw(t_ray *ray, t_win *win, t_str *str, double wall_
 		texX = text->width - texX - 1;
 	if ((ray->side == 2 || ray->side == 3) && ray->rayDirY < 0)
 		texX = text->width - texX - 1;
-	str->y0 = ray->draw_end;
-	str->y1 = ray->draw_start;
-	str->texX = texX;
-	ver_str_text_pic(str, win, text, ray);
+	line->y0 = ray->draw_end;
+	line->y1 = ray->draw_start;
+	line->texX = texX;
+	ver_line_text_pic(line, win, text, ray);
 }
 
 void		texturisation(t_ray *ray, t_win *win)
 {
 	t_pic	*text;
-	t_str	*str;
+	t_line	*line;
 	double	wall_x;
 
-	if (!(str = malloc(sizeof(t_str))))
-		leave(1, win, "Error\nDuring str malloc\n");
-	ft_bzero(str, sizeof(t_str));
-	str->x = ray->pix;
+	if (!(line = malloc(sizeof(t_line))))
+		return (1);
+	ft_bzero(line, sizeof(t_line));
+	line->x = ray->pix;
 	if (ray->side == 0 || ray->side == 1)
 		wall_x = win->player->posy + ray->perpWallDist * ray->rayDirY;
 	else
 		wall_x = win->player->posx + ray->perpWallDist * ray->rayDirX;
 	wall_x -= floor(wall_x);
 	if (win->map->map[ray->mapy][ray->mapx] == '1')
-		determine_side_draw(ray, win, str, wall_x);
-	str->y0 = 0;
-	str->y1 = ray->draw_start;
-	ver_str_color_image(str, win, win->color_ceiling);
-	str->y0 = win->height;
-	str->y1 = ray->draw_end;
-	ver_str_color_image(str, win, win->color_floor);
+		side_draw(ray, win, line, wall_x);
+	line->y0 = 0;
+	line->y1 = ray->draw_start;
+	ver_line_color_image(line, win, win->color_ceiling);
+	line->y0 = win->y;
+	line->y1 = ray->draw_end;
+	ver_line_color_image(line, win, win->color_floor);
 }
