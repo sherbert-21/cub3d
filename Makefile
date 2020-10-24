@@ -4,6 +4,7 @@ FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
 
 SRC		= 	cub3d.c \
 			file_parce.c \
+			valid_input.c \
 			error.c \
 			color.c \
 			texture.c \
