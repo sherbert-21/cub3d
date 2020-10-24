@@ -18,8 +18,8 @@ static void	side_draw(t_ray *ray, t_win *win,
 		texX = text->width - texX - 1;
 	if ((ray->side == 2 || ray->side == 3) && ray->rayDirY < 0)
 		texX = text->width - texX - 1;
-	line->y0 = ray->draw_end;
-	line->y1 = ray->draw_start;
+	line->y0 = ray->drawEnd;
+	line->y1 = ray->drawStart;
 	line->texX = texX;
 	ver_line_text_pic(line, win, text, ray);
 }
@@ -31,7 +31,6 @@ void		texturisation(t_ray *ray, t_win *win)
 	double	wallX;
 
 	if (!(line = malloc(sizeof(t_line))))
-		return (1);
 	ft_bzero(line, sizeof(t_line));
 	line->x = ray->pix;
 	if (ray->side == 0 || ray->side == 1)
@@ -39,12 +38,12 @@ void		texturisation(t_ray *ray, t_win *win)
 	else
 		wallX = win->plr->posX + ray->perpWallDist * ray->rayDirX;
 	wallX -= floor(wallX);
-	if (win->map->map[ray->mapy][ray->mapx] == '1')
+	if (win->map[ray->mapY][ray->mapX] == '1')
 		side_draw(ray, win, line, wallX);
 	line->y0 = 0;
-	line->y1 = ray->draw_start;
+	line->y1 = ray->drawStart;
 	ver_line_clr_image(line, win, win->clr_c);
 	line->y0 = win->y;
-	line->y1 = ray->draw_end;
+	line->y1 = ray->drawEnd;
 	ver_line_clr_image(line, win, win->clr_f);
 }

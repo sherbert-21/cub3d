@@ -1,13 +1,13 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "libft.h"
-# include "get_next_line.h"
 # include "mlx.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <math.h>
 
+# define ESC 53
 # define A 0
 # define S 1
 # define D 2
@@ -70,15 +70,15 @@ typedef struct	s_ray
 
 	int			hit;
 	int			side;
-	int			line_height;
-	int			draw_start;
-	int			draw_end;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
 	double		*z_buffer;
 }				t_ray;
 
 typedef struct	s_keybuff
 {
-	int			toward;
+	int			forward;
 	int			backward;
 	int			left;
 	int			right;
@@ -111,35 +111,50 @@ typedef struct	s_win
     int         save;
     size_t      len;
     size_t      size;
-	t_keybuff	*keybuff
     t_player    *plr;
     t_pic       **text;
     t_pic       *sprite;
 	t_pic		*screen;
     t_ray       *ray;
+	t_keybuff	*keybuff;
 }               t_win;
 
-int				file(int argc, char **argv, t_ident *ident);
+int				file(int argc, char **argv, t_win *win);
 void		    invalid_file(int err);
-int				valid_input(int argc, char **argv);
-int				resolution(char *ident, t_ident *parse);
-int				texture(char *ident, t_ident *parse);
-int				color(char *str, int c, int first_c, t_ident *i);
-int				map(char **map, int i, int size, t_ident *ident);
-int 	        set_pos(t_win *win, char dir, int cursor, int u)
+int				valid_input(int argc, char **argv, t_win *i);
+int				resolution(char *ident, t_win *parse);
+int				texture(char *str, t_win *win);
+int				color(char *str, int c, int first_c, t_win *i);
+int				map_parce(char **map, int i, int size, t_win *win);
+int 	        set_pos(t_win *win, char dir, int x, int y);
+int				init(t_win *win, int i);
 
-int 	        move_events(int key, t_win *win);
+int 	     	move_events(int key, t_win *win);
+int				ray(t_win *win);
+void			perp_and_height(t_ray *ray, t_player *plr, t_win *win);
+void			hit(t_ray *ray, t_win *win);
+int				create_bmp(t_pic *screen, char *name);
+void			pixel_put(int clr, int x, int y, t_pic *screen);
+void			ver_line_clr_image(t_line *line, t_win *win, int clr);
+void			ver_line_text_pic(t_line *line, t_win *win, 
+								t_pic *text, t_ray *ray);
+t_pic			*new_image(t_win *win, int x_len, int y_len);
+void			texturisation(t_ray *ray, t_win *win);
 
-void			save_free(char **str);
+int		key_pressed(int key, void *param);
+int		key_released(int key, void *param);
+int				loop(void *param);
+int		destroy_window(void *param);
+
+
 int				ft_strlen_err(char *str);
-char			*ft_strdup_err(char *s1, int *err);
-char			*ft_strjoin_err(char *s1, char *s2, int *err);
+char			*ft_strdup_err(char *s, int *ret);
+char			*ft_strjoin_err(char *s1, char *s2, int *ret);
 char			*ft_strcpy_err(char *dest, char *src);
-char			*ft_strchr_err(const char *s, int c);
+void			save_free(char **str);
 int				get_next_line(int fd, char **line);
-void			error_case(char **s_buf, char **line, int *ret);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
-
+# endif
 #endif
