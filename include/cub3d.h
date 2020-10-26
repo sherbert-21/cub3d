@@ -18,7 +18,7 @@
 # define _UP 126
 
 # define ERR 0
-# define SUCK 1
+# define SUCCESS 1
 
 typedef struct  s_player
 {
@@ -123,7 +123,7 @@ typedef struct	s_win
 }               t_win;
 
 int				file(int argc, char **argv, t_win *win);
-int			    invalid_file(int err);
+int			    invalid_file(int err, t_win *win);
 int				valid_input(int argc, char **argv, t_win *i);
 int				resolution(char *ident, t_win *parse);
 int				texture(char *str, t_win *win);

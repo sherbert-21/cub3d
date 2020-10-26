@@ -1,12 +1,6 @@
 #include "cub3d.h"
 
-// err_1 - invalid_input
-// err_2 - no_map
-// err_3 - invalid_ident
-// err_4 - invalid_file
-// err_5 - couldn't allocate
-
-static int invalid_ident(int err)
+static int invalid_ident(int err, t_win *win)
 {
 	if (err == 4)
 		ft_putendl_fd("Invalid identifier", 1);
@@ -16,9 +10,10 @@ static int invalid_ident(int err)
 		ft_putendl_fd("Invalid texture", 1);
 	else if (err == 7)
 		ft_putendl_fd("Invalid color", 1);
+	mlx_destroy_window(win->mlx, win->win);
 	return (ERR);
 }
-int		invalid_file(int err)
+int		invalid_file(int err, t_win *win)
 {
 	ft_putendl_fd("Error", 1);
 	if (err == 0)
@@ -30,6 +25,7 @@ int		invalid_file(int err)
 	else if (err == 3)
 		ft_putendl_fd("Invalid map", 1);
 	else if (err > 3)
-		return(invalid_ident(err));
+		return(invalid_ident(err, win));
+	mlx_destroy_window(win->mlx, win->win);
 	return (ERR);
 }

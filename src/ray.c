@@ -68,13 +68,13 @@ int				ray(t_win *win)
 	{
 		win->save = 0;
 		create_bmp(win->screen, "cub3D");
-		return (SUCK);
+		return (SUCCESS);
 	}
 	mlx_put_image_to_window(win->mlx, win->win,
 		win->screen->img, 0, 0);
 	free(ray->z_buffer);
 	free(ray);
-	return (SUCK);
+	return (SUCCESS);
 }
 
 void		perp_and_height(t_ray *ray, t_player *plr, t_win *win)

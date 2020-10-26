@@ -9,19 +9,20 @@ int				valid_input(int argc, char **argv, t_win *win)
 	{
 		if (argc == 2)
 		{
-			if (argv[1] == "--save")
-				return (invalid_file(2));
+			if (!(ft_strncmp(argv[1], "--save", 10)))
+				return (invalid_file(2, win));
 			else if (argv[1][i] != 'b' || argv[1][i - 1] != 'u' ||
 					argv[1][i - 2] != 'c' || argv[1][i - 3] != '.')
-				return (invalid_file(1));
+				return (invalid_file(1, win));
 		}
-		if (argv[1] == "--save")
-			return (invalid_file(1));
-		else if (argv[1][i] != 'b' || argv[1][i - 1] != 'u' ||
-					argv[1][i - 2] != 'c' || argv[1][i - 3] != '.')
-			return (invalid_file(1));
+		if (!(ft_strncmp(argv[1], "--save", 10)) ||
+					(argv[1][i] != 'b' || argv[1][i - 1] != 'u' ||
+					argv[1][i - 2] != 'c' || argv[1][i - 3] != '.') ||
+					ft_strncmp(argv[1], "--save", 10))
+			return (invalid_file(1, win));
+		if (!(ft_strncmp(argv[2], "--save", 10)))
+			win->save = 1;
+		return (SUCCESS);
 	}
-	if (argv[2] == "--save")
-		win->save = 1;
-	return (SUCK);
+	return (invalid_file(1, win));
 }

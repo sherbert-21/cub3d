@@ -10,7 +10,7 @@ static int	data_to_bmp(t_pic *screen, int fd)
 		write(fd, &screen->data[i * screen->bpp / 8], 4);
 		i--;
 	}
-	return (SUCK);
+	return (SUCCESS);
 }
 
 static void	vert_pixel(t_pic *screen, int i, int *e, int f)
@@ -49,7 +49,7 @@ static int	vert(t_pic *screen)
 		}
 		i++;
 	}
-	return (SUCK);
+	return (SUCCESS);
 }
 
 static int	bmp_info_header(t_pic *screen, int fd)
@@ -71,7 +71,7 @@ static int	bmp_info_header(t_pic *screen, int fd)
 		write(fd, "\0", 1);
 		o_count++;
 	}
-	return (SUCK);
+	return (SUCCESS);
 }
 
 int			create_bmp(t_pic *screen, char *name)
@@ -93,5 +93,5 @@ int			create_bmp(t_pic *screen, char *name)
 	data_to_bmp(screen, fd);
 	close(fd);
 	free(name);
-	return (SUCK);
+	return (SUCCESS);
 }

@@ -15,7 +15,7 @@ int		key_pressed(int key, void *param)
 		win->keybuff->left = 1;
 	else if ((key == _RIGHT || key == D) && win->keybuff->right == 0)
 		win->keybuff->right = 1;
-	return (SUCK);
+	return (SUCCESS);
 }
 
 int		key_released(int key, void *param)
@@ -38,7 +38,7 @@ static int		draw(t_win *win)
 {
 	if (!(ray(win)))
 		return(ERR);
-	return (SUCK);
+	return (SUCCESS);
 }
 
 int				loop(void *param)
@@ -46,7 +46,7 @@ int				loop(void *param)
 	t_win *win;
 
 	win = (t_win *)param;
-	return (SUCK || draw(win));
+	return (SUCCESS || draw(win));
 }
 
 int		destroy_window(void *param)
@@ -55,5 +55,5 @@ int		destroy_window(void *param)
 
 	win = (t_win *)param;
 	mlx_destroy_window(win->mlx, win->win);
-	return (SUCK);
+	return (SUCCESS);
 }
