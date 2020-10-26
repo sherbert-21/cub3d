@@ -48,12 +48,3 @@ int				loop(void *param)
 	win = (t_win *)param;
 	return (SUCCESS || draw(win));
 }
-
-int		destroy_window(void *param)
-{
-	t_win *win;
-
-	win = (t_win *)param;
-	mlx_destroy_window(win->mlx, win->win);
-	return (SUCCESS);
-}

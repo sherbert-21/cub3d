@@ -16,7 +16,7 @@ static int		valid_identifier(char *ident, t_win *win)
 	else if (ident[i] == 'E' && ident[i + 1] == 'A')
 		return (SUCCESS);
 	else
-		return (invalid_file(1, win));
+		return (invalid_file(4));
 }
 
 static int		identifier_parce(char *ident, t_win *win)
@@ -60,11 +60,11 @@ static int		lst_to_str(t_list *file_lst, int size, t_win *win)
 
 	i = 0;
 	if (!(file = ft_calloc(size + 1, sizeof(char *))))
-		return (invalid_file(0, win));
+		return (invalid_file(0));
 	while (file_lst)
 	{
 		if (!(file[i] = ft_calloc(ft_strlen(file_lst->content), sizeof(char))))
-			return (invalid_file(0, win));
+			return (invalid_file(0));
 		file[i++] = file_lst->content;
 		file_lst = file_lst->next;
 	}
@@ -81,7 +81,8 @@ int				file(int argc, char **argv, t_win *win)
 	int		succ;
 
 	file_lst = NULL;
-	succ = valid_input(argc, argv, win);
+	// succ = valid_input(argc, argv, win);
+	win->save = 0;
 	if (succ)
 	{
 		fd = open(argv[1], O_RDONLY);

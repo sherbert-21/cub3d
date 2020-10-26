@@ -71,11 +71,13 @@ int 	      move_events(int key, t_win *win)
 {
 	if (key == A || key == _LEFT)
 		left(win);
-	if (key == D || key == _RIGHT)
+	else if (key == D || key == _RIGHT)
 		right(win);
-	if (key == W || key == _UP)
+	else if (key == W || key == _UP)
 		forward(win);
-	if (key == S || key == _DOWN)
+	else if (key == S || key == _DOWN)
 		backward(win);
+	else if (key == ESC)
+		mlx_destroy_window(win->mlx, win->win);
 	return (SUCCESS);
 }

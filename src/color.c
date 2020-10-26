@@ -55,14 +55,14 @@ int				color(char *str, int c, int first_c, t_win *win)
 
 	clr = 0;
 	if (!(check_str(str, c, first_c, win)))
-		return (invalid_file(7, win));
+		return (invalid_file(7));
 	i = first_c + 1;
 	while (str[i] == ' ')
 		i++;
 	if ((r = get_num_clr(r, str, &i, win)) == -1
 		|| (g = get_num_clr(g, str, &i, win)) == -1
 		|| (b = get_num_clr(b, str, &i, win)) == -1)
-		return (invalid_file(7, win));
+		return (invalid_file(7));
 	clr = get_rgb_from_clr(r, g, b);
 	if (c == 'F')
 		win->clr_f = clr;

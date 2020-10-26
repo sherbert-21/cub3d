@@ -46,7 +46,7 @@ static int			set_sprite(t_win *win, const char *path)
 		mlx_xpm_file_to_image(win->mlx, (char *)path,
 		&win->sprite->width,
 		&win->sprite->height)))
-			return (invalid_file(6, win));
+			return (invalid_file(6));
 	win->sprite->data =
 		mlx_get_data_addr(win->sprite->img,
 		&win->sprite->bpp,
@@ -63,7 +63,7 @@ static int			set_text(t_win *win, const char *path, int i)
 			mlx_xpm_file_to_image(win->mlx, (char *)path,
 			&win->text[i]->width,
 			&win->text[i]->height)))
-			return (invalid_file(6, win));
+			return (invalid_file(6));
 		win->text[i]->data =
 			mlx_get_data_addr(win->text[i]->img,
 			&win->text[i]->bpp,
@@ -82,7 +82,7 @@ int					texture(char *str, t_win *win)
     int     first_c;
 
 	if (!(first_c = check_text_form(str)))
-		return (invalid_file(6, win));
+		return (invalid_file(6));
     i = first_c + 2;
     while (str[i] == ' ')
         i++;
@@ -90,7 +90,7 @@ int					texture(char *str, t_win *win)
 	if (!(file_exists(path)))
 	{
 		free(path);
-		return (invalid_file(6, win));
+		return (invalid_file(6));
 	}
 	first_c = (str[first_c] = 'N') ? 0 : first_c;
 	first_c = (str[first_c] = 'S' && str[first_c + 1] == 'O') ? 1 : first_c;
