@@ -55,7 +55,7 @@ int				ray(t_win *win)
 	t_ray		*ray;
 
 	if (!(ray = malloc(sizeof(t_ray))))
-		return (1);
+		return (ERR);
 	ft_bzero(ray, sizeof(t_ray));
 	if (!(ray->z_buffer = malloc(sizeof(double) * win->x)))
 		return (1);
@@ -68,13 +68,13 @@ int				ray(t_win *win)
 	{
 		win->save = 0;
 		create_bmp(win->screen, "cub3D");
-		return (0);
+		return (SUCK);
 	}
 	mlx_put_image_to_window(win->mlx, win->win,
 		win->screen->img, 0, 0);
 	free(ray->z_buffer);
 	free(ray);
-	return (0);
+	return (SUCK);
 }
 
 void		perp_and_height(t_ray *ray, t_player *plr, t_win *win)

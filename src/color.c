@@ -5,7 +5,7 @@ static int		check_str(char *str, int c, int first_c, t_win *win)
 	int i;
 
 	if (!str || str[first_c] != c || !(str[first_c + 1] == ' '))
-		return (1);
+		return (ERR);
 	i = first_c + 1;
 	while (str[i] == ' ')
 		i++;
@@ -18,8 +18,8 @@ static int		check_str(char *str, int c, int first_c, t_win *win)
 	while (str[i] == ' ')
 		i++;
 	if (str[i] == '\0')
-		return (1);
-	return (0);
+		return (ERR);
+	return (SUCK);
 }
 
 static int		get_rgb_from_clr(int r, int g, int b)
@@ -55,19 +55,19 @@ int				color(char *str, int c, int first_c, t_win *win)
 
 	clr = 0;
 	if (check_str(str, c, first_c, win))
-		return (1);
+		return (ERR);
 	i = first_c + 1;
 	while (str[i] == ' ')
 		i++;
 	if ((r = get_num_clr(r, str, &i, win)) == -1
 		|| (g = get_num_clr(g, str, &i, win)) == -1
 		|| (b = get_num_clr(b, str, &i, win)) == -1)
-		return (1);
+		return (ERR);
 	clr = get_rgb_from_clr(r, g, b);
 	if (c == 'F')
 		win->clr_f = clr;
 	else if (c == 'C')
 		win->clr_c = clr;
 	free(str);
-	return (0);
+	return (SUCK);
 }

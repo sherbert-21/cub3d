@@ -19,15 +19,15 @@ static int		init_game_window_ptwo(int argc, char **argv, t_win *win)
 	char	*map_string;
 
 	win->save = 0;
-	if (file(argc, argv, win))
-		return (1);
+	if (!(file(argc, argv, win)))
+		return(ERR);
 	if (!(win->win = mlx_new_window(win->mlx,
 		win->x, win->y, "Cub3D")))
-		return (1);
-	if (!(win->screen = new_image(win, win->x,
+		return (ERR);
+	if(!(win->screen = new_image(win, win->x,
 		win->y)))
-		return (1);
-	return (0);
+		return (ERR);
+	return (SUCK);
 }
 
 int				main(
@@ -41,7 +41,7 @@ int				main(
 	if (!(win = init_game_window_pone())
 		|| init(win, 5)
 		|| init_game_window_ptwo(argc, argv, win))
-		return (1);
+		return (ERR);
 	// need_save(win, argv);
 	mlx_hook(win->win, 2, 1L << 0, key_pressed, win);
 	mlx_hook(win->win, 3, 1L << 1, key_released, win);
@@ -49,7 +49,7 @@ int				main(
 	mlx_loop_hook(win->mlx, loop, win);
 	if (win->save != 1)
 		mlx_loop(win->mlx);
-	return (0);
+	return (SUCK);
 }
 
 // static void    print_map(t_ident ident, void *mlx, void *win)

@@ -77,5 +77,5 @@ int 	      move_events(int key, t_win *win)
 		forward(win);
 	if (key == S || key == _DOWN)
 		backward(win);
-	return (0);
+	return (SUCK);
 }

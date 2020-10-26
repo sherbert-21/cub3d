@@ -38,29 +38,29 @@ static int		check_square(char **tmp, int i, int size)
 	err = 0;
 	k = -1;
 	while (++j <= size - i - 1 && !err)
-		err = (!ft_strchr(" 1", tmp[j][0])) ? 1 : err;
+		err = (ft_strchr(" 1", tmp[j][0])) ? 1 : err;
 	while (tmp[j - 1][++k] && !err)
-		err = (!ft_strchr(" 1", tmp[j - 1][k])) ? 1 : err;
+		err = (ft_strchr(" 1", tmp[j - 1][k])) ? 1 : err;
 	while (--j >= 0 && !err)
-		err = (!ft_strchr(" 1", tmp[j][k - 1])) ? 1 : err;
+		err = (ft_strchr(" 1", tmp[j][k - 1])) ? 1 : err;
 	while (--k >= 0 && !err)
-		err = (!ft_strchr(" 1", tmp[j + 1][k])) ? 1 : err;
+		err = (ft_strchr(" 1", tmp[j + 1][k])) ? 1 : err;
 	return (err);
 }
 
 static int		check_symbol(char **tmp, int j, int k)
 {
-	if (!ft_strchr(" 012NSWE", tmp[j + 1][k]))
-		return (1);
+	if (ft_strchr(" 012NSWE", tmp[j + 1][k]))
+		return (SUCK);
 	if (tmp[j][k] == 32)
 	{
-		if (!ft_strchr(" 1", tmp[j + 1][k]) ||
-			!ft_strchr(" 1", tmp[j - 1][k]) ||
-			!ft_strchr(" 1", tmp[j][k + 1]) ||
-			!ft_strchr(" 1", tmp[j][k - 1]))
-			return (1);
+		if (ft_strchr(" 1", tmp[j + 1][k]) ||
+			ft_strchr(" 1", tmp[j - 1][k]) ||
+			ft_strchr(" 1", tmp[j][k + 1]) ||
+			ft_strchr(" 1", tmp[j][k - 1]))
+			return (SUCK);
 	}
-	return (0);
+	return (ERR);
 }
 
 static int		map_int(char **map, int i, int size, t_win *win)

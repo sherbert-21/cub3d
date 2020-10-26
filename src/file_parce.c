@@ -8,15 +8,15 @@ static int		valid_identifier(char *ident)
 	while (ident[i] == ' ')
 		i++;
 	if (ft_strchr("RSF", ident[i]) && ident[i + 1] == ' ')
-		return (0);
+		return (SUCK);
 	else if (ft_strchr("SN", ident[i]) && ident[i + 1] == 'O')
-		return (0);
+		return (SUCK);
 	else if (ident[i] == 'W' && ident[i + 1] == 'E')
-		return (0);
+		return (SUCK);
 	else if (ident[i] == 'E' && ident[i + 1] == 'A')
-		return (0);
+		return (SUCK);
 	else
-		return (1);
+		return (invalid_file(1));
 }
 
 static int		identifier_parce(char *ident, t_win *win)
@@ -45,14 +45,11 @@ static int		file_parce(char **map, t_win *win, int size)
 	{
 		while (map[i][0] == '\n')
 			i++;
-		if (!(err = valid_identifier(map[i])))
+		if (valid_identifier(map[i]))
 			identifier_parce(map[i++], win);
-		if (err)
-			invalid_file(3);
 	}
-	if (!err && map_parce(map, i, size, win))
-		invalid_file(4);
-	return (err || map_parce(map, i, size, win));
+	err = (map_parce(map, i, size, win)) ? err : 1;
+	return (err);
 }
 
 static int		lst_to_str(t_list *file_lst, int size, t_win *win)
@@ -73,7 +70,8 @@ static int		lst_to_str(t_list *file_lst, int size, t_win *win)
 		file_lst = file_lst->next;
 	}
 	err = (file_parce(file, win, size)) ? 1 : err;
-	return (err);
+	free_str(&file);
+	return (SUCK);
 }
 
 int				file(int argc, char **argv, t_win *win)
@@ -85,8 +83,6 @@ int				file(int argc, char **argv, t_win *win)
 
 	file_lst = NULL;
 	err = valid_input(argc, argv, win);
-	if (err)
-		invalid_file(err);
 	if (!err)
 	{
 		fd = open(argv[1], O_RDONLY);
@@ -97,5 +93,6 @@ int				file(int argc, char **argv, t_win *win)
 		win->plr->planeX = 0.0;
 		win->plr->planeY = 0.66;
 	}
-	return (err);
+	ft_lstclear(&file_lst, free);
+	return (SUCK);
 }

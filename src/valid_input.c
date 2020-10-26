@@ -1,28 +1,27 @@
 #include "cub3d.h"
 
-int				valid_input(int argc, char **argv, t_win *i)
+int				valid_input(int argc, char **argv, t_win *win)
 {
-	i->save = 0;
-	if (argc > 3 || argc == 1)
-		return (1);
-	else
+	int i;
+
+	i = ft_strlen(argv[1]) - 1;
+	if (argc < 3 && argc > 0)
 	{
 		if (argc == 2)
 		{
-			if (ft_strnstr(argv[1], "--save", 10))
-				return (2);
-			else if (!ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])))
-				return (1);
+			if (argv[1] == "--save")
+				return (invalid_file(2));
+			else if (argv[1][i] != 'b' || argv[1][i - 1] != 'u' ||
+					argv[1][i - 2] != 'c' || argv[1][i - 3] != '.')
+				return (invalid_file(1));
 		}
-		if (argc == 3)
-		{
-			if (ft_strnstr(argv[1], "--save", 10))
-				return (1);
-			else if (!ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])))
-				return (1);
-		}
+		if (argv[1] == "--save")
+			return (invalid_file(1));
+		else if (argv[1][i] != 'b' || argv[1][i - 1] != 'u' ||
+					argv[1][i - 2] != 'c' || argv[1][i - 3] != '.')
+			return (invalid_file(1));
 	}
-	if (ft_strnstr(argv[2], "--save", 10))
-		i->save = 1;
-	return (0);
+	if (argv[2] == "--save")
+		win->save = 1;
+	return (SUCK);
 }

@@ -19,7 +19,8 @@ SRC		= 	cub3d.c \
 			manage.c \
 			ray.c \
 			screen.c \
-			texturisation.c
+			texturisation.c \
+			free.c
 
 SRC_DIR	= 	./src
 

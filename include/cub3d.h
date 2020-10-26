@@ -17,6 +17,9 @@
 # define _DOWN 125
 # define _UP 126
 
+# define ERR 0
+# define SUCK 1
+
 typedef struct  s_player
 {
     double      posX;
@@ -120,7 +123,7 @@ typedef struct	s_win
 }               t_win;
 
 int				file(int argc, char **argv, t_win *win);
-void		    invalid_file(int err);
+int			    invalid_file(int err);
 int				valid_input(int argc, char **argv, t_win *i);
 int				resolution(char *ident, t_win *parse);
 int				texture(char *str, t_win *win);
@@ -141,11 +144,12 @@ void			ver_line_text_pic(t_line *line, t_win *win,
 t_pic			*new_image(t_win *win, int x_len, int y_len);
 void			texturisation(t_ray *ray, t_win *win);
 
-int		key_pressed(int key, void *param);
-int		key_released(int key, void *param);
+int				key_pressed(int key, void *param);
+int				key_released(int key, void *param);
 int				loop(void *param);
-int		destroy_window(void *param);
+int				destroy_window(void *param);
 
+void    		free_str(char ***str);
 
 int				ft_strlen_err(char *str);
 char			*ft_strdup_err(char *s, int *ret);
