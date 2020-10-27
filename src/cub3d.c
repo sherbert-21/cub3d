@@ -18,18 +18,18 @@ static int		init_game(int argc, char **argv, t_win *win)
 {
 	char	*map_string;
 
-	ft_putendl_fd("1", 1);
+	ft_putendl_fd("Checking file...", 1);
 	if (!(file(argc, argv, win)))
 		return (ERR);
-	ft_putendl_fd("2", 1);
+	ft_putendl_fd("Creating new window...", 1);
 	if (!(win->win = mlx_new_window(win->mlx,
 		win->x, win->y, "Cub3D")))
 		return (invalid_file(0));
-	ft_putendl_fd("3", 1);
+	ft_putendl_fd("Starting Cub3D...", 1);
 	if(!(win->screen = new_image(win, win->x,
 		win->y)))
 		return (invalid_file(0));
-	ft_putendl_fd("4", 1);
+	ft_putendl_fd("DONE!", 1);
 	return (SUCCESS);
 }
 

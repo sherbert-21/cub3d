@@ -3,18 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sherbert <sherbert@student.21-school.ru>   +#+  +:+       +#+         #
+#    By: sherbert <sherbert@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 19:44:28 by sherbert          #+#    #+#              #
-#    Updated: 2020/05/07 19:55:17 by sherbert         ###   ########.fr        #
+#    Updated: 2020/10/27 16:15:29 by sherbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-FLAGS	= -Wall -Werror -Wextra
+FLAGS	= -c -Wall -Werror -Wextra 
 
-INC = libft.h
+HEAD = libft.h
 
 SRC = \
 ft_atoi.c \
@@ -61,12 +61,14 @@ ft_lstclear.c \
 ft_lstiter.c \
 ft_lstmap.c
 
-OBJ		= $(SRC:.c=.o)
+
+OBJ		= 	$(SRC:.c=.o)
+
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	gcc $(FLAGS) -c $(SRC)
+	gcc  $(FLAGS) $(SRC) 
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
@@ -77,5 +79,3 @@ fclean: clean
 	/bin/rm -f $(NAME)
 
 re: fclean all
-
-.PHONY: clean fclean all re $(NAME)

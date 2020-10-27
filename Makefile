@@ -2,8 +2,7 @@ NAME	= 	cub
 
 FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
 
-SRC		= 	cub3d.c \
-			file_parce.c \
+SRC		= 	file_parce.c \
 			valid_input.c \
 			error.c \
 			color.c \
@@ -20,7 +19,7 @@ SRC		= 	cub3d.c \
 			ray.c \
 			screen.c \
 			texturisation.c \
-			free.c
+			cub3d.c
 
 SRC_DIR	= 	./src
 
@@ -43,7 +42,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) $(WFLAGS) $(INC) -o $@ -c $<
+	gcc $(WFLAGS) $(INC) -o $@ -c $<
 
 clean:
 	/bin/rm -rf ./obj

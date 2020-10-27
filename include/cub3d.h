@@ -125,9 +125,9 @@ typedef struct	s_win
 int				file(int argc, char **argv, t_win *win);
 int			    invalid_file(int err);
 int				valid_input(int argc, char **argv, t_win *i);
-int				resolution(char *ident, t_win *parse);
-int				texture(char *str, t_win *win);
-int				color(char *str, int c, int first_c, t_win *i);
+int				resolution(char *ident, int i, t_win *win);
+int				texture(char *str, int i, t_win *win);
+int				color(char *str, int c, int first_c, t_win *win);
 int				map_parce(char **map, int i, int size, t_win *win);
 int 	        set_pos(t_win *win, char dir, int x, int y);
 int				init(t_win *win, int i);

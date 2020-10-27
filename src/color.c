@@ -68,5 +68,6 @@ int				color(char *str, int c, int first_c, t_win *win)
 		win->clr_f = clr;
 	else if (c == 'C')
 		win->clr_c = clr;
+	save_free(&str);
 	return (SUCCESS);
 }

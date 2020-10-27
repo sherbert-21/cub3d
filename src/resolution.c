@@ -1,20 +1,25 @@
 #include "cub3d.h"
 
-int				resolution(char *ident, t_win *win)
+int				resolution(char *ident, int i, t_win *win)
 {
-	while (*ident == ' ' && *ident)
-		ident++;
-	if (*ident == '0' || !*ident)
+	while (ident[i] == ' ' && ident[i])
+		i++;
+	if (ident[i] == '0' || !ident[i])
 		return (invalid_file(5));
-	win->x = ft_atoi(ident);
-	while (*ident == ' ' && *ident)
-		ident++;
-	if (*ident == '0' || !*ident)
+	win->x = ft_atoi(&ident[i]);
+	while (ft_isdigit(ident[i]))
+		i++;
+	while (ident[i] == ' ' && ident[i])
+		i++;
+	if (ident[i] == '0' || !ident[i])
 		return (invalid_file(5));
-	win->y = ft_atoi(ident);
-	while (*ident == ' ' && *ident)
-		ident++;
-	if (*ident)
+	win->y = ft_atoi(&ident[i]);
+	while (ft_isdigit(ident[i]))
+		i++;
+	while (ident[i] == ' ' && ident[i])
+		i++;
+	if (ident[i])
 		return (invalid_file(5));
+	save_free(&ident);
 	return (SUCCESS);
 }

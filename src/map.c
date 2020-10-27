@@ -100,8 +100,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
 		return (invalid_file(0));
-	if (!(check_square(tmp, i, size)))
-		return (invalid_file(3));
+	succ = check_square(tmp, i, size) ? 1 : 0;
 	j = 0;
 	player = -1;
 	while (++j < (win->size = size - i) - 1 && succ)
@@ -113,9 +112,9 @@ int				map_parce(char **map, int i, int size, t_win *win)
 			player = (set_pos(win, tmp[j][k], j, k)) ? player + 1 : player;
 		}
 	}
-	if (player > 0 || player == -1)
+	if (player > 0 || player == -1 && succ)
 		return (invalid_file(3));
 	succ = (succ && map_int(tmp, i - 1, size, win)) ? 0 : succ;
-	free_str(&tmp);
+	// free_str(&tmp);
 	return (succ);
 }

@@ -10,6 +10,10 @@ static int invalid_ident(int err)
 		ft_putendl_fd("Invalid texture", 1);
 	else if (err == 7)
 		ft_putendl_fd("Invalid color", 1);
+	else if (err == 8)
+		ft_putendl_fd("Could't open the file", 1);
+	else if (err == 9)
+		ft_putendl_fd("Something wrong with number of identifiers", 1);
 	return (ERR);
 }
 int		invalid_file(int err)

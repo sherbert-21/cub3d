@@ -38,3 +38,7 @@
 // 	ft_putendl_fd("hui2",  1);
 // 	return (invalid_file(1));
 // }
+
+
+//(file[file_len - 1] != 'm' || file[file_len - 2] != 'p'
+		// || file[file_len - 3] != 'x' || file[file_len - 4] != '.')

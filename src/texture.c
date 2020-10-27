@@ -3,40 +3,41 @@
 static int			check_text_form(char *str)
 {
     int i;
-    int first_c;
-    int err;
+    int succ;
 
     i = 0;
 	while (str[i] == ' ')
 		i++;
-    first_c = i;
 	i += 2;
 	while (str[i] == ' ')
 		i++;
-	err = (str[i] != '.' || str[i + 1] != '/') ? 0 : 1;
+	succ = (str[i] != '.' || str[i + 1] != '/') ? 0 : 1;
 	while (ft_isprint(str[i]) && str[i] != ' ' && str[i])
 		i++;
-	err = (str[i] != ' ' || str[i] != '\0') ? 0 : err;
+	succ = (str[i] == ' ' || str[i] == '\0') ? succ : 0;
 	while (str[i] == ' ')
 		i++;
-    err = (str[i] != '\0') ? 0 : err;
-	return (err);
+    succ = (str[i] == '\0') ? succ : 0;
+	return (succ);
 }
 
 static int			file_exists(const char *file)
 {
 	int fd;
-	int file_len;
+	int i;
 
-	file_len = ft_strlen(file);
+	i = ft_strlen(file) - 1;
+	while (file[i] == ' ')
+		i--;
+//error 
 	if ((fd = open(file, O_RDONLY)) == -1)
 	{
 		close(fd);
-		return (ERR);
+		return (invalid_file(8));
 	}
-	if (file[file_len - 1] != 'm' || file[file_len - 2] != 'p'
-		|| file[file_len - 3] != 'x' || file[file_len - 4] != '.')
-		return (ERR);
+	if (file[i] != 'm' || file[i - 1] != 'p'
+		|| file[i - 2] != 'x' || file[i - 3] != '.')
+		return (invalid_file(6));
 	return (SUCCESS);
 }
 
@@ -55,33 +56,37 @@ static int			set_sprite(t_win *win, const char *path)
 	return (SUCCESS);
 }
 
-static int			set_text(t_win *win, const char *path, int i)
+static int			set_text(t_win *win, const char *path, int c)
 {
-	if (i < 4)
+	c = (path[c] == 'N') ? 0 : c;
+	c = (path[c] == 'S' && path[c + 1] == 'O') ? 1 : c;
+	c = (path[c] == 'W') ? 2 : c;
+	c = (path[c] == 'E') ? 3 : c;
+	c = (path[c] == 'S' && path[c + 1] == ' ') ? 4 : c;
+	if (c < 4)
 	{
-		if (!(win->text[i]->img =
+		if (!(win->text[c]->img =
 			mlx_xpm_file_to_image(win->mlx, (char *)path,
-			&win->text[i]->width,
-			&win->text[i]->height)))
+			&win->text[c]->width,
+			&win->text[c]->height)))
 			return (invalid_file(6));
-		win->text[i]->data =
-			mlx_get_data_addr(win->text[i]->img,
-			&win->text[i]->bpp,
-			&win->text[i]->size,
-			&win->text[i]->endian);
+		win->text[c]->data =
+			mlx_get_data_addr(win->text[c]->img,
+			&win->text[c]->bpp,
+			&win->text[c]->size,
+			&win->text[c]->endian);
 	}
 	else
 		return (set_sprite(win, path));
 	return (SUCCESS);
 }
 
-int					texture(char *str, t_win *win)
+int					texture(char *str, int first_c, t_win *win)
 {
 	char	*path;
     int     i;
-    int     first_c;
 
-	if (!(first_c = check_text_form(str)))
+	if (!(check_text_form(str)))
 		return (invalid_file(6));
     i = first_c + 2;
     while (str[i] == ' ')
@@ -89,15 +94,11 @@ int					texture(char *str, t_win *win)
 	path = ft_substr(str, i, ft_strlen(str));
 	if (!(file_exists(path)))
 	{
-		free(path);
-		return (invalid_file(6));
+		save_free(&path);
+		return (ERR);
 	}
-	first_c = (str[first_c] = 'N') ? 0 : first_c;
-	first_c = (str[first_c] = 'S' && str[first_c + 1] == 'O') ? 1 : first_c;
-	first_c = (str[first_c] = 'W') ? 2 : first_c;
-	first_c = (str[first_c] = 'E') ? 3 : first_c;
-	first_c = (str[first_c] = 'S' && str[first_c + 1] == ' ') ? 4 : first_c;
     i = set_text(win, path, first_c);
-	free(path);
-	return (i);
+	save_free(&path);
+	save_free(&str);
+	return (1);
 }

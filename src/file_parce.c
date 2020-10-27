@@ -7,7 +7,7 @@ static int		valid_identifier(char *ident, t_win *win)
 	i = 0;
 	while (ident[i] == ' ')
 		i++;
-	if (ft_strchr("RSF", ident[i]) && ident[i + 1] == ' ')
+	if (ft_strchr("RSFC", ident[i]) && ident[i + 1] == ' ')
 		return (SUCCESS);
 	else if (ft_strchr("SN", ident[i]) && ident[i + 1] == 'O')
 		return (SUCCESS);
@@ -27,28 +27,40 @@ static int		identifier_parce(char *ident, t_win *win)
 	while (ident[i] == ' ')
 		i++;
 	if (ident[i] == 'R')
-		return (resolution(++ident, win));
+		return (resolution(ident, ++i, win));
 	else if (ident[i] == 'F' || ident[i] == 'C')
 		return (color(ident, ident[i], i, win));
 	else
-		return (texture(ident, win));
+		return (texture(ident, i, win));
 }
 
 static int		file_parce(char **file, t_win *win, int size)
 {
 	int i;
 	int succ;
+	int ident;
+	int k;
 
-	i = 0;
+	i = -1;
 	succ = 1;
-	while (succ && file[i] && file[i][0] != ' ' && file[i][0] != '1')
+	ident = 0;
+	while (succ && file[++i] && ident < 8)
 	{
-		while (file[i][0] == '\n')
-			i++;
-		if ((succ = valid_identifier(file[i], win)))
-			succ = (!(identifier_parce(file[i++], win))) ? 0 : succ;
+		k = 0;
+		while (file[i][k] == ' ')
+			k++;
+		if ((ft_isprint(file[i][k])))
+		{
+			if ((succ = valid_identifier(file[i], win)))
+			{
+				succ = (!(identifier_parce(file[i], win))) ? 0 : succ;
+				ident++;
+			}
+		}
 	}
-	return (succ || map_parce(file, i, size, win));
+	if (ident != 8 && succ)
+		return (invalid_file(9));
+	return ((succ) ? map_parce(file, i, size, win) : ERR);
 }
 
 static int		lst_to_str(t_list *file_lst, int size, t_win *win)
@@ -69,7 +81,6 @@ static int		lst_to_str(t_list *file_lst, int size, t_win *win)
 		file_lst = file_lst->next;
 	}
 	succ = file_parce(file, win, size);
-	free_str(&file);
 	return (succ);
 }
 
@@ -89,8 +100,7 @@ int				file(int argc, char **argv, t_win *win)
 		while (get_next_line(fd, &line))
 			ft_lstadd_back(&file_lst, ft_lstnew(line));
 		ft_lstadd_back(&file_lst, ft_lstnew(line));
-		succ = (!(lst_to_str(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
+		succ = (!(lst_to_str(file_lst, ft_lstsize(file_lst), win))) ? 0 : 1;
 	}
-	ft_lstclear(&file_lst, free);
 	return (succ);
 }
