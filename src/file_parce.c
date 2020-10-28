@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static int		valid_identifier(char *ident, t_win *win)
+static int		valid_identifier(char *ident)
 {
 	int i;
 
@@ -51,7 +51,7 @@ static int		file_parce(char **file, t_win *win, int size)
 			k++;
 		if ((ft_isprint(file[i][k])))
 		{
-			if ((succ = valid_identifier(file[i], win)))
+			if ((succ = valid_identifier(file[i])))
 			{
 				succ = (!(identifier_parce(file[i], win))) ? 0 : succ;
 				ident++;
@@ -67,7 +67,6 @@ static int		lst_to_str(t_list *file_lst, int size, t_win *win)
 {
 	char	**file;
 	int		i;
-	int 	k;
 	int		succ;
 
 	i = 0;
@@ -81,6 +80,13 @@ static int		lst_to_str(t_list *file_lst, int size, t_win *win)
 		file_lst = file_lst->next;
 	}
 	succ = file_parce(file, win, size);
+	i = -1;
+	while (file[++i])
+	{
+		save_free(&file[i]);
+		file[i] = NULL;
+	}
+	file = NULL;
 	return (succ);
 }
 
@@ -92,7 +98,7 @@ int				file(int argc, char **argv, t_win *win)
 	int		succ;
 
 	file_lst = NULL;
-	// succ = valid_input(argc, argv, win);
+	succ = valid_input(argc, argv, win);
 	win->save = 0;
 	if (succ)
 	{

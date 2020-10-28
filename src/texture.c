@@ -27,9 +27,6 @@ static int			file_exists(const char *file)
 	int i;
 
 	i = ft_strlen(file) - 1;
-	while (file[i] == ' ')
-		i--;
-//error 
 	if ((fd = open(file, O_RDONLY)) == -1)
 	{
 		close(fd);
@@ -38,6 +35,7 @@ static int			file_exists(const char *file)
 	if (file[i] != 'm' || file[i - 1] != 'p'
 		|| file[i - 2] != 'x' || file[i - 3] != '.')
 		return (invalid_file(6));
+	close(fd);
 	return (SUCCESS);
 }
 
@@ -85,13 +83,17 @@ int					texture(char *str, int first_c, t_win *win)
 {
 	char	*path;
     int     i;
+	int		k;
 
 	if (!(check_text_form(str)))
 		return (invalid_file(6));
     i = first_c + 2;
     while (str[i] == ' ')
         i++;
-	path = ft_substr(str, i, ft_strlen(str));
+	k = i;
+	while (str[k] != ' ')
+		k++;
+	path = ft_substr(str, i, k - i);
 	if (!(file_exists(path)))
 	{
 		save_free(&path);
@@ -99,6 +101,5 @@ int					texture(char *str, int first_c, t_win *win)
 	}
     i = set_text(win, path, first_c);
 	save_free(&path);
-	save_free(&str);
-	return (1);
+	return (i);
 }

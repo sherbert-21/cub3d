@@ -42,7 +42,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
-	gcc $(WFLAGS) $(INC) -o $@ -c $<
+	gcc $(FLAGS) $(INC) -o $@ -c $<
 
 clean:
 	/bin/rm -rf ./obj

@@ -26,7 +26,6 @@ static void	side_draw(t_ray *ray, t_win *win,
 
 void		texturisation(t_ray *ray, t_win *win)
 {
-	t_pic	*text;
 	t_line	*line;
 	double	wallX;
 

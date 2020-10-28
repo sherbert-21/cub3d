@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static int		check_str(char *str, int c, int first_c, t_win *win)
+static int		check_str(char *str, int c, int first_c)
 {
 	int i;
 
@@ -32,7 +32,7 @@ static int		get_rgb_from_clr(int r, int g, int b)
 	return (clr);
 }
 
-static int		get_num_clr(int c, char *str, int *l, t_win *win)
+static int		get_num_clr(char *str, int *l)
 {
 	int clr;
 
@@ -54,20 +54,19 @@ int				color(char *str, int c, int first_c, t_win *win)
 	int i;
 
 	clr = 0;
-	if (!(check_str(str, c, first_c, win)))
+	if (!(check_str(str, c, first_c)))
 		return (invalid_file(7));
 	i = first_c + 1;
 	while (str[i] == ' ')
 		i++;
-	if ((r = get_num_clr(r, str, &i, win)) == -1
-		|| (g = get_num_clr(g, str, &i, win)) == -1
-		|| (b = get_num_clr(b, str, &i, win)) == -1)
+	if ((r = get_num_clr(str, &i)) == -1
+		|| (g = get_num_clr(str, &i)) == -1
+		|| (b = get_num_clr(str, &i)) == -1)
 		return (invalid_file(7));
 	clr = get_rgb_from_clr(r, g, b);
 	if (c == 'F')
 		win->clr_f = clr;
 	else if (c == 'C')
 		win->clr_c = clr;
-	save_free(&str);
 	return (SUCCESS);
 }

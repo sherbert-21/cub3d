@@ -16,8 +16,6 @@ static t_win	*init_win(void)
 
 static int		init_game(int argc, char **argv, t_win *win)
 {
-	char	*map_string;
-
 	ft_putendl_fd("Checking file...", 1);
 	if (!(file(argc, argv, win)))
 		return (ERR);
@@ -36,7 +34,6 @@ static int		init_game(int argc, char **argv, t_win *win)
 int				main(int argc, char **argv)
 {
 	t_win		*win;
-	int			fd;
 	int			succ;
 
 	win = init_win();

@@ -20,6 +20,5 @@ int				resolution(char *ident, int i, t_win *win)
 		i++;
 	if (ident[i])
 		return (invalid_file(5));
-	save_free(&ident);
 	return (SUCCESS);
 }

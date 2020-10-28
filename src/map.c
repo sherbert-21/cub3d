@@ -18,10 +18,9 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 		return (NULL);
 	while (map[++i])
 	{
-		j = -1;
-		if (!(tmp[k] = ft_calloc(win->len + 1, sizeof(char))))
+		j = ft_strlen(map[i]);
+		if (!(tmp[k] = ft_strdup(map[i])))
 			return (NULL);
-		tmp[k] = ft_strdup(map[i]);
 		while (j < win->len)
 			tmp[k][j++] = ' ';
 		k++;
@@ -49,7 +48,7 @@ static int		check_square(char **tmp, int i, int size)
 	return (succ);
 }
 
-static int		check_symbol(char **tmp, int j, int k, t_win *win)
+static int		check_symbol(char **tmp, int j, int k)
 {
 	if (tmp[j][k] == 32)
 	{
@@ -103,18 +102,17 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	succ = check_square(tmp, i, size) ? 1 : 0;
 	j = 0;
 	player = -1;
-	while (++j < (win->size = size - i) - 1 && succ)
+	while ((unsigned long)++j < (win->size = size - i) - 1 && succ)
 	{
 		k = 0;
 		while (++k < ft_strlen(tmp[j]) - 1)
 		{
-			succ = (!(check_symbol(tmp, j, k, win) == 1)) ? 0 : 1;
+			succ = (!(check_symbol(tmp, j, k) == 1)) ? 0 : 1;
 			player = (set_pos(win, tmp[j][k], j, k)) ? player + 1 : player;
 		}
 	}
-	if (player > 0 || player == -1 && succ)
+	if ((player > 0 || player == -1) && succ)
 		return (invalid_file(3));
 	succ = (succ && map_int(tmp, i - 1, size, win)) ? 0 : succ;
-	// free_str(&tmp);
 	return (succ);
 }
