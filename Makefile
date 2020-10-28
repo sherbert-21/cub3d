@@ -3,6 +3,7 @@ NAME	= 	cub
 FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
 
 SRC		= 	file_parce.c \
+			ident_parce.c \
 			valid_input.c \
 			error.c \
 			color.c \

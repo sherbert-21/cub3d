@@ -7,6 +7,8 @@
 # include <fcntl.h>
 # include <math.h>
 
+#include <stdio.h>
+
 # define ESC 53
 # define A 0
 # define S 1
@@ -19,6 +21,7 @@
 
 # define ERR 0
 # define SUCCESS 1
+# define SKIP 2
 
 typedef struct  s_player
 {
@@ -125,12 +128,17 @@ typedef struct	s_win
 int				file(int argc, char **argv, t_win *win);
 int			    invalid_file(int err);
 int				valid_input(int argc, char **argv, t_win *i);
+int				ident_parce(char *line, t_win *win);
 int				resolution(char *ident, int i, t_win *win);
 int				texture(char *str, int i, t_win *win);
 int				color(char *str, int c, int first_c, t_win *win);
 int				map_parce(char **map, int i, int size, t_win *win);
 int 	        set_pos(t_win *win, char dir, int x, int y);
-int				init(t_win *win, int i);
+
+int				init_plr(t_win *win);
+int				init_keybuff(t_win *win);
+int				init_sprite(t_win *win);
+int				init_text(t_win *win, int nbr);
 
 int 	     	move_events(int key, t_win *win);
 int				ray(t_win *win);

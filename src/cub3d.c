@@ -37,8 +37,8 @@ int				main(int argc, char **argv)
 	int			succ;
 
 	win = init_win();
-	succ = init(win, 5);
-	succ = (!(init_game(argc, argv, win))) ? 0 : succ;
+	succ = init_game(argc, argv, win);
+	succ = (!(init_keybuff(win))) ? 0 : succ;
 	if (!succ)
 		return (ERR);
 	mlx_hook(win->win, 2, 0, key_pressed, win);

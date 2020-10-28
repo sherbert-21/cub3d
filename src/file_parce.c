@@ -1,69 +1,25 @@
 #include "cub3d.h"
 
-static int		valid_identifier(char *ident)
+static int		file_skip_space(char **file, int size, t_win *win)
 {
 	int i;
-
-	i = 0;
-	while (ident[i] == ' ')
-		i++;
-	if (ft_strchr("RSFC", ident[i]) && ident[i + 1] == ' ')
-		return (SUCCESS);
-	else if (ft_strchr("SN", ident[i]) && ident[i + 1] == 'O')
-		return (SUCCESS);
-	else if (ident[i] == 'W' && ident[i + 1] == 'E')
-		return (SUCCESS);
-	else if (ident[i] == 'E' && ident[i + 1] == 'A')
-		return (SUCCESS);
-	else
-		return (invalid_file(4));
-}
-
-static int		identifier_parce(char *ident, t_win *win)
-{
-	int i;
-
-	i = 0;
-	while (ident[i] == ' ')
-		i++;
-	if (ident[i] == 'R')
-		return (resolution(ident, ++i, win));
-	else if (ident[i] == 'F' || ident[i] == 'C')
-		return (color(ident, ident[i], i, win));
-	else
-		return (texture(ident, i, win));
-}
-
-static int		file_parce(char **file, t_win *win, int size)
-{
-	int i;
-	int succ;
-	int ident;
 	int k;
 
 	i = -1;
-	succ = 1;
-	ident = 0;
-	while (succ && file[++i] && ident < 8)
+	while (file[++i])
 	{
 		k = 0;
 		while (file[i][k] == ' ')
 			k++;
-		if ((ft_isprint(file[i][k])))
-		{
-			if ((succ = valid_identifier(file[i])))
-			{
-				succ = (!(identifier_parce(file[i], win))) ? 0 : succ;
-				ident++;
-			}
-		}
+		if (file[i][k] == '\n' || file[i][k] == '\0')
+			continue;
+		else
+			break;
 	}
-	if (ident != 8 && succ)
-		return (invalid_file(9));
-	return ((succ) ? map_parce(file, i, size, win) : ERR);
+	return (map_parce(file, i, size, win));
 }
 
-static int		lst_to_str(t_list *file_lst, int size, t_win *win)
+static int		file_to_map(t_list *file_lst, int size, t_win *win)
 {
 	char	**file;
 	int		i;
@@ -79,7 +35,7 @@ static int		lst_to_str(t_list *file_lst, int size, t_win *win)
 		file[i++] = file_lst->content;
 		file_lst = file_lst->next;
 	}
-	succ = file_parce(file, win, size);
+	succ = file_skip_space(file, size, win);
 	i = -1;
 	while (file[++i])
 	{
@@ -96,17 +52,25 @@ int				file(int argc, char **argv, t_win *win)
 	t_list	*file_lst;
 	char	*line;
 	int		succ;
+	int		id;
 
 	file_lst = NULL;
-	succ = valid_input(argc, argv, win);
-	win->save = 0;
-	if (succ)
+	id = 0;
+	if ((succ = valid_input(argc, argv, win)) == 1)
 	{
 		fd = open(argv[1], O_RDONLY);
-		while (get_next_line(fd, &line))
+		while (id < 8 && succ && get_next_line(fd, &line))
+		{
+			succ = ident_parce(line, win);
+			id = (succ == 1) ? id + 1 : id;
+			save_free(&line);
+		}
+		if (succ && get_next_line(fd, &line))
 			ft_lstadd_back(&file_lst, ft_lstnew(line));
 		ft_lstadd_back(&file_lst, ft_lstnew(line));
-		succ = (!(lst_to_str(file_lst, ft_lstsize(file_lst), win))) ? 0 : 1;
+		succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
+		close(fd);
+		ft_lstclear(&file_lst, free);
 	}
-	return (succ);
+	return ((succ) ? SUCCESS : ERR);
 }

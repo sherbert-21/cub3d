@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static int			init_plr(t_win *win)
+int			init_plr(t_win *win)
 {
 	if (!(win->plr = malloc(sizeof(t_player))))
 		return (invalid_file(0));
@@ -16,7 +16,7 @@ static int			init_plr(t_win *win)
 	return (SUCCESS);
 }
 
-static int			init_keybuff(t_win *win)
+int			init_keybuff(t_win *win)
 {
 	if (!(win->keybuff = malloc(sizeof(t_keybuff))))
 		return (invalid_file(0));
@@ -28,24 +28,7 @@ static int			init_keybuff(t_win *win)
 	return (SUCCESS);
 }
 
-static int			init_text(t_win *win,int nbr)
-{
-	int i;
-
-	i = 0;
-	if (!(win->text = malloc(sizeof(t_pic *) * nbr - 1)))
-		return (invalid_file(0));
-	while (i < nbr)
-	{
-		if (!(win->text[i] = malloc(sizeof(t_pic))))
-			return (invalid_file(0));
-		ft_bzero(win->text[i], sizeof(t_pic));
-		i++;
-	}
-	return (SUCCESS);
-}
-
-static int			init_sprite(t_win *win)
+int			init_sprite(t_win *win)
 {
 	if (!(win->sprite = malloc(sizeof(t_pic))))
 		return (invalid_file(0));
@@ -58,13 +41,19 @@ static int			init_sprite(t_win *win)
 	return (SUCCESS);
 }
 
-int			init(t_win *win, int i)
+int			init_text(t_win *win, int nbr)
 {
-	int succ;
+	int i;
 
-	succ = init_plr(win);
-	succ = (init_keybuff(win))? 0 : succ;
-	succ = (init_text(win, i))? 0 : succ;
-	succ = (init_sprite(win))? 0 : succ;
-	return (succ);
+	i = 0;
+	if (!(win->text = malloc(sizeof(t_pic *) * nbr)))
+		return (invalid_file(0));
+	while (i < nbr)
+	{
+		if (!(win->text[i] = malloc(sizeof(t_pic))))
+			return (invalid_file(0));
+		ft_bzero(win->text[i], sizeof(t_pic));
+		i++;
+	}
+	return (SUCCESS);
 }

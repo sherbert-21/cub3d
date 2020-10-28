@@ -56,6 +56,8 @@ static int			set_sprite(t_win *win, const char *path)
 
 static int			set_text(t_win *win, const char *path, int c)
 {
+	if (!win->text)
+		init_text(win, 5);
 	c = (path[c] == 'N') ? 0 : c;
 	c = (path[c] == 'S' && path[c + 1] == 'O') ? 1 : c;
 	c = (path[c] == 'W') ? 2 : c;
