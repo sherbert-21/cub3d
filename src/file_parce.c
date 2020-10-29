@@ -25,7 +25,6 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 	int		i;
 	int		succ;
 
-	ft_putnbr_fd(size, 1);
 	i = 0;
 	if (!(file = ft_calloc(size + 1, sizeof(char *))))
 		return (invalid_file(0));
@@ -66,12 +65,12 @@ int				file(int argc, char **argv, t_win *win)
 			id = (succ == 1) ? id + 1 : id;
 			save_free(&line);
 		}
-		if (succ && get_next_line(fd, &line))
+		while (succ && get_next_line(fd, &line))
 			ft_lstadd_back(&file_lst, ft_lstnew(line));
 		ft_lstadd_back(&file_lst, ft_lstnew(line));
 		succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
 		close(fd);
-		ft_lstclear(&file_lst, free);
 	}
+	printf("YASSSS");
 	return ((succ) ? SUCCESS : ERR);
 }

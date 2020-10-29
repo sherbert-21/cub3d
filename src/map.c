@@ -7,7 +7,7 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	size_t		j;
 
 	win->len = 0;
-	k = 0;
+	k = -1;
 	j = i;
 	while (map[++j])
 	{
@@ -16,14 +16,15 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	}
 	if(!(tmp = ft_calloc(size - i + 1, sizeof(char *))))
 		return (NULL);
-	while (map[++i])
+	while (map[++i] && ++k < (size_t)(size - i + 1))
 	{
-		j = ft_strlen(map[i]);
-		if (!(tmp[k] = ft_strdup(map[i])))
+		if (!(tmp[k] = ft_calloc(win->len, sizeof(char))))
 			return (NULL);
+		j = -1;
+		while (map[i][++j])
+			tmp[k][j] = map[i][j];
 		while (j < win->len)
 			tmp[k][j++] = ' ';
-		k++;
 	}
 	return (tmp);
 }
@@ -98,7 +99,6 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	int		plr;
 
 	win->size = size - i;
-	ft_putnbr_fd(win->size, 1);
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
 		return (invalid_file(0));
 	succ = check_square(tmp, i, size, win->len) ? 1 : 0;
@@ -106,11 +106,11 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	plr = -1;
 	while (tmp[++j] && succ)
 	{
+		
 		k = 0;
 		while (tmp[j][++k] && succ)
 		{
-
-			succ = (check_symbol(tmp, j, k) != 1) ? 0 : 1;
+			succ = (!(check_symbol(tmp, j, k) == 1)) ? 0 : 1;
 			if (ft_strchr("NSWE", tmp[j][k]))
 			{
 				printf("aaa\n");
@@ -118,9 +118,6 @@ int				map_parce(char **map, int i, int size, t_win *win)
 			}
 		}
 	}
-	for (int q = 0; tmp[q]; q++)
-	    ft_putstr_fd(tmp[q] , 1);
-	printf("%d\n", plr);
 	succ = (succ && !plr && map_int(tmp, i - 1, size, win)) ? 0 : succ;
 	return (succ);
 }
