@@ -30,10 +30,10 @@ int				valid_input(int c, char **str, t_win *win)
 {
 	int i;
 
-	i = ft_strlen(str[1]) - 1;
 	win->save = 0;
 	if (c < 4 && c > 1)
 	{
+        i = ft_strlen(str[1]) - 1;
 		if (c == 2)
 		{
 			if (!(ft_strncmp(str[1], "--save", 7)))

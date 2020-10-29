@@ -39,8 +39,7 @@ static int		init_game(int argc, char **argv, t_win *win)
 		win->x, win->y, "Cub3D")))
 		return (invalid_file(0));
 	ft_putendl_fd("Starting Cub3D...", 1);
-	if(!(win->screen = new_image(win, win->x,
-		win->y)))
+	if(!(win->screen = new_image(win, win->x, win->y)))
 		return (invalid_file(0));
 	ft_putendl_fd("DONE!", 1);
 	return (SUCCESS);
