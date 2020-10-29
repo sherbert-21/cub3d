@@ -1,0 +1,8 @@
+*.o
+.idea/
+*.swp
+obj/
+cmake-build-debug/
+*.a
+cub
+cub3d
