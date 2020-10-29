@@ -69,7 +69,7 @@ int				file(char **argv, t_win *win)
 	file_lst = NULL;
 	id = 0;
 	succ = 0;
-	printf("ok");
+	printf("\n\n\n\n\n\n\nok");
 	fd = open(argv[1], O_RDONLY);
 	while (id < 8 && succ && get_next_line(fd, &line))
 	{

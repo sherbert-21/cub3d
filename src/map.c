@@ -136,7 +136,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 				plr = (set_pos(win, tmp[j][k], j, k)) ? plr + 1 : plr;
 		}
 	}
-	printf("aaa");
+	printf("aaa\n\n\n\n\n\n\n");
 	succ = (!plr && map_int(tmp, win)) ? succ : 0;
 	for (size_t y = 0; y < win->size; y++)
 	{
