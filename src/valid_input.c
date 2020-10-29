@@ -32,7 +32,7 @@ int				valid_input(int c, char **str, t_win *win)
 
 	i = ft_strlen(str[1]) - 1;
 	win->save = 0;
-	if (c < 3 && c > 0)
+	if (c < 4 && c > 1)
 	{
 		if (c == 2)
 		{
