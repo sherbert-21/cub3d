@@ -30,28 +30,25 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	return (tmp);
 }
 
-//err
-static int		check_square(char **tmp, int i, int size, int len)
+static int		check_square(char **tmp, t_win *win)
 {
-	int		j;
-	int		k;
-	int		succ;
+	unsigned long	j;
+	unsigned long	k;
+	int				succ;
 
 	j = -1;
 	succ = 1;
-	k = -1;
-	printf("miaso\n");
-	while (++j < size - i - 1 && succ)
-		succ = (ft_strchr(" 1", tmp[j][0])) ? 0 : succ;
-	printf("succ = %d\n", succ);
-	while (++k < len - 1 && succ)
-		succ = (ft_strchr(" 1", tmp[j - 1][k])) ? 0 : succ;
-	printf("succ = %d\n", succ);
-	while (--j >= 0 && succ)
-		succ = (ft_strchr(" 1", tmp[j][k - 1])) ? 0 : succ;
-	printf("succ = %d\n", succ);
-	while (--k >= 0 && succ)
-		succ = (ft_strchr(" 1", tmp[j + 1][k])) ? 0 : succ;
+	k = 0;
+	while (++j < win->size && succ)
+		succ = (ft_strchr(" 1", tmp[j][0])) ? 1 : 0;
+	while (++k < win->len && succ)
+		succ = (ft_strchr(" 1", tmp[j - 1][k])) ? 1 : 0;
+	while (--j > 0 && succ)
+		succ = (ft_strchr(" 1", tmp[j][k - 1])) ? 1 : 0;
+	succ = (ft_strchr(" 1", tmp[j][k - 1])) ? 1 : 0;
+	while (--k > 0 && succ)
+		succ = (ft_strchr(" 1", tmp[j][k])) ? 1 : 0;
+	succ = (ft_strchr(" 1", tmp[j][k])) ? 1 : 0;
 	return (succ);
 }
 
@@ -70,6 +67,7 @@ static int		check_symbol(char **tmp, int j, int k)
 	return (invalid_file(3));
 }
 
+//err
 static int		map_int(char **map, int i, int size, t_win *win)
 {
 	int j;
@@ -106,25 +104,26 @@ int				map_parce(char **map, int i, int size, t_win *win)
 
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
 		return (invalid_file(0));
-	for (size_t l = 0; l < win->size; l++)
-		printf("%s\n", tmp[l]);
-	succ = check_square(tmp, i, size, win->len) ? 1 : 0;
+	succ = check_square(tmp, win) ? 1 : 0;
 	j = 0;
 	plr = -1;
-	while (tmp[++j] && succ)
+	while ((unsigned long)j < win->size - 1 && succ)
 	{
-		
 		k = 0;
-		while (tmp[j][++k] && succ)
+		while ((unsigned long)k < win->len - 1 && succ)
 		{
-			succ = (!(check_symbol(tmp, j, k) == 1)) ? 0 : 1;
+			succ = (check_symbol(tmp, j, k)) ? 1 : 0;
 			if (ft_strchr("NSWE", tmp[j][k]))
-			{
-				printf("aaa\n");
 				plr = (set_pos(win, tmp[j][k], j, k)) ? plr + 1 : plr;
-			}
 		}
 	}
-	succ = (!plr && map_int(tmp, i - 1, size, win)) ? 1 : succ;
+	printf("aaa");
+	succ = (!plr && map_int(tmp, i - 1, size, win)) ? succ : 0;
+	for (size_t y = 0; y < win->size; y++)
+	{
+		for (size_t z = 0; z < win->len; z++)
+			printf("%d", win->map[y][z]);
+		printf("\n");
+	}
 	return (succ);
 }
