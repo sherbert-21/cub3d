@@ -46,7 +46,7 @@ int			init_text(t_win *win, int nbr)
 	int i;
 
 	i = 0;
-	if (!(win->text = malloc(sizeof(t_pic *) * nbr)))
+	if (!(win->text = malloc(sizeof(t_pic *) * nbr + 1)))
 		return (invalid_file(0));
 	while (i < nbr)
 	{

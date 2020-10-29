@@ -17,7 +17,7 @@ static int		check_str(char *str, int c, int first_c)
 		i++;
 	while (str[i] == ' ')
 		i++;
-	if (str[i] == '\0')
+	if (str[i] != '\0')
 		return (ERR);
 	return (SUCCESS);
 }

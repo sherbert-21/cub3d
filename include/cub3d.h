@@ -167,6 +167,6 @@ void			save_free(char **str);
 int				get_next_line(int fd, char **line);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1
 # endif
 #endif

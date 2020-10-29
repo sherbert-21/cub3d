@@ -28,7 +28,7 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	return (tmp);
 }
 
-static int		check_square(char **tmp, int i, int size)
+static int		check_square(char **tmp, int i, int size, int len)
 {
 	int		j;
 	int		k;
@@ -37,9 +37,9 @@ static int		check_square(char **tmp, int i, int size)
 	j = -1;
 	succ = 1;
 	k = -1;
-	while (++j <= size - i - 1 && succ)
+	while (++j < size - i - 1 && succ)
 		succ = (ft_strchr(" 1", tmp[j][0])) ? 0 : succ;
-	while (tmp[j - 1][++k] && succ)
+	while (++k < len - 1 && succ)
 		succ = (ft_strchr(" 1", tmp[j - 1][k])) ? 0 : succ;
 	while (--j >= 0 && succ)
 		succ = (ft_strchr(" 1", tmp[j][k - 1])) ? 0 : succ;
@@ -50,7 +50,7 @@ static int		check_square(char **tmp, int i, int size)
 
 static int		check_symbol(char **tmp, int j, int k)
 {
-	if (tmp[j][k] == 32)
+	if (tmp[j][k] == ' ')
 	{
 		if (ft_strchr(" 1", tmp[j + 1][k]) ||
 			ft_strchr(" 1", tmp[j - 1][k]) ||
@@ -58,7 +58,7 @@ static int		check_symbol(char **tmp, int j, int k)
 			ft_strchr(" 1", tmp[j][k - 1]))
 			return (SUCCESS);
 	}
-	else if (ft_strchr(" 012NSWE", tmp[j][k]))
+	else if (ft_strchr("012NSWE", tmp[j][k]))
 		return (SUCCESS);
 	return (invalid_file(3));
 }
@@ -95,24 +95,32 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	int		succ;
 	int		j;
 	size_t	k;
-	int		player;
+	int		plr;
 
+	win->size = size - i;
+	ft_putnbr_fd(win->size, 1);
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
 		return (invalid_file(0));
-	succ = check_square(tmp, i, size) ? 1 : 0;
+	succ = check_square(tmp, i, size, win->len) ? 1 : 0;
 	j = 0;
-	player = -1;
-	while ((unsigned long)++j < (win->size = size - i) - 1 && succ)
+	plr = -1;
+	while (tmp[++j] && succ)
 	{
 		k = 0;
-		while (++k < ft_strlen(tmp[j]) - 1)
+		while (tmp[j][++k] && succ)
 		{
-			succ = (!(check_symbol(tmp, j, k) == 1)) ? 0 : 1;
-			player = (set_pos(win, tmp[j][k], j, k)) ? player + 1 : player;
+
+			succ = (check_symbol(tmp, j, k) != 1) ? 0 : 1;
+			if (ft_strchr("NSWE", tmp[j][k]))
+			{
+				printf("aaa\n");
+				plr = (set_pos(win, tmp[j][k], j, k)) ? plr + 1 : plr;
+			}
 		}
 	}
-	if ((player > 0 || player == -1) && succ)
-		return (invalid_file(3));
-	succ = (succ && map_int(tmp, i - 1, size, win)) ? 0 : succ;
+	for (int q = 0; tmp[q]; q++)
+	    ft_putstr_fd(tmp[q] , 1);
+	printf("%d\n", plr);
+	succ = (succ && !plr && map_int(tmp, i - 1, size, win)) ? 0 : succ;
 	return (succ);
 }

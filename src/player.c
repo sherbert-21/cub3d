@@ -10,7 +10,7 @@ static void	set_camera(t_win *win, double dirX,
 
 int		set_pos(t_win *win, char dir, int x, int y)
 {
-	if (ft_strchr("NSWE", dir) && !win->plr)
+	if (!win->plr)
 		init_plr(win);
 	if (dir == 'E')
 	{
@@ -34,5 +34,5 @@ int		set_pos(t_win *win, char dir, int x, int y)
 	}
 	win->plr->posX = (double)(x - 1) + 0.5;
 	win->plr->posY = (double)y + 0.5;
-	return ((ft_strchr("NSWE", dir)) ? SUCCESS : ERR);
+	return (SUCCESS);
 }

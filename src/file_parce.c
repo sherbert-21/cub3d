@@ -9,7 +9,7 @@ static int		file_skip_space(char **file, int size, t_win *win)
 	while (file[++i])
 	{
 		k = 0;
-		while (file[i][k] == ' ')
+		while (file[i][k] == ' ' && file[i][k])
 			k++;
 		if (file[i][k] == '\n' || file[i][k] == '\0')
 			continue;
@@ -25,6 +25,7 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 	int		i;
 	int		succ;
 
+	ft_putnbr_fd(size, 1);
 	i = 0;
 	if (!(file = ft_calloc(size + 1, sizeof(char *))))
 		return (invalid_file(0));

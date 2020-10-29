@@ -86,14 +86,14 @@ int					texture(char *str, int first_c, t_win *win)
 	char	*path;
     int     i;
 	int		k;
-
+	
 	if (!(check_text_form(str)))
 		return (invalid_file(6));
     i = first_c + 2;
     while (str[i] == ' ')
         i++;
 	k = i;
-	while (str[k] != ' ')
+	while (str[k] && str[k] != ' ')
 		k++;
 	path = ft_substr(str, i, k - i);
 	if (!(file_exists(path)))
