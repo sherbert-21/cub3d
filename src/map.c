@@ -68,27 +68,31 @@ static int		check_symbol(char **tmp, int j, int k)
 }
 
 //err
-static int		map_int(char **map, int i, int size, t_win *win)
+static int		map_int(char **map, t_win *win)
 {
 	int j;
 	int k;
 
 	k = -1;
-	if (!(win->map = ft_calloc(size - i + 1, sizeof(int *))))
+	printf("1");
+	if (!(win->map = ft_calloc(win->size + 1, sizeof(int *))))
 		return (invalid_file(0));
+	printf("a");
 	while (map[++k])
 	{
 		j = -1;
 		if (!(win->map[k] = ft_calloc(win->len, sizeof(int))))
 			return (invalid_file(0));
+		printf("aa");
 		while (map[k][++j])
 		{
 			if (map[k][j] >= '0' && map[k][j] <= '2')
 				win->map[k][j] = map[k][j] - '0';
-			if (map[k][j] == ' ')
+			else if (map[k][j] == ' ')
 				win->map[k][j] = 1;
-			if (ft_strchr("NSWE", map[k][j]))
+			else if (ft_strchr("NSWE", map[k][j]))
 				win->map[k][j] = (int)map[k][j];
+			printf("a2");
 		}
 	}
 	return (SUCCESS);
@@ -102,14 +106,17 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	size_t	k;
 	int		plr;
 
+	printf("aaa");
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
 		return (invalid_file(0));
 	succ = check_square(tmp, win) ? 1 : 0;
 	j = 0;
 	plr = -1;
+	printf("aaa");
 	while ((unsigned long)j < win->size - 1 && succ)
 	{
 		k = 0;
+		printf("aaa");
 		while ((unsigned long)k < win->len - 1 && succ)
 		{
 			succ = (check_symbol(tmp, j, k)) ? 1 : 0;
@@ -118,7 +125,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 		}
 	}
 	printf("aaa");
-	succ = (!plr && map_int(tmp, i - 1, size, win)) ? succ : 0;
+	succ = (!plr && map_int(tmp, win)) ? succ : 0;
 	for (size_t y = 0; y < win->size; y++)
 	{
 		for (size_t z = 0; z < win->len; z++)
