@@ -7,6 +7,7 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	size_t		j;
 
 	win->len = 0;
+	win->size = size - i - 1;
 	k = -1;
 	j = i;
 	while (map[++j])
@@ -14,11 +15,11 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 		if (win->len <= ft_strlen(map[j]))
 			win->len = ft_strlen(map[j]);
 	}
-	if(!(tmp = ft_calloc(size - i + 1, sizeof(char *))))
+	if(!(tmp = ft_calloc(win->size + 1, sizeof(char *))))
 		return (NULL);
-	while (map[++i] && ++k < (size_t)(size - i + 1))
+	while (map[++i] && ++k < (size_t)(win->size))
 	{
-		if (!(tmp[k] = ft_calloc(win->len, sizeof(char))))
+		if (!(tmp[k] = ft_calloc(win->len + 1, sizeof(char))))
 			return (NULL);
 		j = -1;
 		while (map[i][++j])
@@ -29,6 +30,7 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	return (tmp);
 }
 
+//err
 static int		check_square(char **tmp, int i, int size, int len)
 {
 	int		j;
@@ -38,12 +40,16 @@ static int		check_square(char **tmp, int i, int size, int len)
 	j = -1;
 	succ = 1;
 	k = -1;
+	printf("miaso\n");
 	while (++j < size - i - 1 && succ)
 		succ = (ft_strchr(" 1", tmp[j][0])) ? 0 : succ;
+	printf("succ = %d\n", succ);
 	while (++k < len - 1 && succ)
 		succ = (ft_strchr(" 1", tmp[j - 1][k])) ? 0 : succ;
+	printf("succ = %d\n", succ);
 	while (--j >= 0 && succ)
 		succ = (ft_strchr(" 1", tmp[j][k - 1])) ? 0 : succ;
+	printf("succ = %d\n", succ);
 	while (--k >= 0 && succ)
 		succ = (ft_strchr(" 1", tmp[j + 1][k])) ? 0 : succ;
 	return (succ);
@@ -98,9 +104,10 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	size_t	k;
 	int		plr;
 
-	win->size = size - i;
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
 		return (invalid_file(0));
+	for (size_t l = 0; l < win->size; l++)
+		printf("%s\n", tmp[l]);
 	succ = check_square(tmp, i, size, win->len) ? 1 : 0;
 	j = 0;
 	plr = -1;
@@ -118,6 +125,6 @@ int				map_parce(char **map, int i, int size, t_win *win)
 			}
 		}
 	}
-	succ = (succ && !plr && map_int(tmp, i - 1, size, win)) ? 0 : succ;
+	succ = (!plr && map_int(tmp, i - 1, size, win)) ? 1 : succ;
 	return (succ);
 }

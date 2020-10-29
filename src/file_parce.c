@@ -16,7 +16,7 @@ static int		file_skip_space(char **file, int size, t_win *win)
 		else
 			break;
 	}
-	return (map_parce(file, i, size, win));
+	return (map_parce(file, i , size, win));
 }
 
 static int		file_to_map(t_list *file_lst, int size, t_win *win)
@@ -71,6 +71,7 @@ int				file(int argc, char **argv, t_win *win)
 		succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
 		close(fd);
 	}
-	printf("YASSSS");
+	if (succ)
+		printf("YASSSS");
 	return ((succ) ? SUCCESS : ERR);
 }
