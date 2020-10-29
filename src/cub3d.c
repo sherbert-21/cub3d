@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sherbert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/29 19:49:13 by sherbert          #+#    #+#             */
+/*   Updated: 2020/10/29 19:49:15 by sherbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static t_win	*init_win(void)
@@ -16,10 +28,13 @@ static t_win	*init_win(void)
 
 static int		init_game(int argc, char **argv, t_win *win)
 {
-	ft_putendl_fd("Checking file...", 1);
-	if (!(file(argc, argv, win)))
+	ft_putendl_fd("Checking input...", 1);
+	if (!(valid_input(argc, argv, win)))
 		return (ERR);
-	ft_putendl_fd("Creating new window...", 1);
+	ft_putendl_fd("OK\nChecking file...", 1);
+	if (!(file(argv, *win)))
+		return (ERR);
+	ft_putendl_fd("OK\nCreating new window...", 1);
 	if (!(win->win = mlx_new_window(win->mlx,
 		win->x, win->y, "Cub3D")))
 		return (invalid_file(0));
@@ -38,13 +53,13 @@ int				main(int argc, char **argv)
 
 	win = init_win();
 	succ = init_game(argc, argv, win);
-	succ = (!(init_keybuff(win))) ? 0 : succ;
+	succ = (init_keybuff(win)) ? succ : 0;
 	if (!succ)
-		return (ERR);
+		return (1);
 	mlx_hook(win->win, 2, 0, key_pressed, win);
 	mlx_hook(win->win, 3, 0, key_released, win);
 	mlx_loop_hook(win->mlx, loop, win);
 	if (win->save != 1)
 		mlx_loop(win->mlx);
-	return (SUCCESS);
+	return (0);
 }

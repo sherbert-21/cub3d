@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_sprite.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sherbert <sherbert@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: sherbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 09:15:45 by rchallie          #+#    #+#             */
-/*   Updated: 2020/10/25 02:02:13 by sherbert         ###   ########.fr       */
+/*   Created: 2020/10/29 19:48:37 by sherbert          #+#    #+#             */
+/*   Updated: 2020/10/29 19:48:40 by sherbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 static void			calcul_values(
 	t_draw_sprite *ds,

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sherbert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/29 19:52:55 by sherbert          #+#    #+#             */
+/*   Updated: 2020/10/29 19:52:58 by sherbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static char		**tmp_map(char **map, int i, int size, t_win *win)
@@ -116,7 +128,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	while ((unsigned long)j < win->size - 1 && succ)
 	{
 		k = 0;
-		printf("aaa");
+		printf("123");
 		while ((unsigned long)k < win->len - 1 && succ)
 		{
 			succ = (check_symbol(tmp, j, k)) ? 1 : 0;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sherbert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/29 19:55:39 by sherbert          #+#    #+#             */
+/*   Updated: 2020/10/29 19:55:40 by sherbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "libft.h"
@@ -125,7 +137,7 @@ typedef struct	s_win
 	t_keybuff	*keybuff;
 }               t_win;
 
-int				file(int argc, char **argv, t_win *win);
+int				file(char **argv, t_win *win);
 int			    invalid_file(int err);
 int				valid_input(int argc, char **argv, t_win *i);
 int				ident_parce(char *line, t_win *win);
