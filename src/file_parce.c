@@ -58,7 +58,7 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 	return (succ);
 }
 
-int				file(char **argv, t_win *win)
+int				file(char *argv, t_win *win)
 {
 	int		fd;
 	t_list	*file_lst;
@@ -69,7 +69,6 @@ int				file(char **argv, t_win *win)
 	file_lst = NULL;
 	id = 0;
 	succ = 0;
-	fd = open(argv[1], O_RDONLY);
 	while (id < 8 && succ && get_next_line(fd, &line))
 	{
 		printf("check id");
@@ -78,14 +77,9 @@ int				file(char **argv, t_win *win)
 		id = (succ == 1) ? id + 1 : id;
 		save_free(&line);
 	}
-	printf("1");
 	while (succ && get_next_line(fd, &line))
 		ft_lstadd_back(&file_lst, ft_lstnew(line));
 	ft_lstadd_back(&file_lst, ft_lstnew(line));
-	printf("2");
 	succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
-	close(fd);
-	if (succ)
-		printf("YASSSS");
 	return ((succ) ? SUCCESS : ERR);
 }

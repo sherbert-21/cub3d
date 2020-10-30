@@ -32,7 +32,7 @@ static int		init_game(int argc, char **argv, t_win *win)
 	if (!(valid_input(argc, argv, win)))
 		return (ERR);
 	ft_putendl_fd("OK\nChecking file...", 1);
-	if (!(file(argv, win)))
+	if (!(file(argv[1], win)))
 		return (ERR);
 	ft_putendl_fd("OK\nCreating new window...", 1);
 	if (!(win->win = mlx_new_window(win->mlx,

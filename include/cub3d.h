@@ -137,7 +137,7 @@ typedef struct	s_win
 	t_keybuff	*keybuff;
 }               t_win;
 
-int				file(char **argv, t_win *win);
+int				file(char *argv, t_win *win);
 int			    invalid_file(int err);
 int				valid_input(int argc, char **argv, t_win *i);
 int				ident_parce(char *line, t_win *win);
