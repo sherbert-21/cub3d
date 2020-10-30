@@ -68,8 +68,7 @@ int				file(char *argv, t_win *win)
 
 	file_lst = NULL;
 	id = 0;
-	succ = 0;
-	fd = open(argv, O_RDONLY);
+	succ = ((fd = open(argv, O_RDONLY)) > 0) ? 1 : 0;
 	while (id < 8 && succ && get_next_line(fd, &line))
 	{
 		printf("check id");
