@@ -12,6 +12,17 @@
 
 #include "cub3d.h"
 
+static int      skip_arg(char *str, int *i)
+{
+    while (ft_isdigit(str[*i]) || str[*i] == ',')
+    {
+        if (str[*i] == ',' && str[*i + 1] == ',')
+            return (ERR);
+        *i += 1;
+    }
+    return (SUCCESS);
+}
+
 static int		check_str(char *str, int c, int first_c)
 {
 	int i;
@@ -21,12 +32,12 @@ static int		check_str(char *str, int c, int first_c)
 	i = first_c + 1;
 	while (str[i] == ' ')
 		i++;
-	while (ft_isdigit(str[i]) || str[i] == ',')
-		i++;
+	if (!(skip_arg(str, &i)))
+        return (ERR);
 	while (str[i] == ' ')
 		i++;
-	while (ft_isdigit(str[i]) || str[i] == ',')
-		i++;
+    if (!(skip_arg(str, &i)))
+        return (ERR);
 	while (str[i] == ' ')
 		i++;
 	if (str[i] != '\0')
@@ -44,16 +55,14 @@ static int		get_rgb_from_clr(int r, int g, int b)
 	return (clr);
 }
 
-static int		get_num_clr(char *str, int *l)
+static int		get_num_clr(char *str, int *i)
 {
 	int clr;
+	int succ;
 
-	clr = ft_atoi(&str[*l]);
-	if (clr < 0 || clr > 255)
+	clr = ft_atoi(&str[*i]);
+	if (clr < 0 || clr > 255 || !(skip_arg(str, i)))
 		return (-1);
-	while (ft_isdigit(str[*l]))
-		*l += 1;
-	*l += 1;
 	return (clr);
 }
 

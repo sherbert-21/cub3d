@@ -60,15 +60,16 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 
 int				file(char *argv, t_win *win)
 {
-	int		fd;
 	t_list	*file_lst;
 	char	*line;
 	int		succ;
 	int		id;
+	int     fd;
 
 	file_lst = NULL;
 	id = 0;
 	succ = 0;
+	fd = open(argv, O_RDONLY);
 	while (id < 8 && succ && get_next_line(fd, &line))
 	{
 		printf("check id");
