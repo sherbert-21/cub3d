@@ -37,6 +37,8 @@ int			init_keybuff(t_win *win)
 	win->keybuff->backward = 0;
 	win->keybuff->left = 0;
 	win->keybuff->right = 0;
+    win->keybuff->turn_left = 0;
+    win->keybuff->turn_right = 0;
 	return (SUCCESS);
 }
 

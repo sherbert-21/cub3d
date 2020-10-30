@@ -28,8 +28,8 @@
 # define W 13
 # define _LEFT 123
 # define _RIGHT 124
-# define _DOWN 125
-# define _UP 126
+//# define _DOWN 125
+//# define _UP 126
 
 # define ERR 0
 # define SUCCESS 1
@@ -100,6 +100,8 @@ typedef struct	s_keybuff
 	int			backward;
 	int			left;
 	int			right;
+	int         turn_left;
+	int         turn_right
 }				t_keybuff;
 
 typedef struct	s_line
@@ -153,6 +155,8 @@ int				init_sprite(t_win *win);
 int				init_text(t_win *win, int nbr);
 
 int 	     	move_events(int key, t_win *win);
+void            turn_right(t_win *win);
+void            turn_left(t_win *win);
 int				ray(t_win *win);
 void			perp_and_height(t_ray *ray, t_player *plr, t_win *win);
 void			hit(t_ray *ray, t_win *win);

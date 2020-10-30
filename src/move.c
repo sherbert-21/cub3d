@@ -14,42 +14,30 @@
 
 static void		left(t_win *win)
 {
-	double oldDirX;
-	double oldPlaneX;
-
-	oldDirX = win->plr->dirX;
-	oldPlaneX = win->plr->planeX;
-	win->plr->dirX = win->plr->dirX
-			* cos(-win->plr->rotation) - win->plr->dirY
-			* sin(-win->plr->rotation);
-	win->plr->dirY = oldDirX * sin(-win->plr->rotation)
-			+ win->plr->dirY * cos(-win->plr->rotation);
-	win->plr->planeX = win->plr->planeX
-			* cos(-win->plr->rotation) - win->plr->planeY
-			* sin(-win->plr->rotation);
-	win->plr->planeY = oldPlaneX
-			* sin(-win->plr->rotation) + win->plr->planeY
-			* cos(-win->plr->rotation);
+    if (win->map[(int)win->plr->posY]
+        [(int)(win->plr->posX - win->plr->planeX
+        * win->plr->speed)] == '0')
+        win->plr->posX -= win->plr->planeX
+        * win->plr->speed;
+    if (win->map[(int)(win->plr->posY
+        - win->plr->planeY * win->plr->speed)]
+        [(int)win->plr->posX] == '0')
+        win->plr->posY -= win->plr->planeY
+        * win->plr->speed;
 }
 
 static void		right(t_win *win)
 {
-	double oldDirX;
-	double oldPlaneX;
-
-	oldDirX = win->plr->dirX;
-	oldPlaneX = win->plr->planeX;
-	win->plr->dirX = win->plr->dirX
-			* cos(win->plr->rotation) - win->plr->dirY
-			* sin(win->plr->rotation);
-	win->plr->dirY = oldDirX * sin(win->plr->rotation)
-			+ win->plr->dirY * cos(win->plr->rotation);
-	win->plr->planeX = win->plr->planeX
-			* cos(win->plr->rotation) - win->plr->planeY
-			* sin(win->plr->rotation);
-	win->plr->planeY = oldPlaneX
-			* sin(win->plr->rotation) + win->plr->planeY
-			* cos(win->plr->rotation);
+    if (win->map[(int)win->plr->posY]
+        [(int)(win->plr->posX + win->plr->planeX
+        * win->plr->speed)] == '0')
+        win->plr->posX += win->plr->planeX
+        * win->plr->speed;
+    if (win->map[(int)(win->plr->posY
+        + win->plr->planeY * win->plr->speed)]
+        [(int)win->plr->posX] == '0')
+        win->plr->posY += win->plr->planeY
+        * win->plr->speed;
 }
 static void		forward(t_win *win)
 {
@@ -81,13 +69,17 @@ static void		backward(t_win *win)
 
 int 	      move_events(int key, t_win *win)
 {
-	if (key == A || key == _LEFT)
-		left(win);
-	else if (key == D || key == _RIGHT)
-		right(win);
-	else if (key == W || key == _UP)
+    if (key == A)
+        left(win);
+    else if (key == D)
+        right(win);
+	else if (key == _LEFT)
+		turn_left(win);
+	else if (key == _RIGHT)
+		turn_right(win);
+	else if (key == W)
 		forward(win);
-	else if (key == S || key == _DOWN)
+	else if (key == S)
 		backward(win);
 	else if (key == ESC)
 		mlx_destroy_window(win->mlx, win->win);

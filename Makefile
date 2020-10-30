@@ -27,6 +27,7 @@ SRC		= 	file_parce.c \
 			utils_gnl.c \
 			init.c \
 			move.c \
+			turn.c \
 			bmp.c \
 			manage.c \
 			ray.c \
