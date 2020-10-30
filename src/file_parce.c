@@ -71,9 +71,7 @@ int				file(char *argv, t_win *win)
 	succ = ((fd = open(argv, O_RDONLY)) > 0) ? 1 : 0;
 	while (id < 8 && succ && get_next_line(fd, &line))
 	{
-		printf("check id");
 		succ = ident_parce(line, win);
-		printf("line");
 		id = (succ == 1) ? id + 1 : id;
 		save_free(&line);
 	}

@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= 	cub
+NAME	= 	cub3d
 
 FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
 

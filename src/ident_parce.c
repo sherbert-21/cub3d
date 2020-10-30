@@ -39,20 +39,11 @@ static int		set_ident(char *ident, t_win *win)
 	while (ident[i] == ' ')
 		i++;
 	if (ident[i] == 'R')
-	{
-		printf("resolution");
 		return (resolution(ident, ++i, win));
-	}
 	else if (ident[i] == 'F' || ident[i] == 'C')
-	{
-		printf("color");
 		return (color(ident, ident[i], i, win));
-	}
 	else
-	{
-		printf("texture");
 		return (texture(ident, i, win));
-	}
 }
 
 int			ident_parce(char *line, t_win *win)

@@ -101,7 +101,7 @@ typedef struct	s_keybuff
 	int			left;
 	int			right;
 	int         turn_left;
-	int         turn_right
+	int         turn_right;
 }				t_keybuff;
 
 typedef struct	s_line
@@ -171,7 +171,7 @@ void			texturisation(t_ray *ray, t_win *win);
 int				key_pressed(int key, void *param);
 int				key_released(int key, void *param);
 int				loop(void *param);
-int				destroy_window(void *param);
+//int				destroy_window(void *param);
 
 void    		free_str(char ***str);
 

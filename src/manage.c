@@ -19,9 +19,9 @@ int		key_pressed(int key, void *param)
 	win = (t_win *)param;
 	if (key == ESC)
 		mlx_destroy_window(win->mlx, win->win);
-	else if ((key == _UP || key == W) && win->keybuff->forward == 0)
+	else if ((key == W) && win->keybuff->forward == 0)
 		win->keybuff->forward = 1;
-	else if ((key == _DOWN || key == S) && win->keybuff->backward == 0)
+	else if ((key == S) && win->keybuff->backward == 0)
 		win->keybuff->backward = 1;
 	else if ((key == _LEFT || key == A) && win->keybuff->left == 0)
 		win->keybuff->left = 1;
@@ -35,9 +35,9 @@ int		key_released(int key, void *param)
 	t_win	*win;
 
 	win = (t_win *)param;
-	if ((key == _UP || key == W) && win->keybuff->forward == 1)
+	if ((key == W) && win->keybuff->forward == 1)
 		win->keybuff->forward = 0;
-	else if ((key == _DOWN || key == S) && win->keybuff->backward == 1)
+	else if ((key == S) && win->keybuff->backward == 1)
 		win->keybuff->backward = 0;
 	else if ((key == _LEFT || key == A) && win->keybuff->left == 1)
 		win->keybuff->left = 0;

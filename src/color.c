@@ -58,7 +58,6 @@ static int		get_rgb_from_clr(int r, int g, int b)
 static int		get_num_clr(char *str, int *i)
 {
 	int clr;
-	int succ;
 
 	clr = ft_atoi(&str[*i]);
 	if (clr < 0 || clr > 255 || !(skip_arg(str, i)))

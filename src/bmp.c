@@ -94,11 +94,13 @@ int			create_bmp(t_pic *screen, char *name)
 
 	name = ft_strjoin(name, ".bmp");
 	fd = open(name, O_CREAT | O_RDWR);
-	size = 14 + 40 + 4 + (screen->width * screen->height) * 4;
-	first_pix = 14 + 40 + 4;
+//	size = 14 + 40 + 4 + (screen->width * screen->height) * 4;
+    size = (screen->width * screen->height);
+//	first_pix = 14 + 40 + 4;
+    first_pix = 0;
 	write(fd, "BM", 2);
 	write(fd, &size, 4);
-	write(fd, "\0\0\0\0", 4);
+	write(fd, "\0", 4);
 	write(fd, &first_pix, 4);
 	bmp_info_header(screen, fd);
 	vert(screen);

@@ -32,7 +32,7 @@ int				valid_input(int c, char **str, t_win *win)
     {
         if (!(file_exist(str[1])))
             return (invalid_file(1));
-        if (!(ft_strncmp(str[2], "--save", ft_strlen("--save"))))
+        if (!(ft_strncmp(str[1], "--save", ft_strlen("--save"))))
             return (invalid_file(2));
         win->save = 0;
         return (SUCCESS);
