@@ -55,13 +55,11 @@ add_executable(${PROJECT_NAME}
         src/parse/parse_ceilling_floor_color.c
         src/main.c
     src/error.c
-    src/file_parce.c
         src/parse/gnl.c
     src/ident_parce.c
     src/init.c
     src/manage.c
-    src/map.c
-    src/move.c
+        src/move.c
     src/player.c
     src/ray.c
         src/screen.c
@@ -71,7 +69,11 @@ add_executable(${PROJECT_NAME}
         src/parse/valid_input.c
     src/turn.c
     src/sprite.c
-    src/draw_sprite.c src/parse/parse_file.c src/parse/parse_info_fields.c src/parse/utils.c src/parse/parse_map.c)
+    src/draw_sprite.c
+        src/parse/parse_info_fields.c
+        src/parse/utils.c
+        src/parse/parse_map.c
+        src/parse/parse_file.c)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
