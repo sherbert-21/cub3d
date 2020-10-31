@@ -67,21 +67,19 @@ static void		backward(t_win *win)
 		* win->plr->speed;
 }
 
-int 	      move_events(int key, t_win *win)
+int 	      move_events(t_win *win)
 {
-    if (key == A)
+    if (win->keybuff->left == 1)
         left(win);
-    else if (key == D)
+    else if (win->keybuff->right == 1)
         right(win);
-	else if (key == _LEFT)
+	else if (win->keybuff->turn_left == _LEFT)
 		turn_left(win);
-	else if (key == _RIGHT)
+	else if (win->keybuff->turn_right == _RIGHT)
 		turn_right(win);
-	else if (key == W)
+	else if (win->keybuff->forward == W)
 		forward(win);
-	else if (key == S)
+	else if (win->keybuff->backward == S)
 		backward(win);
-	else if (key == ESC)
-		mlx_destroy_window(win->mlx, win->win);
 	return (SUCCESS);
 }

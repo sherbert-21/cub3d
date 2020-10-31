@@ -70,7 +70,9 @@ add_executable(${PROJECT_NAME}
     src/texturisation.c
     src/utils_gnl.c
     src/valid_input.c
-    src/turn.c)
+    src/turn.c
+    src/sprite.c
+    src/draw_sprite.c)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

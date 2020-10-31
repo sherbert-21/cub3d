@@ -15,7 +15,7 @@
 int			init_plr(t_win *win)
 {
 	if (!(win->plr = malloc(sizeof(t_player))))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	ft_bzero(win->plr, sizeof(t_player));
 	win->plr->posX = -20.0;
 	win->plr->posY = -20.0;
@@ -31,7 +31,7 @@ int			init_plr(t_win *win)
 int			init_keybuff(t_win *win)
 {
 	if (!(win->keybuff = malloc(sizeof(t_keybuff))))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	ft_bzero(win->keybuff, sizeof(t_keybuff));
 	win->keybuff->forward = 0;
 	win->keybuff->backward = 0;
@@ -45,13 +45,13 @@ int			init_keybuff(t_win *win)
 int			init_sprite(t_win *win)
 {
 	if (!(win->sprite = malloc(sizeof(t_pic))))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	ft_bzero(win->sprite, sizeof(t_pic));
-	// if (!(win->sprites_on_screen = malloc(sizeof(t_list))))
-	// 	return (1);
-	// ft_bzero(win->sprites_on_screen, sizeof(t_list));
-	// win->sprites_on_screen->x = -1;
-	// win->sprites_on_screen->y = -1;
+	 if (!(win->sprite_screen = malloc(sizeof(t_list))))
+	 	return (1);
+	 ft_bzero(win->sprite_screen, sizeof(t_list));
+	 win->sprite_screen->x = -1;
+	 win->sprite_screen->y = -1;
 	return (SUCCESS);
 }
 
@@ -61,11 +61,11 @@ int			init_text(t_win *win, int nbr)
 
 	i = 0;
 	if (!(win->text = malloc(sizeof(t_pic *) * nbr + 1)))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	while (i < nbr)
 	{
 		if (!(win->text[i] = malloc(sizeof(t_pic))))
-			return (invalid_file(0));
+			return (invalid_file(0, win));
 		ft_bzero(win->text[i], sizeof(t_pic));
 		i++;
 	}

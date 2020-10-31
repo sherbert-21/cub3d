@@ -12,84 +12,70 @@
 
 #include "cub3d.h"
 
-static void		next_sprite(
-	t_sprites *actual,
-	t_sprites *new,
-	t_ray *ray
-)
+static void		next_sprite(t_sprites *old, t_sprites *new, t_ray *ray)
 {
 	while (1)
 	{
-		if (actual->x == ray->mapx && actual->y == ray->mapy)
+		if (old->x == ray->mapX && old->y == ray->mapY)
 		{
 			free(new);
-			break ;
+			break;
 		}
-		if ((actual->x != ray->mapx || actual->y != ray->mapy)
-			&& !actual->next)
+		if ((old->x != ray->mapX || old->y != ray->mapY)
+			&& !old->next)
 		{
-			actual->next = new;
-			break ;
+			old->next = new;
+			break;
 		}
-		if (actual->next)
-			actual = actual->next;
+		if (old->next)
+			old = old->next;
 		else
 		{
 			free(new);
-			break ;
+			break;
 		}
 	}
 }
 
-void			is_sprite(
-	t_ray *ray,
-	t_window *win_infos
-)
+void			is_sprite(t_ray *ray, t_win *win)
 {
 	t_sprites *new;
-	t_sprites *actual;
-	t_sprites save_top;
+	t_sprites *old;
+	t_sprites save;
 
 	if (!(new = malloc(sizeof(t_sprites))))
 		return ;
 	new->next = NULL;
-	new->x = ray->mapx;
-	new->y = ray->mapy;
-	actual = win_infos->sprites_on_screen;
-	save_top = *actual;
-	if (actual->x == -1 && actual->y == -1)
+	new->x = ray->mapX;
+	new->y = ray->mapY;
+	old = win->sprite_screen;
+	save = *old;
+	if (old->x == -1 && old->y == -1)
 	{
-		actual->x = ray->mapx;
-		actual->y = ray->mapy;
+		old->x = ray->mapX;
+		old->y = ray->mapY;
 	}
 	else
-		next_sprite(actual, new, ray);
-	actual = &save_top;
+		next_sprite(old, new, ray);
+	old = &save;
 }
 
-int				stock_sprite(
-	char *path,
-	t_window *win_infos
-)
+int				stock_sprite(char *path, t_win *win)
 {
-	if (!(win_infos->sprite->img_ptr =
-		mlx_xpm_file_to_image(win_infos->mlx_ptr, path,
-		&win_infos->sprite->width,
-		&win_infos->sprite->height)))
-		return (ERROR);
-	win_infos->sprite->data =
-		mlx_get_data_addr(win_infos->sprite->img_ptr,
-		&win_infos->sprite->bpp,
-		&win_infos->sprite->size_line,
-		&win_infos->sprite->endian);
-	return (SUCCES);
+	if (!(win->sprite->img =
+		mlx_xpm_file_to_image(win->mlx, path,
+		&win->sprite->width,
+		&win->sprite->height)))
+		return (ERR);
+	win->sprite->data =
+		mlx_get_data_addr(win->sprite->img,
+		&win->sprite->bpp,
+		&win->sprite->size,
+		&win->sprite->endian);
+	return (SUCCESS);
 }
 
-void			sort_sprite(
-	t_window *win_infos,
-	t_sprite *sprites,
-	int nbr_sprites
-)
+void			sort_sprite(t_win *win, t_sprite *sprites, int nbr)
 {
 	int			i;
 	double		dist_one;
@@ -97,15 +83,15 @@ void			sort_sprite(
 	t_sprite	tmp;
 
 	i = 0;
-	while (i < nbr_sprites && i + 1 != nbr_sprites)
+	while (i < nbr && i + 1 != nbr)
 	{
-		dist_one = ((win_infos->player->posx - sprites[i].x)
-		* (win_infos->player->posx - sprites[i].x) + (win_infos->player->posy
-		- sprites[i].y) * (win_infos->player->posy - sprites[i].y));
-		dist_two = ((win_infos->player->posx - sprites[i + 1].x)
-		* (win_infos->player->posx - sprites[i + 1].x)
-		+ (win_infos->player->posy - sprites[i + 1].y)
-		* (win_infos->player->posy - sprites[i + 1].y));
+		dist_one = ((win->plr->posX - sprites[i].x)
+		* (win->plr->posX - sprites[i].x) + (win->plr->posY
+		- sprites[i].y) * (win->plr->posY - sprites[i].y));
+		dist_two = ((win->plr->posX - sprites[i + 1].x)
+		* (win->plr->posX - sprites[i + 1].x)
+		+ (win->plr->posY - sprites[i + 1].y)
+		* (win->plr->posY - sprites[i + 1].y));
 		if (dist_one < dist_two)
 		{
 			tmp = sprites[i];
@@ -118,33 +104,31 @@ void			sort_sprite(
 	}
 }
 
-t_sprite		*list_to_tab(
-	t_window *win_infos
-)
+t_sprite		*list_to_tab(t_win *win)
 {
-	t_sprite	*rtn;
-	t_sprites	*save_top;
+	t_sprite	*tmp;
+	t_sprites	*save;
 	int			count;
 
-	save_top = win_infos->sprites_on_screen;
+	save = win->sprite_screen;
 	count = -1;
-	if (!(rtn = malloc(sizeof(t_sprite)
-		* ft_lstsize((t_list *)win_infos->sprites_on_screen))))
-		return (ERROR);
-	ft_bzero(rtn, sizeof(t_sprite)
-		* ft_lstsize((t_list *)win_infos->sprites_on_screen));
+	if (!(tmp = malloc(sizeof(t_sprite)
+		* ft_lstsize((t_list *)win->sprite_screen))))
+		return (ERR);
+	ft_bzero(tmp, sizeof(t_sprite)
+		* ft_lstsize((t_list *)win->sprite_screen));
 	while (++count > -1)
 	{
-		if (win_infos->sprites_on_screen)
+		if (win->sprite_screen)
 		{
-			rtn[count].x = win_infos->sprites_on_screen->x;
-			rtn[count].y = win_infos->sprites_on_screen->y;
+			tmp[count].x = win->sprite_screen->x;
+			tmp[count].y = win->sprite_screen->y;
 		}
-		if (win_infos->sprites_on_screen->next)
-			win_infos->sprites_on_screen = win_infos->sprites_on_screen->next;
+		if (win->sprite_screen->next)
+			win->sprite_screen = win->sprite_screen->next;
 		else
-			break ;
+			break;
 	}
-	win_infos->sprites_on_screen = save_top;
-	return (rtn);
+	win->sprite_screen = save;
+	return (tmp);
 }

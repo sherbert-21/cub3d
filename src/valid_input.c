@@ -28,23 +28,24 @@ static int      file_exist(char *str)
 
 int				valid_input(int c, char **str, t_win *win)
 {
+    ft_putendl_fd("Checking input...", 1);
     if (c == 2)
     {
         if (!(file_exist(str[1])))
-            return (invalid_file(1));
+            return (invalid_file(1, win));
         if (!(ft_strncmp(str[1], "--save", ft_strlen("--save"))))
-            return (invalid_file(2));
+            return (invalid_file(2, win));
         win->save = 0;
         return (SUCCESS);
     }
     if (c == 3)
     {
         if (!(file_exist(str[1])))
-            return (invalid_file(1));
+            return (invalid_file(1, win));
         if (!(ft_strncmp(str[2], "--save", ft_strlen("--save"))))
-            return (invalid_file(1));
+            return (invalid_file(1, win));
         win->save = 1;
         return (SUCCESS);
     }
-	return (invalid_file(1));
+	return (invalid_file(1, win));
 }

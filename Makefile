@@ -33,6 +33,8 @@ SRC		= 	file_parce.c \
 			ray.c \
 			screen.c \
 			texturisation.c \
+			sprite.c \
+			draw_sprite.c\
 			cub3d.c \
 
 SRC_DIR	= 	./src

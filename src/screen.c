@@ -99,18 +99,18 @@ void		ver_line_text_pic(t_line *line, t_win *win,
 	}
 }
 
-t_pic		*new_image(t_win *win, int x, int y)
+t_pic		*new_image(t_win *win)
 {
 	t_pic *screen;
 
 	if (!(screen = malloc(sizeof(t_pic))))
 		return (NULL);
 	ft_bzero(screen, sizeof(t_pic));
-	if (!(screen->img = mlx_new_image(win->mlx, x, y)))
+	if (!(screen->img = mlx_new_image(win->mlx, win->x, win->y)))
 		return (NULL);
 	screen->data = mlx_get_data_addr(screen->img, &screen->bpp,
 				&screen->size, &screen->endian);
-	screen->width = x;
-	screen->height = y;
+	screen->width = win->x;
+	screen->height = win->y;
 	return (screen);
 }

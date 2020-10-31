@@ -17,31 +17,29 @@ static void			calcul_values(
 	t_win *win
 )
 {
-	ds->inv_det = 1.0 / (win->plr->planeX * win->plr->dirY
+	ds->invDet = 1.0 / (win->plr->planeX * win->plr->dirY
 		- win->plr->dirX * win->plr->planeY);
-	ds->transform_x = ds->inv_det * (win->plr->dirY * ds->sprite_x
-		- win->plr->dirX * ds->sprite_y);
-	ds->transform_y = ds->inv_det * (-win->plr->planeY * ds->sprite_x
-		+ win->plr->planeX * ds->sprite_y);
-	ds->sprite_screen_x = (int)((win->width / 2) * (1 + ds->transform_x
-		/ ds->transform_y));
-	ds->sprite_height = abs((int)(win->height / ds->transform_y));
-	ds->draw_start_y = -ds->sprite_height / 2 + ((win->height / 2)
-		* win->plr->cam_height);
-	if (ds->draw_start_y < 0)
-		ds->draw_start_y = 0;
-	ds->draw_end_y = ds->sprite_height / 2 + ((win->height / 2)
-		* win->plr->cam_height);
-	if (ds->draw_end_y >= win->height)
-		ds->draw_end_y = win->height - 1;
-	ds->sprite_width = abs((int)(win->height / ds->transform_y));
-	ds->draw_start_x = -ds->sprite_width / 2 + ds->sprite_screen_x;
-	if (ds->draw_start_x < 0)
-		ds->draw_start_x = 0;
-	ds->draw_end_x = ds->sprite_width / 2 + ds->sprite_screen_x;
-	if (ds->draw_end_x >= win->width)
-		ds->draw_end_x = win->width - 1;
-	ds->stripe = ds->draw_start_x;
+	ds->transformX = ds->invDet * (win->plr->dirY * ds->spriteX
+		- win->plr->dirX * ds->spriteY);
+	ds->transformY = ds->invDet * (-win->plr->planeY * ds->spriteX
+		+ win->plr->planeX * ds->spriteY);
+	ds->spriteScreenX = (int)((win->x / 2) * (1 + ds->transformX
+		/ ds->transformY));
+	ds->height = abs((int)(win->y / ds->transformY));
+	ds->drawStartY = -ds->height / 2 + win->y / 2;
+	if (ds->drawStartY < 0)
+		ds->drawStartY = 0;
+	ds->drawEndY = ds->height / 2 + win->y / 2;
+	if (ds->drawEndY >= win->y)
+		ds->drawEndY = win->y - 1;
+	ds->width = abs((int)(win->y / ds->transformY));
+	ds->drawStartX = -ds->width / 2 + ds->spriteScreenX;
+	if (ds->drawStartX < 0)
+		ds->drawStartX = 0;
+	ds->drawEndX = ds->width / 2 + ds->spriteScreenX;
+	if (ds->drawEndX >= win->x)
+		ds->drawEndX = win->x - 1;
+	ds->stripe = ds->drawStartX;
 }
 
 static void			pix_on_sprite_image(
@@ -49,20 +47,19 @@ static void			pix_on_sprite_image(
 	t_win *win
 )
 {
-	ds->d = ds->y * win->sprite->size_line - (win->height
-		* win->plr->cam_height)
-		* (win->sprite->size_line / 2) + ds->sprite_height
-		* win->sprite->size_line / 2;
-	ds->tex_y = ((ds->d * win->sprite->height) / ds->sprite_height)
-		/ win->sprite->size_line;
-	ds->totcolor = win->sprite->data[ds->tex_y
-		* win->sprite->size_line + ds->tex_x
+	ds->d = ds->y * win->sprite->size - win->y
+		* (win->sprite->size / 2) + ds->height
+		* win->sprite->size / 2;
+	ds->texY = ((ds->d * win->sprite->height) / ds->height)
+		/ win->sprite->size;
+	ds->totcolor = win->sprite->data[ds->texY
+		* win->sprite->size + ds->texX
 		* win->sprite->bpp / 8]
-		+ win->sprite->data[ds->tex_y
-		* win->sprite->size_line + ds->tex_x
+		+ win->sprite->data[ds->texY
+		* win->sprite->size + ds->texX
 		* win->sprite->bpp / 8 + 1]
-		+ win->sprite->data[ds->tex_y
-		* win->sprite->size_line + ds->tex_x
+		+ win->sprite->data[ds->texY
+		* win->sprite->size + ds->texX
 		* win->sprite->bpp / 8 + 2];
 }
 
@@ -71,20 +68,20 @@ static void			is_black(
 	t_win *win
 )
 {
-	win->img->data[ds->y * win->img->size_line
-		+ ds->stripe * win->img->bpp / 8] =
-		win->sprite->data[ds->tex_y
-		* win->sprite->size_line + ds->tex_x
+	win->screen->data[ds->y * win->screen->size
+		+ ds->stripe * win->screen->bpp / 8] =
+		win->sprite->data[ds->texY
+		* win->sprite->size + ds->texX
 		* win->sprite->bpp / 8];
-	win->img->data[ds->y * win->img->size_line
-		+ ds->stripe * win->img->bpp / 8 + 1] =
-		win->sprite->data[ds->tex_y
-		* win->sprite->size_line + ds->tex_x
+	win->screen->data[ds->y * win->screen->size
+		+ ds->stripe * win->screen->bpp / 8 + 1] =
+		win->sprite->data[ds->texY
+		* win->sprite->size + ds->texX
 		* win->sprite->bpp / 8 + 1];
-	win->img->data[ds->y * win->img->size_line
-		+ ds->stripe * win->img->bpp / 8 + 2] =
-		win->sprite->data[ds->tex_y
-		* win->sprite->size_line + ds->tex_x
+	win->screen->data[ds->y * win->screen->size
+		+ ds->stripe * win->screen->bpp / 8 + 2] =
+		win->sprite->data[ds->texY
+		* win->sprite->size + ds->texX
 		* win->sprite->bpp / 8 + 2];
 }
 
@@ -94,20 +91,20 @@ static void			make_sprite(
 	t_ray *ray
 )
 {
-	ds->sprite_x = ds->sprites[ds->i].x - (win->plr->posx - 0.5);
-	ds->sprite_y = ds->sprites[ds->i].y - (win->plr->posy - 0.5);
+	ds->spriteX = ds->sprites[ds->i].x - (win->plr->posX - 0.5);
+	ds->spriteY = ds->sprites[ds->i].y - (win->plr->posY - 0.5);
 	calcul_values(ds, win);
-	while (ds->stripe < ds->draw_end_x)
+	while (ds->stripe < ds->drawEndX)
 	{
-		ds->tex_x = (int)(win->sprite->size_line * (ds->stripe
-		- (-ds->sprite_width / 2 + ds->sprite_screen_x))
-			* win->sprite->width / ds->sprite_width)
-			/ win->sprite->size_line;
-		if (ds->transform_y > 0 && ds->stripe > 0 && ds->stripe
-			< win->width && ds->transform_y < ray->z_buffer[ds->stripe])
+		ds->texX = (int)(win->sprite->size * (ds->stripe
+		- (-ds->width / 2 + ds->spriteScreenX))
+			* win->sprite->width / ds->width)
+			/ win->sprite->size;
+		if (ds->transformY > 0 && ds->stripe > 0 && ds->stripe
+			< win->x && ds->transformY < ray->z_buffer[ds->stripe])
 		{
-			ds->y = ds->draw_start_y;
-			while (ds->y < ds->draw_end_y)
+			ds->y = ds->drawStartY;
+			while (ds->y < ds->drawEndY)
 			{
 				pix_on_sprite_image(ds, win);
 				if (ds->totcolor != 0)
@@ -127,17 +124,17 @@ int					draw_sprite(
 	t_draw_sprite *ds;
 
 	if (!(ds = malloc(sizeof(t_draw_sprite))))
-		return (ERROR);
+		return (ERR);
 	ft_bzero(ds, sizeof(t_draw_sprite));
 	ds->i = 0;
 	ds->sprites = list_to_tab(win);
 	sort_sprite(win, ds->sprites,
-		ft_lstsize((t_list *)win->sprites_on_screen));
-	while (ds->i < ft_lstsize((t_list *)win->sprites_on_screen))
+		ft_lstsize((t_list *)win->sprite_screen));
+	while (ds->i < ft_lstsize((t_list *)win->sprite_screen))
 	{
 		make_sprite(ds, win, ray);
 		ds->i++;
 	}
 	free(ds->sprites);
-	return (SUCCES);
+	return (SUCCESS);
 }

@@ -33,7 +33,7 @@ static int			check_text_form(char *str)
 	return (succ);
 }
 
-static int			file_exists(const char *file)
+static int			file_exists(const char *file, t_win *win)
 {
 	int fd;
 	int i;
@@ -42,22 +42,24 @@ static int			file_exists(const char *file)
 	if ((fd = open(file, O_RDONLY)) == -1)
 	{
 		close(fd);
-		return (invalid_file(8));
+		return (invalid_file(8, win));
 	}
 	if (file[i] != 'm' || file[i - 1] != 'p'
 		|| file[i - 2] != 'x' || file[i - 3] != '.')
-		return (invalid_file(6));
+		return (invalid_file(6, win));
 	close(fd);
 	return (SUCCESS);
 }
 
 static int			set_sprite(t_win *win, const char *path)
 {
+    if (!(win->sprite))
+            init_sprite(win);
 	if (!(win->sprite->img =
 		mlx_xpm_file_to_image(win->mlx, (char *)path,
 		&win->sprite->width,
 		&win->sprite->height)))
-			return (invalid_file(6));
+			return (invalid_file(6, win));
 	win->sprite->data =
 		mlx_get_data_addr(win->sprite->img,
 		&win->sprite->bpp,
@@ -81,7 +83,7 @@ static int			set_text(t_win *win, const char *path, int c)
 			mlx_xpm_file_to_image(win->mlx, (char *)path,
 			&win->text[c]->width,
 			&win->text[c]->height)))
-			return (invalid_file(6));
+			return (invalid_file(6, win));
 		win->text[c]->data =
 			mlx_get_data_addr(win->text[c]->img,
 			&win->text[c]->bpp,
@@ -100,7 +102,7 @@ int					texture(char *str, int first_c, t_win *win)
 	int		k;
 	
 	if (!(check_text_form(str)))
-		return (invalid_file(6));
+		return (invalid_file(6, win));
     i = first_c + 2;
     while (str[i] == ' ')
         i++;
@@ -108,7 +110,7 @@ int					texture(char *str, int first_c, t_win *win)
 	while (str[k] && str[k] != ' ')
 		k++;
 	path = ft_substr(str, i, k - i);
-	if (!(file_exists(path)))
+	if (!(file_exists(path, win)))
 	{
 		save_free(&path);
 		return (ERR);

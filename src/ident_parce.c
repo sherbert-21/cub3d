@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static int		valid_identifier(char *ident)
+static int		valid_identifier(char *ident, t_win *win)
 {
 	int i;
 
@@ -28,7 +28,7 @@ static int		valid_identifier(char *ident)
 	else if (ident[i] == 'E' && ident[i + 1] == 'A')
 		return (SUCCESS);
 	else
-		return (invalid_file(4));
+		return (invalid_file(4, win));
 }
 
 static int		set_ident(char *ident, t_win *win)
@@ -52,7 +52,7 @@ int			ident_parce(char *line, t_win *win)
 		line++;
 	if (*line == '\n' || !*line)
 		return (SKIP);
-	if (!(valid_identifier(line)))
+	if (!(valid_identifier(line, win)))
 		return (ERR);
 	if (!(set_ident(line, win)))
 		return (ERR);

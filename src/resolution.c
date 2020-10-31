@@ -33,20 +33,20 @@ int				resolution(char *ident, int i, t_win *win)
 	while (ident[i] == ' ' && ident[i])
 		i++;
 	if (ident[i] == '0' || !ident[i])
-		return (invalid_file(5));
+		return (invalid_file(5, win));
 	atoi_resol(&ident[i], win, 'x');
 	while (ft_isdigit(ident[i]))
 		i++;
 	while (ident[i] == ' ' && ident[i])
 		i++;
 	if (ident[i] == '0' || !ident[i])
-		return (invalid_file(5));
+		return (invalid_file(5, win));
     atoi_resol(&ident[i], win, 'y');
 	while (ft_isdigit(ident[i]))
 		i++;
 	while (ident[i] == ' ' && ident[i])
 		i++;
 	if (ident[i])
-		return (invalid_file(5));
+		return (invalid_file(5, win));
 	return (SUCCESS);
 }

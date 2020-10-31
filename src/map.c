@@ -64,7 +64,7 @@ static int		check_square(char **tmp, t_win *win)
 	return (succ);
 }
 
-static int		check_symbol(char **tmp, int j, int k)
+static int		check_symbol(char **tmp, int j, int k, t_win *win)
 {
 	if (tmp[j][k] == ' ')
 	{
@@ -76,7 +76,7 @@ static int		check_symbol(char **tmp, int j, int k)
 	}
 	else if (ft_strchr("012NSWE", tmp[j][k]))
 		return (SUCCESS);
-	return (invalid_file(3));
+	return (invalid_file(3, win));
 }
 
 //err
@@ -87,12 +87,12 @@ static int		map_int(char **map, t_win *win)
 
 	k = -1;
 	if (!(win->map = ft_calloc(win->size + 1, sizeof(int *))))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	while (map[++k])
 	{
 		j = -1;
 		if (!(win->map[k] = ft_calloc(win->len, sizeof(int))))
-			return (invalid_file(0));
+			return (invalid_file(0, win));
 		while (map[k][++j])
 		{
 			if (map[k][j] >= '0' && map[k][j] <= '2')
@@ -115,7 +115,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	int		plr;
 
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	succ = check_square(tmp, win) ? 1 : 0;
 	j = 0;
 	plr = -1;
@@ -124,7 +124,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 		k = 0;
 		while ((unsigned long)++k < win->len - 1 && succ)
 		{
-			succ = (check_symbol(tmp, j, k)) ? 1 : 0;
+			succ = (check_symbol(tmp, j, k, win)) ? 1 : 0;
 			if (ft_strchr("NSWE", tmp[j][k]))
 				plr = (set_pos(win, tmp[j][k], j, k)) ? plr + 1 : plr;
 		}

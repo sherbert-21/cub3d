@@ -63,6 +63,47 @@ typedef struct	s_pic
 	char		*data;
 }				t_pic;
 
+typedef struct			s_sprite
+{
+    int					x;
+    int					y;
+}						t_sprite;
+
+typedef struct			s_sprites
+{
+    int					x;
+    int					y;
+    struct s_sprites	*next;
+}						t_sprites;
+
+typedef struct			s_draw_sprite
+{
+    t_sprite			*sprites;
+    int					i;
+    double				spriteX;
+    double				spriteY;
+    int					width;
+    int					height;
+
+    double				invDet;
+    double				transformX;
+    double				transformY;
+    int					spriteScreenX;
+
+    int					drawStartX;
+    int					drawEndX;
+    int					drawStartY;
+    int					drawEndY;
+
+    int					stripe;
+    int					y;
+    int					d;
+    int					texX;
+    int					texY;
+    int					color;
+    int					totcolor;
+}						t_draw_sprite;
+
 typedef struct	s_ray
 {
 	int			pix;
@@ -134,13 +175,14 @@ typedef struct	s_win
     t_player    *plr;
     t_pic       **text;
     t_pic       *sprite;
+    t_sprites   *sprite_screen;
 	t_pic		*screen;
     t_ray       *ray;
 	t_keybuff	*keybuff;
 }               t_win;
 
 int				file(char *argv, t_win *win);
-int			    invalid_file(int err);
+int			    invalid_file(int err, t_win *win);
 int				valid_input(int argc, char **argv, t_win *i);
 int				ident_parce(char *line, t_win *win);
 int				resolution(char *ident, int i, t_win *win);
@@ -154,7 +196,7 @@ int				init_keybuff(t_win *win);
 int				init_sprite(t_win *win);
 int				init_text(t_win *win, int nbr);
 
-int 	     	move_events(int key, t_win *win);
+int 	     	move_events(t_win *win);
 void            turn_right(t_win *win);
 void            turn_left(t_win *win);
 int				ray(t_win *win);
@@ -165,13 +207,17 @@ void			pixel_put(int clr, int x, int y, t_pic *screen);
 void			ver_line_clr_image(t_line *line, t_win *win, int clr);
 void			ver_line_text_pic(t_line *line, t_win *win, 
 								t_pic *text, t_ray *ray);
-t_pic			*new_image(t_win *win, int x_len, int y_len);
+t_pic			*new_image(t_win *win);
 void			texturisation(t_ray *ray, t_win *win);
+void			is_sprite(t_ray *ray, t_win *win);
+void			sort_sprite(t_win *win, t_sprite *sprites, int nbr);
+t_sprite		*list_to_tab(t_win *win);
+int				draw_sprite(t_ray *ray, t_win *win);
 
 int				key_pressed(int key, void *param);
 int				key_released(int key, void *param);
 int				loop(void *param);
-//int				destroy_window(void *param);
+int		        destroy_window(void *param);
 
 void    		free_str(char ***str);
 

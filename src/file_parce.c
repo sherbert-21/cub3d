@@ -39,11 +39,11 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 
 	i = 0;
 	if (!(file = ft_calloc(size + 1, sizeof(char *))))
-		return (invalid_file(0));
+		return (invalid_file(0, win));
 	while (file_lst)
 	{
 		if (!(file[i] = ft_calloc(ft_strlen(file_lst->content), sizeof(char))))
-			return (invalid_file(0));
+			return (invalid_file(0, win));
 		file[i++] = file_lst->content;
 		file_lst = file_lst->next;
 	}
@@ -66,6 +66,7 @@ int				file(char *argv, t_win *win)
 	int		id;
 	int     fd;
 
+    ft_putendl_fd("OK\nChecking file...", 1);
 	file_lst = NULL;
 	id = 0;
 	succ = ((fd = open(argv, O_RDONLY)) > 0) ? 1 : 0;
@@ -79,5 +80,7 @@ int				file(char *argv, t_win *win)
 		ft_lstadd_back(&file_lst, ft_lstnew(line));
 	ft_lstadd_back(&file_lst, ft_lstnew(line));
 	succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
+	if (succ && win->save == 0)
+        ft_putendl_fd("OK\nCreating new window...", 1);
 	return ((succ) ? SUCCESS : ERR);
 }

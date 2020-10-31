@@ -74,14 +74,8 @@ int				ray(t_win *win)
 	ft_bzero(ray->z_buffer, sizeof(double) * win->x);
 	while (ray->pix < win->x)
 		raycasting(win, ray);
-	// if (!draw_sprite(ray, win))
-	// 	return (1);
-	if (win->save == 1)
-	{
-		win->save = 0;
-		create_bmp(win->screen, "cub3D");
-		return (SUCCESS);
-	}
+	if (!(draw_sprite(ray, win)))
+		return (ERR);
 	mlx_put_image_to_window(win->mlx, win->win,
 		win->screen->img, 0, 0);
 	free(ray->z_buffer);
@@ -133,11 +127,8 @@ void		hit(t_ray *ray, t_win *win)
 	while (ray->hit == 0)
 	{
 		predict_wall_face(ray);
-		// if (win->map[ray->mapY][ray->mapX] > '0'
-		// 	&& win-->map[ray->mapY][ray->mapX] != '2')
-		// 	ray->hit = 1;
-		// else if (win->map[ray->mapY][ray->mapX] == '2')
-		// 	is_sprite(ray, win);
+		if (win->map[ray->mapY][ray->mapX] == '2')
+		 	is_sprite(ray, win);
 		if (win->map[ray->mapY][ray->mapX] == '1')
 			ray->hit = 1;
 	}

@@ -46,17 +46,29 @@ int		key_released(int key, void *param)
 	return (0);
 }
 
+int		destroy_window(void *param)
+{
+    t_win *win;
+
+    win = (t_win *)param;
+    mlx_destroy_window(win->mlx, win->win);
+    return (SUCCESS);
+}
+
 static int		draw(t_win *win)
 {
-	if (!(ray(win)))
-		return(ERR);
-	return (SUCCESS);
+    if (!(ray(win)))
+        return (invalid_file(10, win));
+    return (SUCCESS);
 }
 
 int				loop(void *param)
 {
-	t_win *win;
+    t_win *win;
+    int   succ;
 
-	win = (t_win *)param;
-	return (SUCCESS || draw(win));
+    win = (t_win *)param;
+    succ = draw(win);
+    move_events(win);
+    return (succ);
 }
