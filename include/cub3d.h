@@ -219,8 +219,8 @@ int				draw_sprite(t_ray *ray, t_win *win);
 
 int				key_pressed(int key, void *param);
 int				key_released(int key, void *param);
-int				loop(void *param);
-int		        destroy_window(void *param);
+int				loop(t_win *win);
+//int		        destroy_window(void *param);
 
 void    		free_str(char ***str);
 

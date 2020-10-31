@@ -12,7 +12,7 @@
 
 NAME	= 	cub3d
 
-FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
+FLAGS	= 	-Wall -Werror -Wextra -g #-fsanitize=address
 
 SRC		= 	file_parce.c \
 			ident_parce.c \

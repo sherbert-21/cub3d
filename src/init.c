@@ -47,9 +47,9 @@ int			init_sprite(t_win *win)
 	if (!(win->sprite = malloc(sizeof(t_pic))))
 		return (invalid_file(0, win));
 	ft_bzero(win->sprite, sizeof(t_pic));
-	 if (!(win->sprite_screen = malloc(sizeof(t_list))))
-	 	return (1);
-	 ft_bzero(win->sprite_screen, sizeof(t_list));
+	 if (!(win->sprite_screen = malloc(sizeof(t_sprites))))
+         return (invalid_file(0, win));
+	 ft_bzero(win->sprite_screen, sizeof(t_sprites));
 	 win->sprite_screen->x = -1;
 	 win->sprite_screen->y = -1;
 	return (SUCCESS);

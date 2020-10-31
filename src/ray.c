@@ -75,12 +75,13 @@ int				ray(t_win *win)
 		return (ERR);
 	ft_bzero(ray->z_buffer, sizeof(double) * win->x);
 	raycasting(win, ray);
-//	if (!draw_sprite(ray, win))
-//		return (ERR);
+	if (!draw_sprite(ray, win))
+		return (ERR);
+// WIN->SAVE EXIT 0
 	if (win->save == 1)
 		mlx_destroy_window(win->mlx, win->win);
 	mlx_put_image_to_window(win->mlx, win->win,
-		win->screen->img, 0, 0);
+				win->screen->img, 0, 0);
 	free(ray->z_buffer);
 	free(ray);
 	return (SUCCESS);
@@ -133,7 +134,7 @@ void		hit(t_ray *ray, t_win *win)
         if (win->map[ray->mapX][ray->mapY] > 0
             && win->map[ray->mapX][ray->mapY] != 2)
             ray->hit = 1;
-//        else if (win->map[ray->mapX][ray->mapY] == 2)
-//            is_sprite(ray, win);
+        else if (win->map[ray->mapX][ray->mapY] == 2)
+            is_sprite(ray, win);
     }
 }

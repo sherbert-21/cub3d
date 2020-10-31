@@ -27,8 +27,10 @@ static int invalid_ident(int err, t_win *win)
 	else if (err == 9)
 		ft_putendl_fd("Something wrong with number of identifiers", 1);
 	mlx_destroy_window(win->mlx, win->win);
+	exit (0);
 	return (ERR);
 }
+
 int		invalid_file(int err, t_win *win)
 {
 	ft_putendl_fd("Error", 1);
@@ -45,5 +47,6 @@ int		invalid_file(int err, t_win *win)
 	else if (err == 10)
         ft_putendl_fd("Smthng wrong with raycasting :/", 1);
     mlx_destroy_window(win->mlx, win->win);
+	exit (0);
 	return (ERR);
 }

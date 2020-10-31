@@ -67,7 +67,7 @@ int				main(int argc, char **argv)
 		return (1);
 	mlx_hook(win->win, 2, 1L << 0, &key_pressed, win);
 	mlx_hook(win->win, 3, 1L << 1,  &key_released, win);
-    mlx_hook(win->win, 17, 1L << 17, destroy_window, win);
+//    mlx_hook(win->win, 17, 1L << 17, destroy_window, win);
 	mlx_loop_hook(win->mlx, loop, win);
 	if (win->save != 1)
 		mlx_loop(win->mlx);

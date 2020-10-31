@@ -44,13 +44,13 @@ void			is_sprite(t_ray *ray, t_win *win)
 	t_sprites save;
 
 	if (!(new = malloc(sizeof(t_sprites))))
-		return ;
+		exit(0);
 	new->next = NULL;
 	new->x = ray->mapX;
 	new->y = ray->mapY;
 	old = win->sprite_screen;
 	save = *old;
-	if (old->x == -1 && old->y == -1)
+	if (old->x == -1 || old->y == -1)
 	{
 		old->x = ray->mapX;
 		old->y = ray->mapY;
@@ -124,10 +124,9 @@ t_sprite		*list_to_tab(t_win *win)
 			tmp[count].x = win->sprite_screen->x;
 			tmp[count].y = win->sprite_screen->y;
 		}
-		if (win->sprite_screen->next)
-			win->sprite_screen = win->sprite_screen->next;
 		else
-			break;
+            break;
+		win->sprite_screen = win->sprite_screen->next;
 	}
 	win->sprite_screen = save;
 	return (tmp);
