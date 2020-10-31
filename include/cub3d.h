@@ -192,10 +192,10 @@ typedef struct  s_raw_game
     char        *east_texture_path;
     char        *sprite_texture_path;
     int			floor_color;
-	int			ceilling_color;
-	char		**map;
-	int			maw_w;
-	int 		map_h;
+    int			ceilling_color;
+    char		**map;
+    int			map_w;
+    int 		map_h;
 }               t_raw_game;
 
 int		        ft_strisnum(char *str);
