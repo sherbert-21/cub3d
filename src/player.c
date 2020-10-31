@@ -20,7 +20,7 @@ static void	set_camera(t_win *win, double dirX,
 	win->plr->planeY = planeY;
 }
 
-int		set_pos(t_win *win, char dir, int x, int y)
+int		set_pos(t_win *win, char dir)
 {
 	if (!win->plr)
 		init_plr(win);
@@ -44,7 +44,5 @@ int		set_pos(t_win *win, char dir, int x, int y)
 		win->plr->dirY = 1.0;
 		set_camera(win, 0.0, -0.66, 0.0);
 	}
-	win->plr->posX = (double)(x - 1) + 0.5;
-	win->plr->posY = (double)y + 0.5;
 	return (SUCCESS);
 }

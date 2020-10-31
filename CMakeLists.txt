@@ -72,7 +72,8 @@ add_executable(${PROJECT_NAME}
     src/valid_input.c
     src/turn.c
     src/sprite.c
-    src/draw_sprite.c)
+    src/draw_sprite.c
+    src/map_ch_check.c)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

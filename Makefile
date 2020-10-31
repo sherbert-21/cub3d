@@ -21,6 +21,7 @@ SRC		= 	file_parce.c \
 			color.c \
 			texture.c \
 			map.c \
+			map_ch_check.c \
 			resolution.c \
 			player.c \
 			gnl.c \

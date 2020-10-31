@@ -12,28 +12,28 @@
 
 #include "cub3d.h"
 
-static void	side_draw(t_ray *ray, t_win *win, 
+static void	determine_side_draw(t_ray *ray, t_win *win, 
 								t_line *line, double wallX)
 {
-	t_pic	*text;
+	t_pic	*img;
 	int		texX;
 
-	text = win->text[3];
+	img = win->text[3];
 	if (ray->side == 1)
-		text = win->text[2];
+		img = win->text[2];
 	if (ray->side == 2)
-		text = win->text[1];
+		img = win->text[1];
 	if (ray->side == 3)
-		text = win->text[0];
-	texX = (int)(wallX * (double)text->width);
+		img = win->text[0];
+	texX = (int)(wallX * (double)img->width);
 	if ((ray->side == 0 || ray->side == 1) && ray->rayDirX > 0)
-		texX = text->width - texX - 1;
+		texX = img->width - texX - 1;
 	if ((ray->side == 2 || ray->side == 3) && ray->rayDirY < 0)
-		texX = text->width - texX - 1;
+		texX = img->width - texX - 1;
 	line->y0 = ray->drawEnd;
 	line->y1 = ray->drawStart;
 	line->texX = texX;
-	ver_line_text_pic(line, win, text, ray);
+	ver_line_text_pic(line, win, img, ray);
 }
 
 void		texturisation(t_ray *ray, t_win *win)
@@ -42,6 +42,7 @@ void		texturisation(t_ray *ray, t_win *win)
 	double	wallX;
 
 	if (!(line = malloc(sizeof(t_line))))
+		exit (invalid_file(0, win));
 	ft_bzero(line, sizeof(t_line));
 	line->x = ray->pix;
 	if (ray->side == 0 || ray->side == 1)
@@ -49,8 +50,8 @@ void		texturisation(t_ray *ray, t_win *win)
 	else
 		wallX = win->plr->posX + ray->perpWallDist * ray->rayDirX;
 	wallX -= floor(wallX);
-	if (win->map[ray->mapY][ray->mapX] == '1')
-		side_draw(ray, win, line, wallX);
+	if (win->map[ray->mapX][ray->mapY] == 1)
+		determine_side_draw(ray, win, line, wallX);
 	line->y0 = 0;
 	line->y1 = ray->drawStart;
 	ver_line_clr_image(line, win, win->clr_c);

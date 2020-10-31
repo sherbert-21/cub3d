@@ -14,55 +14,48 @@
 
 static void		left(t_win *win)
 {
-    if (win->map[(int)win->plr->posY]
-        [(int)(win->plr->posX - win->plr->planeX
-        * win->plr->speed)] == '0')
+    if (win->map[(int)(win->plr->posX - win->plr->planeX
+        * win->plr->speed)][(int)win->plr->posY] == 0)
         win->plr->posX -= win->plr->planeX
         * win->plr->speed;
-    if (win->map[(int)(win->plr->posY
-        - win->plr->planeY * win->plr->speed)]
-        [(int)win->plr->posX] == '0')
+    if (win->map[(int)win->plr->posX]
+		[(int)(win->plr->posY
+        - win->plr->planeY * win->plr->speed)] == 0)
         win->plr->posY -= win->plr->planeY
         * win->plr->speed;
 }
 
 static void		right(t_win *win)
 {
-    if (win->map[(int)win->plr->posY]
-        [(int)(win->plr->posX + win->plr->planeX
-        * win->plr->speed)] == '0')
+    if (win->map[(int)(win->plr->posX + win->plr->planeX
+        * win->plr->speed)] [(int)win->plr->posY] == 0)
         win->plr->posX += win->plr->planeX
         * win->plr->speed;
-    if (win->map[(int)(win->plr->posY
-        + win->plr->planeY * win->plr->speed)]
-        [(int)win->plr->posX] == '0')
+    if (win->map[(int)win->plr->posX][(int)(win->plr->posY
+        + win->plr->planeY * win->plr->speed)] == 0)
         win->plr->posY += win->plr->planeY
         * win->plr->speed;
 }
 static void		forward(t_win *win)
 {
-	if (win->map[(int)win->plr->posY]
-		[(int)(win->plr->posX + win->plr->dirX
-		* win->plr->speed)] == '0')
+	if (win->map[(int)(win->plr->posX + win->plr->dirX
+		* win->plr->speed)][(int)win->plr->posY] == 0)
 		win->plr->posX += win->plr->dirX
 		* win->plr->speed;
-	if (win->map[(int)(win->plr->posY
-		+ win->plr->dirY * win->plr->speed)]
-		[(int)win->plr->posX] == '0')
+	if (win->map[(int)win->plr->posX][(int)(win->plr->posY
+		+ win->plr->dirY * win->plr->speed)] == 0)
 		win->plr->posY += win->plr->dirY
 		* win->plr->speed;
 }
 
 static void		backward(t_win *win)
 {
-	if (win->map[(int)win->plr->posY]
-		[(int)(win->plr->posX - win->plr->dirX
-		* win->plr->speed)] == '0')
+	if (win->map[(int)(win->plr->posX - win->plr->dirX
+		* win->plr->speed)][(int)win->plr->posY] == 0)
 		win->plr->posX -= win->plr->dirX
 		* win->plr->speed;
-	if (win->map[(int)(win->plr->posY
-		- win->plr->dirY * win->plr->speed)]
-		[(int)win->plr->posX] == '0')
+	if (win->map[(int)win->plr->posX][(int)(win->plr->posY
+		- win->plr->dirY * win->plr->speed)] == 0)
 		win->plr->posY -= win->plr->dirY
 		* win->plr->speed;
 }

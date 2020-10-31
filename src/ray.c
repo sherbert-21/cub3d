@@ -52,14 +52,16 @@ static void		raycasting(t_win *win, t_ray *ray)
 {
 	t_player	*plr;
 
-	plr = win->plr;
-	init_ray(ray, plr, win);
-	next_step(ray, plr);
-	hit(ray, win);
-	perp_and_height(ray, plr, win);
-	ray->z_buffer[ray->pix] = ray->perpWallDist;
-	texturisation(ray, win);
-	ray->pix++;
+    while (ray->pix < win->x) {
+        plr = win->plr;
+        init_ray(ray, plr, win);
+        next_step(ray, plr);
+        hit(ray, win);
+        perp_and_height(ray, plr, win);
+        ray->z_buffer[ray->pix] = ray->perpWallDist;
+        texturisation(ray, win);
+        ray->pix++;
+    }
 }
 
 int				ray(t_win *win)
@@ -72,10 +74,9 @@ int				ray(t_win *win)
 	if (!(ray->z_buffer = malloc(sizeof(double) * win->x)))
 		return (ERR);
 	ft_bzero(ray->z_buffer, sizeof(double) * win->x);
-	while (ray->pix < win->x)
-		raycasting(win, ray);
-	if (!draw_sprite(ray, win))
-		return (ERR);
+	raycasting(win, ray);
+//	if (!draw_sprite(ray, win))
+//		return (ERR);
 	if (win->save == 1)
 		mlx_destroy_window(win->mlx, win->win);
 	mlx_put_image_to_window(win->mlx, win->win,
@@ -129,10 +130,10 @@ void		hit(t_ray *ray, t_win *win)
 	while (ray->hit == 0)
 	{
         predict_wall_face(ray);
-        if (win->map[ray->mapY][ray->mapX] > '0'
-            && win->map[ray->mapY][ray->mapX] != '2')
+        if (win->map[ray->mapX][ray->mapY] > 0
+            && win->map[ray->mapX][ray->mapY] != 2)
             ray->hit = 1;
-        else if (win->map[ray->mapY][ray->mapX] == '2')
-            is_sprite(ray, win);
+//        else if (win->map[ray->mapX][ray->mapY] == 2)
+//            is_sprite(ray, win);
     }
 }

@@ -189,7 +189,10 @@ int				resolution(char *ident, int i, t_win *win);
 int				texture(char *str, int i, t_win *win);
 int				color(char *str, int c, int first_c, t_win *win);
 int				map_parce(char **map, int i, int size, t_win *win);
-int 	        set_pos(t_win *win, char dir, int x, int y);
+int 	        set_pos(t_win *win, char dir);
+int		        check_square(char **tmp, t_win *win);
+int		        check_symbol(char **tmp, int j, int k, t_win *win);
+
 
 int				init_plr(t_win *win);
 int				init_keybuff(t_win *win);
@@ -208,7 +211,7 @@ void			ver_line_clr_image(t_line *line, t_win *win, int clr);
 void			ver_line_text_pic(t_line *line, t_win *win, 
 								t_pic *text, t_ray *ray);
 t_pic			*new_image(t_win *win);
-void			texturisation(t_ray *ray, t_win *win);
+void 			texturisation(t_ray *ray, t_win *win);
 void			is_sprite(t_ray *ray, t_win *win);
 void			sort_sprite(t_win *win, t_sprite *sprites, int nbr);
 t_sprite		*list_to_tab(t_win *win);
