@@ -12,39 +12,6 @@
 
 #include "cub3d.h"
 
-static int      skip_arg(char *str, int *i)
-{
-    while (ft_isdigit(str[*i]) || str[*i] == ',')
-    {
-        if (str[*i] == ',' && str[*i + 1] == ',')
-            return (ERR);
-        *i += 1;
-    }
-    return (SUCCESS);
-}
-
-static int		check_str(char *str, int c, int first_c)
-{
-	int i;
-
-	if (!str || str[first_c] != c || !(str[first_c + 1] == ' '))
-		return (ERR);
-	i = first_c + 1;
-	while (str[i] == ' ')
-		i++;
-	if (!(skip_arg(str, &i)))
-        return (ERR);
-	while (str[i] == ' ')
-		i++;
-    if (!(skip_arg(str, &i)))
-        return (ERR);
-	while (str[i] == ' ')
-		i++;
-	if (str[i] != '\0')
-		return (ERR);
-	return (SUCCESS);
-}
-
 static int		get_rgb_from_clr(int r, int g, int b)
 {
 	int clr;
@@ -55,30 +22,29 @@ static int		get_rgb_from_clr(int r, int g, int b)
 	return (clr);
 }
 
-static int		get_num_clr(char *str, int *i)
+static int		get_num_clr(char *str)
 {
 	int clr;
 
-	clr = ft_atoi(&str[*i]);
-	if (clr < 0 || clr > 255 || !(skip_arg(str, i)))
+	clr = ft_atoi(str);
+	if (clr < 0 || clr > 255)
 		return (-1);
 	return (clr);
 }
 
-int				color(char *str, int c, int first_c, t_win *win)
+int				parse_ceilling_floor_color(char **splitted_line, t_raw_game *raw_game)
 {
-	int clr;
-	int r;
-	int g;
-	int b;
-	int i;
+	char	**splitted_nums;
+	int		r;
+	int 	g;
+	int 	b;
 
-	clr = 0;
-	if (!(check_str(str, c, first_c)))
-		return (invalid_file(7, win));
-	i = first_c + 1;
-	while (str[i] == ' ')
-		i++;
+	splitted_nums = ft_split(splitted_line[1], ',');
+
+	if (ft_numwords(splitted_line[1], ',') != 3 ||
+		!ft_strisnum(splitted_nums[0]) || !ft_strisnum(splitted_nums[1]) || !ft_strisnum(splitted_nums[2]))
+		return (invalid_file(7));
+
 	if ((r = get_num_clr(str, &i)) == -1
 		|| (g = get_num_clr(str, &i)) == -1
 		|| (b = get_num_clr(str, &i)) == -1)
@@ -88,5 +54,4 @@ int				color(char *str, int c, int first_c, t_win *win)
 		win->clr_f = clr;
 	else if (c == 'C')
 		win->clr_c = clr;
-	return (SUCCESS);
 }

@@ -33,7 +33,7 @@ static int			check_text_form(char *str)
 	return (succ);
 }
 
-static int			file_exists(const char *file, t_win *win)
+static int			file_exists(const char *file, t_game *win)
 {
 	int fd;
 	int i;
@@ -42,16 +42,16 @@ static int			file_exists(const char *file, t_win *win)
 	if ((fd = open(file, O_RDONLY)) == -1)
 	{
 		close(fd);
-		return (invalid_file(8, win));
+		return (invalid_file(8));
 	}
 	if (file[i] != 'm' || file[i - 1] != 'p'
 		|| file[i - 2] != 'x' || file[i - 3] != '.')
-		return (invalid_file(6, win));
+		return (invalid_file(6));
 	close(fd);
 	return (SUCCESS);
 }
 
-static int			set_sprite(t_win *win, const char *path)
+static int			set_sprite(t_game *win, const char *path)
 {
     if (!(win->sprite))
             init_sprite(win);
@@ -59,7 +59,7 @@ static int			set_sprite(t_win *win, const char *path)
 		mlx_xpm_file_to_image(win->mlx, (char *)path,
 		&win->sprite->width,
 		&win->sprite->height)))
-			return (invalid_file(6, win));
+			return (invalid_file(6));
 	win->sprite->data =
 		mlx_get_data_addr(win->sprite->img,
 		&win->sprite->bpp,
@@ -68,7 +68,7 @@ static int			set_sprite(t_win *win, const char *path)
 	return (SUCCESS);
 }
 
-static int			set_text(t_win *win, const char *path, int c)
+static int			set_text(t_game *win, const char *path, int c)
 {
 	if (!win->text)
 		init_text(win, 5);
@@ -83,7 +83,7 @@ static int			set_text(t_win *win, const char *path, int c)
 			mlx_xpm_file_to_image(win->mlx, (char *)path,
 			&win->text[c]->width,
 			&win->text[c]->height)))
-			return (invalid_file(6, win));
+			return (invalid_file(6));
 		win->text[c]->data =
 			mlx_get_data_addr(win->text[c]->img,
 			&win->text[c]->bpp,
@@ -95,14 +95,14 @@ static int			set_text(t_win *win, const char *path, int c)
 	return (SUCCESS);
 }
 
-int					texture(char *str, int first_c, t_win *win)
+int					texture(char *str, int first_c, t_game *win)
 {
 	char	*path;
     int     i;
 	int		k;
 	
 	if (!(check_text_form(str)))
-		return (invalid_file(6, win));
+		return (invalid_file(6));
     i = first_c + 2;
     while (str[i] == ' ')
         i++;
