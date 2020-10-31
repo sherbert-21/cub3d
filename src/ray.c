@@ -53,7 +53,7 @@ static void		raycasting(t_win *win, t_ray *ray)
 	t_player	*plr;
 
 	plr = win->plr;
-	init_values(ray, plr, win);
+	init_ray(ray, plr, win);
 	next_step(ray, plr);
 	hit(ray, win);
 	perp_and_height(ray, plr, win);
@@ -73,7 +73,7 @@ int				ray(t_win *win)
 		return (ERR);
 	ft_bzero(ray->z_buffer, sizeof(double) * win->x);
 	while (ray->pix < win->x)
-		do_raycasting(win, ray);
+		raycasting(win, ray);
 	if (!draw_sprite(ray, win))
 		return (ERR);
 	if (win->save == 1)
@@ -88,40 +88,38 @@ int				ray(t_win *win)
 void		perp_and_height(t_ray *ray, t_player *plr, t_win *win)
 {
 	if (ray->side == 0 || ray->side == 1)
-		ray->perp_wall_dist = (ray->mapx - player->posx + (1 - ray->step_x) / 2)
-		/ ray->ray_dir_x;
+		ray->perpWallDist = (ray->mapX - plr->posX + (1 - ray->stepX) / 2)
+		/ ray->rayDirX;
 	else
-		ray->perp_wall_dist = (ray->mapy - player->posy + (1 - ray->step_y) / 2)
-		/ ray->ray_dir_y;
-	ray->line_height = (int)(win_infos->height / ray->perp_wall_dist);
-	ray->draw_start = (-ray->line_height / 2 + ((win_infos->height / 2)
-		* win_infos->player->cam_height));
-	if (ray->draw_start < 0)
-		ray->draw_start = 0;
-	ray->draw_end = (ray->line_height / 2 + ((win_infos->height / 2)
-		* win_infos->player->cam_height));
-	if (ray->draw_end >= win_infos->height)
-		ray->draw_end = win_infos->height - 1;
+		ray->perpWallDist = (ray->mapY - plr->posY + (1 - ray->stepY) / 2)
+		/ ray->rayDirY;
+	ray->lineHeight = (int)(win->y / ray->perpWallDist);
+	ray->drawStart = -ray->lineHeight / 2 + win->y / 2;
+	if (ray->drawStart < 0)
+		ray->drawStart = 0;
+	ray->drawEnd = ray->lineHeight / 2 + win->y / 2;
+	if (ray->drawEnd >= win->y)
+		ray->drawEnd = win->y - 1;
 }
 
 static void	predict_wall_face(t_ray *ray)
 {
-	if (ray->side_dist_x < ray->side_dist_y)
+	if (ray->sideDistX < ray->sideDistY)
 	{
-		ray->side_dist_x += ray->delta_dist_x;
-		ray->mapx += ray->step_x;
-		if (ray->step_x == 1)
+		ray->sideDistX += ray->deltaDistX;
+		ray->mapX += ray->stepX;
+		if (ray->stepX == 1)
 			ray->side = 0;
-		else if (ray->step_x == -1)
+		else if (ray->stepX == -1)
 			ray->side = 1;
 	}
 	else
 	{
-		ray->side_dist_y += ray->delta_dist_y;
-		ray->mapy += ray->step_y;
-		if (ray->step_y == 1)
+		ray->sideDistY += ray->deltaDistY;
+		ray->mapY += ray->stepY;
+		if (ray->stepY == 1)
 			ray->side = 2;
-		else if (ray->step_y == -1)
+		else if (ray->stepY == -1)
 			ray->side = 3;
 	}
 }
@@ -130,10 +128,11 @@ void		hit(t_ray *ray, t_win *win)
 {
 	while (ray->hit == 0)
 	{
-		predict_wall_face(ray);
-		if (win_infos->map->map[ray->mapy][ray->mapx] > '0'
-			&& win_infos->map->map[ray->mapy][ray->mapx] != '2')
-			ray->hit = 1;
-		else if (win_infos->map->map[ray->mapy][ray->mapx] == '2')
-			is_sprite(ray, win_infos);
+        predict_wall_face(ray);
+        if (win->map[ray->mapY][ray->mapX] > '0'
+            && win->map[ray->mapY][ray->mapX] != '2')
+            ray->hit = 1;
+        else if (win->map[ray->mapY][ray->mapX] == '2')
+            is_sprite(ray, win);
+    }
 }
