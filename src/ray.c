@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static void		init_ray(t_ray *ray, t_player *plr, t_win *win)
+static void		init_ray(t_ray *ray, t_player *plr, t_game *win)
 {
 	ray->cameraX = (2 * ray->pix) / (double)win->x - 1;
 	ray->rayDirX = plr->dirX + plr->planeX * ray->cameraX;
@@ -48,7 +48,7 @@ static void		next_step(t_ray *ray, t_player *plr)
 	}
 }
 
-static void		raycasting(t_win *win, t_ray *ray)
+static void		raycasting(t_game *win, t_ray *ray)
 {
 	t_player	*plr;
 
@@ -62,7 +62,7 @@ static void		raycasting(t_win *win, t_ray *ray)
 	ray->pix++;
 }
 
-int				ray(t_win *win)
+int				ray(t_game *win)
 {
 	t_ray		*ray;
 
@@ -85,7 +85,7 @@ int				ray(t_win *win)
 	return (SUCCESS);
 }
 
-void		perp_and_height(t_ray *ray, t_player *plr, t_win *win)
+void		perp_and_height(t_ray *ray, t_player *plr, t_game *win)
 {
 	if (ray->side == 0 || ray->side == 1)
 		ray->perpWallDist = (ray->mapX - plr->posX + (1 - ray->stepX) / 2)
@@ -124,7 +124,7 @@ static void	predict_wall_face(t_ray *ray)
 	}
 }
 
-void		hit(t_ray *ray, t_win *win)
+void		hit(t_ray *ray, t_game *win)
 {
 	while (ray->hit == 0)
 	{

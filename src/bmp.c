@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static int	data_to_bmp(t_pic *screen, int fd)
+static int	data_to_bmp(t_texture *screen, int fd)
 {
 	int i;
 
@@ -25,7 +25,7 @@ static int	data_to_bmp(t_pic *screen, int fd)
 	return (SUCCESS);
 }
 
-static void	vert_pixel(t_pic *screen, int i, int *e, int f)
+static void	vert_pixel(t_texture *screen, int i, int *e, int f)
 {
 	char	save;
 	int		k;
@@ -43,7 +43,7 @@ static void	vert_pixel(t_pic *screen, int i, int *e, int f)
 	}
 }
 
-static int	vert(t_pic *screen)
+static int	vert(t_texture *screen)
 {
 	int		i;
 	int		e;
@@ -64,7 +64,7 @@ static int	vert(t_pic *screen)
 	return (SUCCESS);
 }
 
-static int	bmp_info_header(t_pic *screen, int fd)
+static int	bmp_info_header(t_texture *screen, int fd)
 {
 	int size;
 	int nbr;
@@ -86,7 +86,7 @@ static int	bmp_info_header(t_pic *screen, int fd)
 	return (SUCCESS);
 }
 
-int			create_bmp(t_pic *screen, char *name)
+int			create_bmp(t_texture *screen, char *name)
 {
 	int fd;
 	int size;

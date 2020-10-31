@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void		pixel_put(int clr, int x, int y, t_pic *screen)
+void		pixel_put(int clr, int x, int y, t_texture *screen)
 {
 	unsigned char *src;
 	unsigned char r;
@@ -28,7 +28,7 @@ void		pixel_put(int clr, int x, int y, t_pic *screen)
 	screen->data[y * screen->size + x * screen->bpp / 8 + 2] = b;
 }
 
-void		ver_line_clr_image(t_line *line, t_win *win, int clr)
+void		ver_line_clr_image(t_line *line, t_game *win, int clr)
 {
 	int y;
 	int y_max;
@@ -53,7 +53,7 @@ void		ver_line_clr_image(t_line *line, t_win *win, int clr)
 	}
 }
 
-static void	text_on_screen(t_line *line, t_pic *text, t_win *win, t_ray *ray)
+static void	text_on_screen(t_line *line, t_texture *text, t_game *win, t_ray *ray)
 {
 	int d;
 
@@ -74,8 +74,8 @@ static void	text_on_screen(t_line *line, t_pic *text, t_win *win, t_ray *ray)
 					+ 2];
 }
 
-void		ver_line_text_pic(t_line *line, t_win *win, 
-								t_pic *text, t_ray *ray)
+void		ver_line_text_pic(t_line *line, t_game *win,
+                              t_texture *text, t_ray *ray)
 {
 	int y_max;
 
@@ -99,13 +99,13 @@ void		ver_line_text_pic(t_line *line, t_win *win,
 	}
 }
 
-t_pic		*new_image(t_win *win)
+t_texture		*new_image(t_game *win)
 {
-	t_pic *screen;
+	t_texture *screen;
 
-	if (!(screen = malloc(sizeof(t_pic))))
+	if (!(screen = malloc(sizeof(t_texture))))
 		return (NULL);
-	ft_bzero(screen, sizeof(t_pic));
+	ft_bzero(screen, sizeof(t_texture));
 	if (!(screen->img = mlx_new_image(win->mlx, win->x, win->y)))
 		return (NULL);
 	screen->data = mlx_get_data_addr(screen->img, &screen->bpp,

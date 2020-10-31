@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static void		left(t_win *win)
+static void		left(t_game *win)
 {
     if (win->map[(int)win->plr->posY]
         [(int)(win->plr->posX - win->plr->planeX
@@ -26,7 +26,7 @@ static void		left(t_win *win)
         * win->plr->speed;
 }
 
-static void		right(t_win *win)
+static void		right(t_game *win)
 {
     if (win->map[(int)win->plr->posY]
         [(int)(win->plr->posX + win->plr->planeX
@@ -39,7 +39,7 @@ static void		right(t_win *win)
         win->plr->posY += win->plr->planeY
         * win->plr->speed;
 }
-static void		forward(t_win *win)
+static void		forward(t_game *win)
 {
 	if (win->map[(int)win->plr->posY]
 		[(int)(win->plr->posX + win->plr->dirX
@@ -53,7 +53,7 @@ static void		forward(t_win *win)
 		* win->plr->speed;
 }
 
-static void		backward(t_win *win)
+static void		backward(t_game *win)
 {
 	if (win->map[(int)win->plr->posY]
 		[(int)(win->plr->posX - win->plr->dirX
@@ -67,7 +67,7 @@ static void		backward(t_win *win)
 		* win->plr->speed;
 }
 
-int 	      move_events(t_win *win)
+int 	      move_events(t_game *win)
 {
     if (win->keybuff->left == 1)
         left(win);

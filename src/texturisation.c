@@ -12,10 +12,10 @@
 
 #include "cub3d.h"
 
-static void	side_draw(t_ray *ray, t_win *win, 
-								t_line *line, double wallX)
+static void	side_draw(t_ray *ray, t_game *win,
+                         t_line *line, double wallX)
 {
-	t_pic	*text;
+	t_texture	*text;
 	int		texX;
 
 	text = win->text[3];
@@ -36,7 +36,7 @@ static void	side_draw(t_ray *ray, t_win *win,
 	ver_line_text_pic(line, win, text, ray);
 }
 
-void		texturisation(t_ray *ray, t_win *win)
+void		texturisation(t_ray *ray, t_game *win)
 {
 	t_line	*line;
 	double	wallX;

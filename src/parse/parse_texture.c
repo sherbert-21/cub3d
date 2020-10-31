@@ -12,28 +12,7 @@
 
 #include "cub3d.h"
 
-static int			check_text_form(char *str)
-{
-    int i;
-    int succ;
-
-    i = 0;
-	while (str[i] == ' ')
-		i++;
-	i += 2;
-	while (str[i] == ' ')
-		i++;
-	succ = (str[i] != '.' || str[i + 1] != '/') ? 0 : 1;
-	while (ft_isprint(str[i]) && str[i] != ' ' && str[i])
-		i++;
-	succ = (str[i] == ' ' || str[i] == '\0') ? succ : 0;
-	while (str[i] == ' ')
-		i++;
-    succ = (str[i] == '\0') ? succ : 0;
-	return (succ);
-}
-
-static int			file_exists(const char *file, t_game *win)
+static int			file_exists(const char *file)
 {
 	int fd;
 	int i;
@@ -70,20 +49,8 @@ static int			set_sprite(t_game *win, const char *path)
 
 static int			set_text(t_game *win, const char *path, int c)
 {
-	if (!win->text)
-		init_text(win, 5);
-	c = (path[c] == 'N') ? 0 : c;
-	c = (path[c] == 'S' && path[c + 1] == 'O') ? 1 : c;
-	c = (path[c] == 'W') ? 2 : c;
-	c = (path[c] == 'E') ? 3 : c;
-	c = (path[c] == 'S' && path[c + 1] == ' ') ? 4 : c;
 	if (c < 4)
 	{
-		if (!(win->text[c]->img =
-			mlx_xpm_file_to_image(win->mlx, (char *)path,
-			&win->text[c]->width,
-			&win->text[c]->height)))
-			return (invalid_file(6));
 		win->text[c]->data =
 			mlx_get_data_addr(win->text[c]->img,
 			&win->text[c]->bpp,
@@ -95,27 +62,14 @@ static int			set_text(t_game *win, const char *path, int c)
 	return (SUCCESS);
 }
 
-int					texture(char *str, int first_c, t_game *win)
-{
-	char	*path;
-    int     i;
-	int		k;
-	
-	if (!(check_text_form(str)))
-		return (invalid_file(6));
-    i = first_c + 2;
-    while (str[i] == ' ')
-        i++;
-	k = i;
-	while (str[k] && str[k] != ' ')
-		k++;
-	path = ft_substr(str, i, k - i);
-	if (!(file_exists(path, win)))
-	{
-		save_free(&path);
-		return (ERR);
-	}
-    i = set_text(win, path, first_c);
-	save_free(&path);
-	return (i);
-}
+//int					parse_texture(char *path, t_texture *texture, void *mlx)
+//{
+//    int     i;
+//	int		k;
+//
+//	if (!(file_exists(path)))
+//		return (ERR);
+//    if (!(texture->img = mlx_xpm_file_to_image(mlx, path, &texture->width, &texture->height)))
+//        return (invalid_file(6));
+//	return (i);
+//}

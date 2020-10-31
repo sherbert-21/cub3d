@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static int invalid_ident(int err, t_win *win)
+static int invalid_ident(int err)
 {
 	if (err == 4)
 		ft_putendl_fd("Invalid identifier", 1);
@@ -26,10 +26,10 @@ static int invalid_ident(int err, t_win *win)
 		ft_putendl_fd("Could't open the file", 1);
 	else if (err == 9)
 		ft_putendl_fd("Something wrong with number of identifiers", 1);
-	mlx_destroy_window(win->mlx, win->win);
 	return (ERR);
 }
-int		invalid_file(int err, t_win *win)
+
+int		invalid_file(int err)
 {
 	ft_putendl_fd("Error", 1);
 	if (err == 0)
@@ -41,9 +41,8 @@ int		invalid_file(int err, t_win *win)
 	else if (err == 3)
 		ft_putendl_fd("Invalid map", 1);
 	else if (err > 3 && err != 10)
-		return(invalid_ident(err, win));
+		return(invalid_ident(err));
 	else if (err == 10)
         ft_putendl_fd("Smthng wrong with raycasting :/", 1);
-    mlx_destroy_window(win->mlx, win->win);
 	return (ERR);
 }

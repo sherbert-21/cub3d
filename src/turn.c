@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	turn_left(t_win *win)
+void	turn_left(t_game *win)
 {
     double oldDirX;
     double oldPlaneX;
@@ -20,7 +20,7 @@ void	turn_left(t_win *win)
                                                     * cos(-win->plr->rotation);
 }
 
-void	turn_right(t_win *win)
+void	turn_right(t_game *win)
 {
     double oldDirX;
     double oldPlaneX;

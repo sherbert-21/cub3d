@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static int		file_skip_space(char **file, int size, t_win *win)
+static int		file_skip_space(char **file, int size, t_game *win)
 {
 	int i;
 	int k;
@@ -31,7 +31,7 @@ static int		file_skip_space(char **file, int size, t_win *win)
 	return (map_parce(file, i , size, win));
 }
 
-static int		file_to_map(t_list *file_lst, int size, t_win *win)
+static int		file_to_map(t_list *file_lst, int size, t_game *win)
 {
 	char	**file;
 	int		i;
@@ -39,11 +39,11 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 
 	i = 0;
 	if (!(file = ft_calloc(size + 1, sizeof(char *))))
-		return (invalid_file(0, win));
+		return (invalid_file(0));
 	while (file_lst)
 	{
 		if (!(file[i] = ft_calloc(ft_strlen(file_lst->content), sizeof(char))))
-			return (invalid_file(0, win));
+			return (invalid_file(0));
 		file[i++] = file_lst->content;
 		file_lst = file_lst->next;
 	}
@@ -58,29 +58,18 @@ static int		file_to_map(t_list *file_lst, int size, t_win *win)
 	return (succ);
 }
 
-int				file(char *argv, t_win *win)
-{
-	t_list	*file_lst;
-	char	*line;
-	int		succ;
-	int		id;
-	int     fd;
-
-    ft_putendl_fd("OK\nChecking file...", 1);
-	file_lst = NULL;
-	id = 0;
-	succ = ((fd = open(argv, O_RDONLY)) > 0) ? 1 : 0;
-	while (id < 8 && succ && get_next_line(fd, &line))
-	{
-		succ = ident_parce(line, win);
-		id = (succ == 1) ? id + 1 : id;
-		save_free(&line);
-	}
-	while (succ && get_next_line(fd, &line))
-		ft_lstadd_back(&file_lst, ft_lstnew(line));
-	ft_lstadd_back(&file_lst, ft_lstnew(line));
-	succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
-	if (succ && win->save == 0)
-        ft_putendl_fd("OK\nCreating new window...", 1);
-	return ((succ) ? SUCCESS : ERR);
-}
+//int				file(char *argv, t_game *win)
+//{
+//	int		succ;
+//	int		id;
+//
+//    ft_putendl_fd("OK\nChecking file...", 1);
+//	id = 0;
+//	while (succ && get_next_line(fd, &line))
+//		ft_lstadd_back(&file_lst, ft_lstnew(line));
+//	ft_lstadd_back(&file_lst, ft_lstnew(line));
+//	succ = (!(file_to_map(file_lst, ft_lstsize(file_lst), win))) ? 0 : succ;
+//	if (succ && win->save == 0)
+//        ft_putendl_fd("OK\nCreating new window...", 1);
+//	return ((succ) ? SUCCESS : ERR);
+//}

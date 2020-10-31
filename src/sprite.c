@@ -37,7 +37,7 @@ static void		next_sprite(t_sprites *old, t_sprites *new, t_ray *ray)
 	}
 }
 
-void			is_sprite(t_ray *ray, t_win *win)
+void			is_sprite(t_ray *ray, t_game *win)
 {
 	t_sprites *new;
 	t_sprites *old;
@@ -60,7 +60,7 @@ void			is_sprite(t_ray *ray, t_win *win)
 	old = &save;
 }
 
-int				stock_sprite(char *path, t_win *win)
+int				stock_sprite(char *path, t_game *win)
 {
 	if (!(win->sprite->img =
 		mlx_xpm_file_to_image(win->mlx, path,
@@ -75,7 +75,7 @@ int				stock_sprite(char *path, t_win *win)
 	return (SUCCESS);
 }
 
-void			sort_sprite(t_win *win, t_sprite *sprites, int nbr)
+void			sort_sprite(t_game *win, t_sprite *sprites, int nbr)
 {
 	int			i;
 	double		dist_one;
@@ -104,7 +104,7 @@ void			sort_sprite(t_win *win, t_sprite *sprites, int nbr)
 	}
 }
 
-t_sprite		*list_to_tab(t_win *win)
+t_sprite		*list_to_tab(t_game *win)
 {
 	t_sprite	*tmp;
 	t_sprites	*save;

@@ -26,26 +26,26 @@ static int      file_exist(char *str)
     return((i != -1) ? SUCCESS : ERR);
 }
 
-int				valid_input(int c, char **str, t_raw_game *game)
+int				valid_input(int argc, char **argv, t_raw_game *game)
 {
     ft_putendl_fd("Checking input...", 1);
-    if (c == 2)
+    if (argc == 2)
     {
-        if (!(file_exist(str[1])))
-            return (invalid_file(1, game));
-        if (!(ft_strncmp(str[1], "--save", ft_strlen("--save"))))
-            return (invalid_file(2, game));
+        if (!(file_exist(argv[1])))
+            return (invalid_file(1));
+        if (!(ft_strncmp(argv[1], "--save", ft_strlen("--save"))))
+            return (invalid_file(2));
         game->need_save = 0;
         return (SUCCESS);
     }
-    if (c == 3)
+    if (argc == 3)
     {
-        if (!(file_exist(str[1])))
-            return (invalid_file(1, game));
-        if (!(ft_strncmp(str[2], "--save", ft_strlen("--save"))))
-            return (invalid_file(1, game));
+        if (!(file_exist(argv[1])))
+            return (invalid_file(1));
+        if (!(ft_strncmp(argv[2], "--save", ft_strlen("--save"))))
+            return (invalid_file(1));
         game->need_save = 1;
         return (SUCCESS);
     }
-	return (invalid_file(1, game));
+	return (invalid_file(1));
 }

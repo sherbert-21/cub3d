@@ -14,9 +14,9 @@
 
 int		key_pressed(int key, void *param)
 {
-	t_win	*win;
+	t_game	*win;
 
-	win = (t_win *)param;
+	win = (t_game *)param;
 	if (key == ESC)
 		mlx_destroy_window(win->mlx, win->win);
 	else if ((key == W) && win->keybuff->forward == 0)
@@ -32,9 +32,9 @@ int		key_pressed(int key, void *param)
 
 int		key_released(int key, void *param)
 {
-	t_win	*win;
+	t_game	*win;
 
-	win = (t_win *)param;
+	win = (t_game *)param;
 	if ((key == W) && win->keybuff->forward == 1)
 		win->keybuff->forward = 0;
 	else if ((key == S) && win->keybuff->backward == 1)
@@ -48,26 +48,26 @@ int		key_released(int key, void *param)
 
 int		destroy_window(void *param)
 {
-    t_win *win;
+    t_game *win;
 
-    win = (t_win *)param;
+    win = (t_game *)param;
     mlx_destroy_window(win->mlx, win->win);
     return (SUCCESS);
 }
 
-static int		draw(t_win *win)
+static int		draw(t_game *win)
 {
     if (!(ray(win)))
-        return (invalid_file(10, win));
+        return (invalid_file(10));
     return (SUCCESS);
 }
 
 int				loop(void *param)
 {
-    t_win *win;
+    t_game *win;
     int   succ;
 
-    win = (t_win *)param;
+    win = (t_game *)param;
     succ = draw(win);
     move_events(win);
     return (succ);

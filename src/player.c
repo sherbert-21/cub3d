@@ -12,15 +12,15 @@
 
 #include "cub3d.h"
 
-static void	set_camera(t_win *win, double dirX, 
-							double planeX, double planeY)
+static void	set_camera(t_game *win, double dirX,
+                          double planeX, double planeY)
 {
 	win->plr->dirX = dirX;
 	win->plr->planeX = planeX;
 	win->plr->planeY = planeY;
 }
 
-int		set_pos(t_win *win, char dir, int x, int y)
+int		set_pos(t_game *win, char dir, int x, int y)
 {
 	if (!win->plr)
 		init_plr(win);

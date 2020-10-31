@@ -45,13 +45,14 @@ int				parse_ceilling_floor_color(char **splitted_line, t_raw_game *raw_game)
 		!ft_strisnum(splitted_nums[0]) || !ft_strisnum(splitted_nums[1]) || !ft_strisnum(splitted_nums[2]))
 		return (invalid_file(7));
 
-	if ((r = get_num_clr(str, &i)) == -1
-		|| (g = get_num_clr(str, &i)) == -1
-		|| (b = get_num_clr(str, &i)) == -1)
-		return (invalid_file(7, win));
-	clr = get_rgb_from_clr(r, g, b);
-	if (c == 'F')
-		win->clr_f = clr;
-	else if (c == 'C')
-		win->clr_c = clr;
+	if ((r = get_num_clr(splitted_nums[0])) == -1 ||
+		(g = get_num_clr(splitted_nums[1])) == -1 ||
+		(b = get_num_clr(splitted_nums[2])) == -1)
+		return (invalid_file(7));
+
+	if (splitted_line[0][0] == 'F')
+		raw_game->floor_color = get_rgb_from_clr(r, g, b);
+	else if (splitted_line[0][0] == 'C')
+		raw_game->ceilling_color = get_rgb_from_clr(r, g, b);
+	return (SUCCESS);
 }

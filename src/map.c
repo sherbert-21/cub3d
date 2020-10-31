@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static char		**tmp_map(char **map, int i, int size, t_win *win)
+static char		**tmp_map(char **map, int i, int size, t_game *win)
 {
 	char		**tmp;
 	size_t		k;
@@ -42,7 +42,7 @@ static char		**tmp_map(char **map, int i, int size, t_win *win)
 	return (tmp);
 }
 
-static int		check_square(char **tmp, t_win *win)
+static int		check_square(char **tmp, t_game *win)
 {
 	unsigned long	j;
 	unsigned long	k;
@@ -64,7 +64,7 @@ static int		check_square(char **tmp, t_win *win)
 	return (succ);
 }
 
-static int		check_symbol(char **tmp, int j, int k, t_win *win)
+static int		check_symbol(char **tmp, int j, int k, t_game *win)
 {
 	if (tmp[j][k] == ' ')
 	{
@@ -76,23 +76,23 @@ static int		check_symbol(char **tmp, int j, int k, t_win *win)
 	}
 	else if (ft_strchr("012NSWE", tmp[j][k]))
 		return (SUCCESS);
-	return (invalid_file(3, win));
+	return (invalid_file(3));
 }
 
 //err
-static int		map_int(char **map, t_win *win)
+static int		map_int(char **map, t_game *win)
 {
 	int j;
 	int k;
 
 	k = -1;
 	if (!(win->map = ft_calloc(win->size + 1, sizeof(int *))))
-		return (invalid_file(0, win));
+		return (invalid_file(0));
 	while (map[++k])
 	{
 		j = -1;
 		if (!(win->map[k] = ft_calloc(win->len, sizeof(int))))
-			return (invalid_file(0, win));
+			return (invalid_file(0));
 		while (map[k][++j])
 		{
 			if (map[k][j] >= '0' && map[k][j] <= '2')
@@ -106,7 +106,7 @@ static int		map_int(char **map, t_win *win)
 	return (SUCCESS);
 }
 
-int				map_parce(char **map, int i, int size, t_win *win)
+int				map_parce(char **map, int i, int size, t_game *win)
 {
 	char	**tmp;
 	int		succ;
@@ -115,7 +115,7 @@ int				map_parce(char **map, int i, int size, t_win *win)
 	int		plr;
 
 	if (!(tmp = tmp_map(map, i - 1, size, win)))
-		return (invalid_file(0, win));
+		return (invalid_file(0));
 	succ = check_square(tmp, win) ? 1 : 0;
 	j = 0;
 	plr = -1;
@@ -129,6 +129,16 @@ int				map_parce(char **map, int i, int size, t_win *win)
 				plr = (set_pos(win, tmp[j][k], j, k)) ? plr + 1 : plr;
 		}
 	}
+
+//	i = -1;
+//	j = -1;
+//	while (++i < )
+//    {
+//	    while (win->map[++j])
+//        {
+//	        printf(win->map[i][j]);
+//        }
+//    }
 	succ = (!plr && map_int(tmp, win)) ? succ : 0;
 	return (succ);
 }
