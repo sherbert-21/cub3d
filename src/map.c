@@ -129,16 +129,6 @@ int				map_parce(char **map, int i, int size, t_game *win)
 				plr = (set_pos(win, tmp[j][k], j, k)) ? plr + 1 : plr;
 		}
 	}
-
-//	i = -1;
-//	j = -1;
-//	while (++i < )
-//    {
-//	    while (win->map[++j])
-//        {
-//	        printf(win->map[i][j]);
-//        }
-//    }
 	succ = (!plr && map_int(tmp, win)) ? succ : 0;
 	return (succ);
 }

@@ -71,7 +71,7 @@ add_executable(${PROJECT_NAME}
         src/parse/valid_input.c
     src/turn.c
     src/sprite.c
-    src/draw_sprite.c src/parse/parse_file.c src/parse/parse_info_fields.c src/parse/utils.c)
+    src/draw_sprite.c src/parse/parse_file.c src/parse/parse_info_fields.c src/parse/utils.c src/parse/parse_map.c)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

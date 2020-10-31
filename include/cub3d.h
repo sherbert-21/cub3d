@@ -193,6 +193,9 @@ typedef struct  s_raw_game
     char        *sprite_texture_path;
     int			floor_color;
 	int			ceilling_color;
+	char		**map;
+	int			maw_w;
+	int 		map_h;
 }               t_raw_game;
 
 int		        ft_strisnum(char *str);
@@ -200,6 +203,7 @@ int             ft_numwords(char const *s, char c);
 int             parse_file(char *path_file, t_raw_game *raw_game);
 int             parse_info_fields(int fd, t_raw_game *raw_game, char **first_map_line);
 int				parse_ceilling_floor_color(char **splitted_line, t_raw_game *raw_game);
+int				parse_map(int fd, char *first_map_line, t_raw_game *raw_game);
 int			    invalid_file(int err);
 int				valid_input(int argc, char **argv, t_raw_game *game);
 int				ident_parce(char *line, t_game *win);

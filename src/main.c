@@ -61,6 +61,7 @@ int             get_raw_data(int argc, char **argv, t_raw_game *raw_game)
         return (ERR);
     if (!parse_file(argv[1], raw_game))
         return (ERR);
+	return (SUCCESS);
 }
 
 int				main(int argc, char **argv)
