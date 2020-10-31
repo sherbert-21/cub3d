@@ -39,7 +39,7 @@ int				parse_ceilling_floor_color(char **splitted_line, t_raw_game *raw_game)
 	int 	g;
 	int 	b;
 
-	splitted_nums = ft_split(splitted_line[1], ',');
+	splitted_nums = ft_split(splitted_line[1], ','); //TODO FREE
 
 	if (ft_numwords(splitted_line[1], ',') != 3 ||
 		!ft_strisnum(splitted_nums[0]) || !ft_strisnum(splitted_nums[1]) || !ft_strisnum(splitted_nums[2]))
@@ -51,8 +51,14 @@ int				parse_ceilling_floor_color(char **splitted_line, t_raw_game *raw_game)
 		return (invalid_file(7));
 
 	if (splitted_line[0][0] == 'F')
+	{
 		raw_game->floor_color = get_rgb_from_clr(r, g, b);
+		raw_game->is_floor_color_read = 1;
+	}
 	else if (splitted_line[0][0] == 'C')
+	{
 		raw_game->ceilling_color = get_rgb_from_clr(r, g, b);
+		raw_game->is_ceilling_color_read = 1;
+	}
 	return (SUCCESS);
 }

@@ -16,7 +16,7 @@ int             parse_resolution(char *line, t_raw_game *raw_game)
 
 int             get_wall_texture_paths(char **splitted_line, t_raw_game *raw_game)
 {
-    if (ft_strlen(splitted_line[1]) < 3 || splitted_line[1][0] != '.' || splitted_line[1][0] != '/')
+    if (ft_strlen(splitted_line[1]) < 3 || splitted_line[1][0] != '.' || splitted_line[1][1] != '/')
         return (invalid_file(6));
     if (splitted_line[0][0] == 'N' && splitted_line[0][1] == 'O')
         raw_game->north_texture_path = ft_strdup(splitted_line[1]);
@@ -61,9 +61,21 @@ int             is_all_field_read(t_raw_game *raw_game)
     if (!raw_game->east_texture_path || !raw_game->west_texture_path ||
         !raw_game->south_texture_path || !raw_game->north_texture_path ||
         !raw_game->sprite_texture_path ||
+        raw_game->is_ceilling_color_read == 0 || raw_game->is_floor_color_read == 0 ||
         raw_game->win_w == 0 || raw_game->win_h == 0)
         return (0);
     return (1);
+}
+
+int				empty_line(char *line)
+{
+	int i;
+
+	i = -1;
+	while (line[++i])
+		if (line[i] != ' ')
+			return (0);
+	return (1);
 }
 
 int             parse_info_fields(int fd, t_raw_game *raw_game, char **first_map_line)
@@ -72,8 +84,10 @@ int             parse_info_fields(int fd, t_raw_game *raw_game, char **first_map
     char	*line;
     char    **splitted_line;
 
-    while (get_next_line(fd, &line) && line[0])
+    while (get_next_line(fd, &line))
 	{
+    	if (empty_line(line))
+			continue;
 		if ((succ = line_is_part_map_or_incorrect(line)) && succ != 0)
 		{
 			if (succ == 1)
@@ -93,7 +107,7 @@ int             parse_info_fields(int fd, t_raw_game *raw_game, char **first_map
 		}
 		else if (ft_numwords(line, ' ') == 2)
 		{
-			splitted_line = ft_split(line, ' ');
+			splitted_line = ft_split(line, ' '); //TODO FREE
 			if (ft_strlen(splitted_line[0]) == 2)
 			{
 				if (!get_wall_texture_paths(splitted_line, raw_game))
@@ -101,7 +115,7 @@ int             parse_info_fields(int fd, t_raw_game *raw_game, char **first_map
 			}
 			else if (ft_strlen(splitted_line[0]) == 1 && splitted_line[0][0] == 'S')
 			{
-				if (ft_strlen(splitted_line[1]) < 3 || splitted_line[1][0] != '.' || splitted_line[1][0] != '/')
+				if (ft_strlen(splitted_line[1]) < 3 || splitted_line[1][0] != '.' || splitted_line[1][1] != '/')
 					return (invalid_file(6));
 				raw_game->sprite_texture_path = ft_strdup(splitted_line[1]);
 			}

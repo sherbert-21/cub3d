@@ -193,8 +193,10 @@ typedef struct  s_raw_game
     char        *sprite_texture_path;
     int			floor_color;
 	int			ceilling_color;
+	int 		is_floor_color_read;
+	int 		is_ceilling_color_read;
 	char		**map;
-	int			maw_w;
+	int			map_w;
 	int 		map_h;
 }               t_raw_game;
 
