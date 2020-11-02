@@ -200,9 +200,13 @@ typedef struct  s_raw_game
 	int			ceilling_color;
 	int 		is_floor_color_read;
 	int 		is_ceilling_color_read;
-	char		**map;
+	int 		**map;
 	int			map_w;
 	int 		map_h;
+	int 		hero_x;
+	int			hero_y;
+	int 		hero_dir_x;
+	int 		hero_dir_y;
 }               t_raw_game;
 
 int		        ft_strisnum(char *str);

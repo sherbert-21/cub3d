@@ -11,5 +11,11 @@ int             parse_file(char *path_file, t_raw_game *raw_game)
         return (ERR);
     if (!parse_map(fd, first_map_line, raw_game))
 		return (ERR);
+	for (int i = 0; i < raw_game->map_h; i++)
+	{
+		for (int j = 0; j < raw_game->map_w; j++)
+			printf("%d", raw_game->map[i][j]);
+		printf("\n");
+	}
 	return (SUCCESS);
 }
