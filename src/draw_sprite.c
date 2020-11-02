@@ -23,22 +23,22 @@ static void			calcul_values(
 		- win->plr->dirX * ds->spriteY);
 	ds->transformY = ds->invDet * (-win->plr->planeY * ds->spriteX
 		+ win->plr->planeX * ds->spriteY);
-	ds->spriteScreenX = (int)((win->x / 2) * (1 + ds->transformX
-		/ ds->transformY));
-	ds->height = abs((int)(win->y / ds->transformY));
-	ds->drawStartY = -ds->height / 2 + win->y / 2;
+	ds->spriteScreenX = (int)((win->win_w / 2) * (1 + ds->transformX
+													  / ds->transformY));
+	ds->height = abs((int)(win->win_h / ds->transformY));
+	ds->drawStartY = -ds->height / 2 + win->win_h / 2;
 	if (ds->drawStartY < 0)
 		ds->drawStartY = 0;
-	ds->drawEndY = ds->height / 2 + win->y / 2;
-	if (ds->drawEndY >= win->y)
-		ds->drawEndY = win->y - 1;
-	ds->width = abs((int)(win->y / ds->transformY));
+	ds->drawEndY = ds->height / 2 + win->win_h / 2;
+	if (ds->drawEndY >= win->win_h)
+		ds->drawEndY = win->win_h - 1;
+	ds->width = abs((int)(win->win_h / ds->transformY));
 	ds->drawStartX = -ds->width / 2 + ds->spriteScreenX;
 	if (ds->drawStartX < 0)
 		ds->drawStartX = 0;
 	ds->drawEndX = ds->width / 2 + ds->spriteScreenX;
-	if (ds->drawEndX >= win->x)
-		ds->drawEndX = win->x - 1;
+	if (ds->drawEndX >= win->win_w)
+		ds->drawEndX = win->win_w - 1;
 	ds->stripe = ds->drawStartX;
 }
 
@@ -47,7 +47,7 @@ static void			pix_on_sprite_image(
         t_game *win
 )
 {
-	ds->d = ds->y * win->sprite->size - win->y
+	ds->d = ds->y * win->sprite->size - win->win_h
 		* (win->sprite->size / 2) + ds->height
 		* win->sprite->size / 2;
 	ds->texY = ((ds->d * win->sprite->height) / ds->height)
@@ -101,7 +101,7 @@ static void			make_sprite(
 			* win->sprite->width / ds->width)
 			/ win->sprite->size;
 		if (ds->transformY > 0 && ds->stripe > 0 && ds->stripe
-			< win->x && ds->transformY < ray->z_buffer[ds->stripe])
+			< win->win_w && ds->transformY < ray->z_buffer[ds->stripe])
 		{
 			ds->y = ds->drawStartY;
 			while (ds->y < ds->drawEndY)

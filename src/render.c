@@ -55,20 +55,9 @@ int		destroy_window(void *param)
     return (SUCCESS);
 }
 
-static int		draw(t_game *win)
+int				render(t_game *game)
 {
-    if (!(ray(win)))
-        return (invalid_file(10));
-    return (SUCCESS);
-}
-
-int				loop(void *param)
-{
-    t_game *win;
-    int   succ;
-
-    win = (t_game *)param;
-    succ = draw(win);
-    move_events(win);
-    return (succ);
+	if (!ray(game))
+		return (invalid_file(10));
+	return (SUCCESS);
 }

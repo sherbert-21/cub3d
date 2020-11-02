@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int			init_plr(t_game *win)
+int			init_player(t_game *win)
 {
 	if (!(win->plr = malloc(sizeof(t_player))))
 		return (invalid_file(0));
@@ -55,19 +55,21 @@ int			init_sprite(t_game *win)
 	return (SUCCESS);
 }
 
-int			init_text(t_game *win, int nbr)
+int 			init_from_raw(t_game *game, t_raw_game *raw_game)
 {
-	int i;
-
-	i = 0;
-	if (!(win->text = malloc(sizeof(t_texture *) * nbr + 1)))
-		return (invalid_file(0));
-	while (i < nbr)
-	{
-		if (!(win->text[i] = malloc(sizeof(t_texture))))
-			return (invalid_file(0));
-		ft_bzero(win->text[i], sizeof(t_texture));
-		i++;
-	}
+	game->need_save_first_frame = raw_game->need_save_first_frame;
+	game->map = raw_game->map;
+	game->win_w = raw_game->win_w;
+	game->win_h = raw_game->win_h;
+	game->ceilling_color = raw_game->ceilling_color;
+	game->floor_color = raw_game->floor_color;
+	if (!parse_texture(raw_game->north_texture_path, &game->north_texture, game->mlx))
+		return (ERR);
+	if (!parse_texture(raw_game->south_texture_path, &game->south_texture, game->mlx))
+		return (ERR);
+	if (!parse_texture(raw_game->west_texture_path, &game->west_texture, game->mlx))
+		return (ERR);
+	if (!parse_texture(raw_game->east_texture_path, &game->east_texture, game->mlx))
+		return (ERR);
 	return (SUCCESS);
 }

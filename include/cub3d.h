@@ -158,34 +158,39 @@ typedef struct	s_line
 
 typedef struct	s_game
 {
+	int			win_w;
+	int			win_h;
     void        *mlx;
     void        *win;
     void        *img_data;
+    int         ceilling_color;
+    int         floor_color;
+    int         need_save_first_frame;
+	char         **map;
+	t_player    *plr;
+	t_texture	north_texture;
+	t_texture	south_texture;
+	t_texture	west_texture;
+	t_texture	east_texture;
 
-	int			x;
-	int			y;
 
-    int         clr_c;
-    int         clr_f;
 
-    int         **map;
-    int         save;
-    size_t      len;
+
+	size_t      len;
     size_t      size;
-    t_player    *plr;
     t_texture       **text;
     t_texture       *sprite;
-    t_sprites   *sprite_screen;
 	t_texture		*screen;
     t_ray       *ray;
 	t_keybuff	*keybuff;
+	t_sprites   *sprite_screen;
 }               t_game;
 
 typedef struct  s_raw_game
 {
     int         win_h;
     int         win_w;
-    int         need_save;
+    int         need_save_first_frame;
     char        *north_texture_path;
     char        *south_texture_path;
     char        *west_texture_path;
@@ -207,18 +212,15 @@ int             parse_info_fields(int fd, t_raw_game *raw_game, char **first_map
 int				parse_ceilling_floor_color(char **splitted_line, t_raw_game *raw_game);
 int				parse_map(int fd, char *first_map_line, t_raw_game *raw_game);
 int			    invalid_file(int err);
-int				valid_input(int argc, char **argv, t_raw_game *game);
-int				ident_parce(char *line, t_game *win);
-int				resolution(char *ident, int i, t_game *win);
-int				parse_texture(char *path, t_raw_game *raw_game);
-int				color(char *str, int c, int first_c, t_game *win);
+int				valid_input(int argc, char **argv, t_raw_game *raw_game);
+int				parse_texture(const char *path, t_texture *texture, void *mlx);
 int				map_parce(char **map, int i, int size, t_game *win);
 int 	        set_pos(t_game *win, char dir, int x, int y);
+int 			init_from_raw(t_game *game, t_raw_game *raw_game);
 
-int				init_plr(t_game *win);
+int				init_player(t_game *win);
 int				init_keybuff(t_game *win);
 int				init_sprite(t_game *win);
-int				init_text(t_game *win, int nbr);
 
 int 	     	move_events(t_game *win);
 void            turn_right(t_game *win);
@@ -240,7 +242,7 @@ int				draw_sprite(t_ray *ray, t_game *win);
 
 int				key_pressed(int key, void *param);
 int				key_released(int key, void *param);
-int				loop(void *param);
+int				render(t_game *game);
 int		        destroy_window(void *param);
 
 void    		free_str(char ***str);

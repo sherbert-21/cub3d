@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-
 int             parse_file(char *path_file, t_raw_game *raw_game)
 {
     int     fd;

@@ -23,7 +23,7 @@ static void	set_camera(t_game *win, double dirX,
 int		set_pos(t_game *win, char dir, int x, int y)
 {
 	if (!win->plr)
-		init_plr(win);
+		init_player(win);
 	if (dir == 'E')
 	{
 		win->plr->dirY = 0.0;

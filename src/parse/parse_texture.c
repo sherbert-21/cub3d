@@ -62,14 +62,14 @@ static int			set_text(t_game *win, const char *path, int c)
 	return (SUCCESS);
 }
 
-//int					parse_texture(char *path, t_texture *texture, void *mlx)
-//{
-//    int     i;
-//	int		k;
-//
-//	if (!(file_exists(path)))
-//		return (ERR);
-//    if (!(texture->img = mlx_xpm_file_to_image(mlx, path, &texture->width, &texture->height)))
-//        return (invalid_file(6));
-//	return (i);
-//}
+int					parse_texture(const char *path, t_texture *texture, void *mlx)
+{
+    int     i;
+	int		k;
+
+	if (!(file_exists(path)))
+		return (ERR);
+    if (!(texture->img = mlx_xpm_file_to_image(mlx, path, &texture->width, &texture->height)))
+        return (invalid_file(6));
+	return (i);
+}

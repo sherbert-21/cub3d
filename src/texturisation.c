@@ -53,8 +53,8 @@ void		texturisation(t_ray *ray, t_game *win)
 		side_draw(ray, win, line, wallX);
 	line->y0 = 0;
 	line->y1 = ray->drawStart;
-	ver_line_clr_image(line, win, win->clr_c);
-	line->y0 = win->y;
+	ver_line_clr_image(line, win, win->ceilling_color);
+	line->y0 = win->win_h;
 	line->y1 = ray->drawEnd;
-	ver_line_clr_image(line, win, win->clr_f);
+	ver_line_clr_image(line, win, win->floor_color);
 }

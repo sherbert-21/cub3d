@@ -14,7 +14,7 @@
 
 static void		init_ray(t_ray *ray, t_player *plr, t_game *win)
 {
-	ray->cameraX = (2 * ray->pix) / (double)win->x - 1;
+	ray->cameraX = (2 * ray->pix) / (double)win->win_w - 1;
 	ray->rayDirX = plr->dirX + plr->planeX * ray->cameraX;
 	ray->rayDirY = plr->dirY + plr->planeY * ray->cameraX;
 	ray->mapX = (int)plr->posX;
@@ -69,14 +69,14 @@ int				ray(t_game *win)
 	if (!(ray = malloc(sizeof(t_ray))))
 		return (ERR);
 	ft_bzero(ray, sizeof(t_ray));
-	if (!(ray->z_buffer = malloc(sizeof(double) * win->x)))
+	if (!(ray->z_buffer = malloc(sizeof(double) * win->win_w)))
 		return (ERR);
-	ft_bzero(ray->z_buffer, sizeof(double) * win->x);
-	while (ray->pix < win->x)
+	ft_bzero(ray->z_buffer, sizeof(double) * win->win_w);
+	while (ray->pix < win->win_w)
 		raycasting(win, ray);
 	if (!draw_sprite(ray, win))
 		return (ERR);
-	if (win->save == 1)
+	if (win->need_save_first_frame == 1)
 		mlx_destroy_window(win->mlx, win->win);
 	mlx_put_image_to_window(win->mlx, win->win,
 		win->screen->img, 0, 0);
@@ -93,13 +93,13 @@ void		perp_and_height(t_ray *ray, t_player *plr, t_game *win)
 	else
 		ray->perpWallDist = (ray->mapY - plr->posY + (1 - ray->stepY) / 2)
 		/ ray->rayDirY;
-	ray->lineHeight = (int)(win->y / ray->perpWallDist);
-	ray->drawStart = -ray->lineHeight / 2 + win->y / 2;
+	ray->lineHeight = (int)(win->win_h / ray->perpWallDist);
+	ray->drawStart = -ray->lineHeight / 2 + win->win_h / 2;
 	if (ray->drawStart < 0)
 		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + win->y / 2;
-	if (ray->drawEnd >= win->y)
-		ray->drawEnd = win->y - 1;
+	ray->drawEnd = ray->lineHeight / 2 + win->win_h / 2;
+	if (ray->drawEnd >= win->win_h)
+		ray->drawEnd = win->win_h - 1;
 }
 
 static void	predict_wall_face(t_ray *ray)

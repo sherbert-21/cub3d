@@ -57,8 +57,8 @@ static void	text_on_screen(t_line *line, t_texture *text, t_game *win, t_ray *ra
 {
 	int d;
 
-	d = line->y * text->size - win->x * text->size
-		/ 2 + ray->lineHeight * text->size / 2;
+	d = line->y * text->size - win->win_w * text->size
+							   / 2 + ray->lineHeight * text->size / 2;
 	line->texY = ((d * text->height) / ray->lineHeight)
 		/ text->size;
 	win->screen->data[line->y * win->screen->size + line->x
@@ -106,11 +106,11 @@ t_texture		*new_image(t_game *win)
 	if (!(screen = malloc(sizeof(t_texture))))
 		return (NULL);
 	ft_bzero(screen, sizeof(t_texture));
-	if (!(screen->img = mlx_new_image(win->mlx, win->x, win->y)))
+	if (!(screen->img = mlx_new_image(win->mlx, win->win_w, win->win_h)))
 		return (NULL);
 	screen->data = mlx_get_data_addr(screen->img, &screen->bpp,
 				&screen->size, &screen->endian);
-	screen->width = win->x;
-	screen->height = win->y;
+	screen->width = win->win_w;
+	screen->height = win->win_h;
 	return (screen);
 }

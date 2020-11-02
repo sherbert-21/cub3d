@@ -33,7 +33,7 @@ int		invalid_file(int err)
 {
 	ft_putendl_fd("Error", 1);
 	if (err == 0)
-		ft_putendl_fd("Could't allocate mmry", 1);
+		ft_putendl_fd("Couldn't allocate mmry", 1);
 	else if (err == 1)
 		ft_putendl_fd("Invalid input", 1);
 	else if (err == 2)

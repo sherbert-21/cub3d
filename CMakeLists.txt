@@ -51,27 +51,24 @@ add_executable(${PROJECT_NAME}
     libft/ft_substr.c
     libft/ft_tolower.c
     libft/ft_toupper.c
-    src/bmp.c
+        src/utils/create_bmp.c
         src/parse/parse_ceilling_floor_color.c
         src/main.c
     src/error.c
-    src/file_parce.c
-        src/parse/gnl.c
-    src/ident_parce.c
-    src/init.c
-    src/manage.c
-    src/map.c
-    src/move.c
+        src/utils/gnl.c
+        src/init.c
+        src/render.c
+        src/move.c
     src/player.c
     src/ray.c
         src/screen.c
         src/parse/parse_texture.c
     src/texturisation.c
-    src/utils_gnl.c
+        src/utils/gnl_utils.c
         src/parse/valid_input.c
     src/turn.c
     src/sprite.c
-    src/draw_sprite.c src/parse/parse_file.c src/parse/parse_info_fields.c src/parse/utils.c src/parse/parse_map.c)
+    src/draw_sprite.c src/parse/parse_file.c src/parse/parse_info_fields.c src/utils/utils.c src/parse/parse_map.c)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
