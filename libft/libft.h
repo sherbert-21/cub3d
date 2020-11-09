@@ -6,7 +6,7 @@
 /*   By: sherbert <sherbert@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 16:10:45 by sherbert          #+#    #+#             */
-/*   Updated: 2020/04/30 16:10:48 by sherbert         ###   ########.fr       */
+/*   Updated: 2020/11/09 16:15:49 by sherbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 typedef struct		s_list
 {
@@ -67,4 +69,13 @@ void				ft_lstiter(t_list *lst, void (*f)(void*));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void*),
 								void (*del)(void*));
 
+void				save_free(char **str);
+char				*ft_strdup_gnl(char *s1, int *err);
+char				*ft_strjoin_gnl(char *s1, char *s2, int *err);
+char				*ft_strcpy(char *dest, char *src);
+int					get_next_line(int fd, char **line);
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 #endif

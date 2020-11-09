@@ -1,68 +1,52 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sherbert <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/10/29 19:55:49 by sherbert          #+#    #+#              #
-#    Updated: 2020/10/29 19:55:50 by sherbert         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME	= 	cub3d
 
-FLAGS	= 	-Wall -Werror -Wextra -g #-fsanitize=address
+FLAGS	= 	-Wall -Werror -Wextra -g -fsanitize=address
 
-SRC		= 	file_parce.c \
-			ident_parce.c \
-			valid_input.c \
-			error.c \
-			color.c \
-			texture.c \
-			map.c \
-			map_ch_check.c \
-			resolution.c \
-			player.c \
-			gnl.c \
-			utils_gnl.c \
-			init.c \
-			move.c \
-			turn.c \
-			bmp.c \
-			manage.c \
-			ray.c \
-			screen.c \
-			texturisation.c \
-			sprite.c \
-			draw_sprite.c\
-			cub3d.c \
+SRC		= 	src/parce/identifiers/color.c \
+            src/parce/identifiers/ident_parce.c \
+            src/parce/identifiers/resolution.c \
+            src/parce/identifiers/texture.c \
+            src/parce/map/map.c \
+            src/parce/map/symbol_check.c \
+            src/parce/map/tmp_map.c \
+            src/parce/map/player.c \
+            src/parce/file_parce.c \
+            src/parce/valid_input.c \
+            src/screen/raycasting.c \
+            src/screen/screen.c \
+            src/screen/texturisation.c \
+            src/screen/move.c \
+            src/screen/turn.c \
+            src/screen/sprite.c \
+            src/screen/draw_sprite.c \
+            src/screen/ray_walls.c \
+            src/utils/err_exit.c \
+            src/utils/init_struct.c \
+            src/utils/bmp.c \
+	    src/utils/manage.c \
+            cub3d.c
 
-SRC_DIR	= 	./src
-
-OBJ		= 	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+OBJ		= 	$(SRC:.c=.o)
 
 OBJ_DIR	= 	./obj
 
-INC		= 	-I ./include -I ./libft -I ./mlx
+INC		= -I ./include -I ./libft -I ./mlx
 
 LIBFT	=	-L ./libft -lft
 
 MLX		=	-L ./mlx -lmlx -framework OpenGL -framework AppKit
 
-all: $(NAME)
+all : $(NAME)
 
-$(NAME): $(OBJ)
+lft:
 	make -C ./libft
 	make -C ./mlx
-	gcc $(FLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	gcc $(FLAGS) $(INC) -o $@ -c $<
+$(NAME): lft $(OBJ)
+	gcc $(FLAGS) $(INC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
 
 clean:
-	/bin/rm -rf ./obj
+	/bin/rm -rf $(OBJ)
 	make -C ./libft/ clean
 	make -C ./mlx/ clean
 
